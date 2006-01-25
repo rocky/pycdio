@@ -24,7 +24,7 @@ AC_INIT([pycdio],[0.10cvs],[libcdio-pycdio-devel@gnu.org])
 ## Check for Python interpreter and make we have a recent version.
 ##
 AM_PATH_PYTHON(2.3.5,, :)
-AC_REVISION([$Id: configure.ac,v 1.2 2006/01/25 16:16:51 rocky Exp $])dnl
+AC_REVISION([$Id: configure.ac,v 1.3 2006/01/25 16:29:48 rocky Exp $])dnl
 
 ##
 ## In maintainer mode we produce a ChangeLog
@@ -117,7 +117,8 @@ if test -f "$PYTHON_INC/Python.h" ; then
       CFLAGS="$CFLAGS -DUSE_DL_IMPORT"
       ;;
     *)
-      AC_TRY_CFLAGS("-fPIC", cflgs="$cflgs -WfPIC",)
+      AC_TRY_CFLAGS("-fPIC", cflgs="$cflgs -fPIC",)
+      CFLAGS="$CFLAGS $cflgs"
       SO='.so'
       PYTHON_LIBS=
   esac
