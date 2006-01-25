@@ -18,13 +18,13 @@
 ## Note: the version number (the 2nd parameter in AC_INIT) 
 ## is picked up inside the Python debugger script.
 
-AC_INIT([pycdio],[0.10cvs],[libcdio-pycdio-devel@gnu.org])
+AC_INIT([pycdio],[0.10],[libcdio-pycdio-devel@gnu.org])
 
 ##
 ## Check for Python interpreter and make we have a recent version.
 ##
 AM_PATH_PYTHON(2.3.5,, :)
-AC_REVISION([$Id: configure.ac,v 1.3 2006/01/25 16:29:48 rocky Exp $])dnl
+AC_REVISION([$Id: configure.ac,v 1.4 2006/01/25 16:35:21 rocky Exp $])dnl
 
 ##
 ## In maintainer mode we produce a ChangeLog
@@ -142,6 +142,7 @@ AC_SUBST(PYCDIO_LIBDIR)dnl
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([cdio.py], [chmod +x cdio.py])
 AC_CONFIG_FILES([example/audio.py], [chmod +x example/audio.py])
+AC_CONFIG_FILES([example/cd-read.py], [chmod +x example/cd-read.py])
 AC_CONFIG_FILES([example/cdchange.py], [chmod +x example/cdchange.py])
 AC_CONFIG_FILES([example/device.py], [chmod +x example/device.py])
 AC_CONFIG_FILES([example/eject.py], [chmod +x example/eject.py])
