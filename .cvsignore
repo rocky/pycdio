@@ -1,3 +1,8 @@
+*.directive
+*.directive.asc
+*.sig
+*.sig
+*.tar.gz
 Makefile
 Makefile.in
 aclocal.m4
