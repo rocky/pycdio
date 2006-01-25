@@ -1,4 +1,4 @@
-#   $Id: Makefile.am,v 1.1 2006/01/25 04:32:37 rocky Exp $
+#   $Id: Makefile.am,v 1.2 2006/01/25 16:16:51 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -20,8 +20,9 @@
 ##   which configure then turns into a Makefile  ...
 ##     which make can then use to produce stuff. Isn't configuration simple? 
 
-SWIG = @SWIG@
-PYTHON_LIBS = @PYTHON_LIBS@
+SWIG := @SWIG@
+PYTHON_LIBS := @PYTHON_LIBS@
+SO   := @SO@
 
 # Note pycdio.swg has to come first.
 SWIG_SRC = $(top_srcdir)/swig/pycdio.swg     \
@@ -61,21 +62,21 @@ EXTRA_DIST = $(SWIG_SRC) $(TEST_FILES) $(EXAMPLE_FILES) cdio.py.in \
 dist-hook:
 	-rm $(top_distdir)/cdio.py $(top_distdir)/pycdio.py
 
-noinst_PYTHON = _pycdio.so
+noinst_PYTHON = _pycdio$(SO)
 python_PYTHON := $(top_builddir)/pycdio.py $(top_builddir)/cdio.py
 
 .PHONY: test check ChangeLog
 
-all-am: _pycdio.so
+all-am: _pycdio$(SO)
 
 ## I just can't take all the crap associated with libtool any more.
 ## Testing for C++, Fortran, compile and link options to those, 
 ## existence of C headers that aren't used, and that's just in the
 ## configuration section.
 $(SWIG_OBJ): $(SWIG_C)
-	$(CC) $(CFLAGS) $(libcdio_CFLAGS) -c -fPIC $< -I@PYTHON_INC@
+	$(CC) $(CFLAGS) $(libcdio_CFLAGS) -c $< -I@PYTHON_INC@
 
-_pycdio.so: $(top_builddir)/pycdio.py $(SWIG_OBJ)
+_pycdio$(SO): $(top_builddir)/pycdio.py $(SWIG_OBJ)
 	$(CC) $(CFLAGS) -shared $(SWIG_OBJ) $(libcdio_LIBS) $(PYTHON_LIBS) -o $@
 
 $(top_builddir)/pycdio.py: $(SWIG_SRC)
@@ -85,11 +86,11 @@ $(SWIG_C): $(SWIG_SRC)
 	$(SWIG) -o $(SWIG_C) -outdir $(top_builddir) -python $(SWIG_ARGS) $<
 
 check: test
-test: test/cdiotest.py _pycdio.so
+test: test/cdiotest.py _pycdio$(SO)
 	(cd test && python cdiotest.py --verbose)
 
 clean-generic: 
-	-rm $(SWIG_C) $(SWIG_OBJ) _pycdio.so pycdio.py* cdio.pyc cdio.py
+	-rm $(SWIG_C) $(SWIG_OBJ) _pycdio$(SO) pycdio.py* cdio.pyc cdio.py
 
 # From libtool documentation amended with guidance from N. Boullis: 
 #
@@ -120,7 +121,7 @@ clean-generic:
 ## pycdio_libnum := $(pycdio_la_CURRENT):$(pycdio_la_REVISION):$(pycdio_la_AGE)
 
 ##install-exec-hook:
-##	$(LN_S) ${prefix}/lib/libpycdio.so.$(pycdio_libnum) ${prefix}/lib/pycdio.so
+##	$(LN_S) ${prefix}/lib/libpycdio$(SO).$(pycdio_libnum) ${prefix}/lib/pycdio$(SO)
 
 # cvs2cl
 MAINTAINERCLEANFILES = ChangeLog

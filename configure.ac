@@ -24,7 +24,7 @@ AC_INIT([pycdio],[0.10cvs],[libcdio-pycdio-devel@gnu.org])
 ## Check for Python interpreter and make we have a recent version.
 ##
 AM_PATH_PYTHON(2.3.5,, :)
-AC_REVISION([$Id: configure.ac,v 1.1 2006/01/25 04:32:38 rocky Exp $])dnl
+AC_REVISION([$Id: configure.ac,v 1.2 2006/01/25 16:16:51 rocky Exp $])dnl
 
 ##
 ## In maintainer mode we produce a ChangeLog
@@ -46,7 +46,6 @@ AM_INIT_AUTOMAKE
 wall=''
 AC_TRY_CFLAGS("-Wno-strict-aliasing", cflgs="-Wno-strict-aliasing",)
 AC_TRY_CFLAGS("-Wno-unused-function", cflgs="$cflgs -Wno-unused-function",)
-AC_TRY_CFLAGS("-fPIC", cflgs="$cflgs -Wno-unused-function",)
 CFLAGS="$CFLAGS $cflgs"
 
 ##
@@ -114,15 +113,20 @@ if test -f "$PYTHON_INC/Python.h" ; then
   case $host_os in
     cygwin* | mingw* | pw32*)
       PYTHON_LIBS=`$PYTHON -c 'import os,sys;print "-L"+os.path.join(sys.prefix,"lib").replace(os.sep,"/"),"-lpython"+sys.version[[:3]].replace(".","")'` 
+      SO='.dll'
+      CFLAGS="$CFLAGS -DUSE_DL_IMPORT"
       ;;
     *)
+      AC_TRY_CFLAGS("-fPIC", cflgs="$cflgs -WfPIC",)
+      SO='.so'
       PYTHON_LIBS=
   esac
-  AC_SUBST(PYTHON_LIBS)
 else
   AC_MSG_RESULT([no (install python-dev or python-devel package or similar)])
   AC_MSG_ERROR([Python.h not found])
 fi
+AC_SUBST(SO)
+AC_SUBST(PYTHON_LIBS)
 
 ##
 ## Test program needs location of pycdio shared library
