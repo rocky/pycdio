@@ -24,7 +24,7 @@ AC_INIT([pycdio],[0.10],[libcdio-pycdio-devel@gnu.org])
 ## Check for Python interpreter and make we have a recent version.
 ##
 AM_PATH_PYTHON(2.3.5,, :)
-AC_REVISION([$Id: configure.ac,v 1.4 2006/01/25 16:35:21 rocky Exp $])dnl
+AC_REVISION([$Id: configure.ac,v 1.5 2006/01/25 16:46:08 rocky Exp $])dnl
 
 ##
 ## In maintainer mode we produce a ChangeLog
@@ -57,7 +57,7 @@ AM_MISSING_PROG(CVS2CL, cvs2cl, $missing_dir)
 ## SWIG is essential - test for it.
 ##
 AC_PATH_PROG(SWIG, swig, no)
-if test "$SWIG" == no ; then
+if test "$SWIG" = no ; then
    AC_MSG_ERROR([Need to have SWIG installed. Please check http://www.swig.org])
 fi
 
@@ -81,7 +81,7 @@ AC_ARG_WITH(site-packages,
 	   PY_PKGDIR)
 
 if test -z "$PY_PKGDIR" ; then 
-   pythondir=$($PYTHON ${srcdir}/site-packages-path.py)
+   pythondir=`$PYTHON ${srcdir}/site-packages-path.py`
    if test $? != 0 ; then
       AC_MSG_ERROR([Didn't get Python site packages install path.
       Set it with --with-site-packages])
@@ -97,7 +97,7 @@ AC_ARG_WITH(py-includedir,
 	   PYTHON_INC)
 
 if test -z "$PYTHON_INC" ; then 
-   PYTHON_INC=$($PYTHON ${srcdir}/include-path.py)
+   PYTHON_INC=`$PYTHON ${srcdir}/include-path.py`
    if test $? != 0 ; then
       AC_MSG_ERROR([Didn't get Python site packages install path.])
    fi
@@ -133,7 +133,7 @@ AC_SUBST(PYTHON_LIBS)
 ## Test program needs location of pycdio shared library
 ## This is a hack, but I at present I'm not sure what the best thing to
 ## do is.
-PYCDIO_LIBDIR=$(pwd)
+PYCDIO_LIBDIR=`pwd`
 AC_SUBST(PYCDIO_LIBDIR)dnl
 
 ##
