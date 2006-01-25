@@ -1,4 +1,4 @@
-#   $Id: Makefile.am,v 1.2 2006/01/25 16:16:51 rocky Exp $
+#   $Id: Makefile.am,v 1.3 2006/01/25 16:48:50 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -48,6 +48,7 @@ EXAMPLE_FILES = \
 	example/Makefile \
 	example/README \
 	example/audio.py.in \
+	example/cd-read.py.in \
 	example/cdchange.py.in \
 	example/device.py.in 
 	example/eject.py.in \
