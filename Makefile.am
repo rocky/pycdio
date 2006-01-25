@@ -1,4 +1,4 @@
-#   $Id: Makefile.am,v 1.3 2006/01/25 16:48:50 rocky Exp $
+#   $Id: Makefile.am,v 1.4 2006/01/25 17:12:46 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -58,7 +58,7 @@ SWIG_OBJ := $(top_builddir)/pycdio_wrap.o
 SWIG_C   := $(top_builddir)/pycdio_wrap.c
 
 EXTRA_DIST = $(SWIG_SRC) $(TEST_FILES) $(EXAMPLE_FILES) cdio.py.in \
-	     include-path.py site-packages-path.py setup.py
+	     include-path.py site-packages-path.py setup.py ChangeLog.1
 
 dist-hook:
 	-rm $(top_distdir)/cdio.py $(top_distdir)/pycdio.py
