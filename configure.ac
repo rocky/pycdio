@@ -1,0 +1,147 @@
+# Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+# 02111-1307, USA.
+
+## Note: the version number (the 2nd parameter in AC_INIT) 
+## is picked up inside the Python debugger script.
+
+AC_INIT([pycdio],[0.10cvs],[libcdio-pycdio-devel@gnu.org])
+
+##
+## Check for Python interpreter and make we have a recent version.
+##
+AM_PATH_PYTHON(2.3.5,, :)
+AC_REVISION([$Id: configure.ac,v 1.1 2006/01/25 04:32:38 rocky Exp $])dnl
+
+##
+## In maintainer mode we produce a ChangeLog
+##
+AM_MAINTAINER_MODE
+
+##
+## make sure we are using a recent autoconf version
+##
+AC_PREREQ(2.53)
+
+AC_ARG_PROGRAM
+AC_PROG_CC
+AM_INIT_AUTOMAKE
+
+#
+# There are a number of compiler warnings that gcc produces via SWIG code.
+# Turn off warnings that are to be expected.
+wall=''
+AC_TRY_CFLAGS("-Wno-strict-aliasing", cflgs="-Wno-strict-aliasing",)
+AC_TRY_CFLAGS("-Wno-unused-function", cflgs="$cflgs -Wno-unused-function",)
+AC_TRY_CFLAGS("-fPIC", cflgs="$cflgs -Wno-unused-function",)
+CFLAGS="$CFLAGS $cflgs"
+
+##
+## cvs2cl is used to create the ChangeLog when we create a distribution
+##
+AM_MISSING_PROG(CVS2CL, cvs2cl, $missing_dir)
+
+##
+## SWIG is essential - test for it.
+##
+AC_PATH_PROG(SWIG, swig, no)
+if test "$SWIG" == no ; then
+   AC_MSG_ERROR([Need to have SWIG installed. Please check http://www.swig.org])
+fi
+
+PKG_CHECK_MODULES(libcdio, libcdio >= 0.76, [], 
+	[AC_MSG_ERROR(Required libcdio library not found. Please get libcdio from http://www.gnu.org/software/libcdio/ and install it.)])
+
+
+##
+## A symbolic links is used to link a name in users PATH to the python
+## script.
+## 
+AC_PROG_LN_S
+
+##
+## Automake doesn't get Python's install path correct. So we 
+## figure it out and set it ourself.
+##
+AC_ARG_WITH(site-packages,
+           AC_HELP_STRING([--with-site-packages], 
+	                  [place to install module]), 
+	   PY_PKGDIR)
+
+if test -z "$PY_PKGDIR" ; then 
+   pythondir=$($PYTHON ${srcdir}/site-packages-path.py)
+   if test $? != 0 ; then
+      AC_MSG_ERROR([Didn't get Python site packages install path.
+      Set it with --with-site-packages])
+   fi
+   pkgpythondir=\${pythondir}/$PACKAGE
+fi
+
+AC_SUBST(PYTHON)dnl
+
+AC_ARG_WITH(py-includedir, 
+           AC_HELP_STRING([--with-py-includedir], 
+	                  [location of python include directory]), 
+	   PYTHON_INC)
+
+if test -z "$PYTHON_INC" ; then 
+   PYTHON_INC=$($PYTHON ${srcdir}/include-path.py)
+   if test $? != 0 ; then
+      AC_MSG_ERROR([Didn't get Python site packages install path.])
+   fi
+fi
+AC_SUBST(PYTHON_INC)
+
+## Check that Python.h is there, which is a good way to check that
+## the appropriate python-dev package has been installed.
+AC_MSG_CHECKING([for $PYTHON_INC/Python.h])
+if test -f "$PYTHON_INC/Python.h" ; then
+  AC_MSG_RESULT(yes)
+  AC_CANONICAL_HOST
+  case $host_os in
+    cygwin* | mingw* | pw32*)
+      PYTHON_LIBS=`$PYTHON -c 'import os,sys;print "-L"+os.path.join(sys.prefix,"lib").replace(os.sep,"/"),"-lpython"+sys.version[[:3]].replace(".","")'` 
+      ;;
+    *)
+      PYTHON_LIBS=
+  esac
+  AC_SUBST(PYTHON_LIBS)
+else
+  AC_MSG_RESULT([no (install python-dev or python-devel package or similar)])
+  AC_MSG_ERROR([Python.h not found])
+fi
+
+##
+## Test program needs location of pycdio shared library
+## This is a hack, but I at present I'm not sure what the best thing to
+## do is.
+PYCDIO_LIBDIR=$(pwd)
+AC_SUBST(PYCDIO_LIBDIR)dnl
+
+##
+## Produced derived files.
+##
+AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([cdio.py], [chmod +x cdio.py])
+AC_CONFIG_FILES([example/audio.py], [chmod +x example/audio.py])
+AC_CONFIG_FILES([example/cdchange.py], [chmod +x example/cdchange.py])
+AC_CONFIG_FILES([example/device.py], [chmod +x example/device.py])
+AC_CONFIG_FILES([example/eject.py], [chmod +x example/eject.py])
+AC_CONFIG_FILES([example/tracks.py], [chmod +x example/tracks.py])
+AC_CONFIG_FILES([test/cdiotest.py], [chmod +x test/cdiotest.py])
+
+AC_OUTPUT
+

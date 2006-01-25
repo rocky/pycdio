@@ -1,0 +1,15 @@
+Makefile
+Makefile.in
+aclocal.m4
+autom4te.cache
+cdio.py
+cdio.pyc
+config.guess
+config.log
+config.status
+config.sub
+configure
+pycdio.py
+pycdio.pyc
+pycdio_wrap.c
+pycdio_wrap.o
