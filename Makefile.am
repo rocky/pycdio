@@ -1,4 +1,4 @@
-#   $Id: Makefile.am,v 1.4 2006/01/25 17:12:46 rocky Exp $
+#   $Id: Makefile.am,v 1.5 2006/01/25 20:53:26 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -63,7 +63,10 @@ EXTRA_DIST = $(SWIG_SRC) $(TEST_FILES) $(EXAMPLE_FILES) cdio.py.in \
 dist-hook:
 	-rm $(top_distdir)/cdio.py $(top_distdir)/pycdio.py
 
-noinst_PYTHON = _pycdio$(SO)
+pkgdata_DATA := _pycdio$(SO)
+pkgdatadir = $(pythondir)
+
+noinst_PYTHON = 
 python_PYTHON := $(top_builddir)/pycdio.py $(top_builddir)/cdio.py
 
 .PHONY: test check ChangeLog
