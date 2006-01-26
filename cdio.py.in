@@ -1,6 +1,6 @@
 #!@PYTHON@
 #
-#    $Id: cdio.py.in,v 1.1 2006/01/25 04:32:38 rocky Exp $
+#    $Id: cdio.py.in,v 1.2 2006/01/26 21:03:20 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -23,6 +23,7 @@ reading and control. Applications wishing to be oblivious of the OS-
 and device-dependent properties of a CD-ROM can use this library."""
 
 import pycdio
+import types
 
 class DeviceException(Exception):
     """General device or driver exceptions"""
@@ -101,10 +102,9 @@ def have_driver(driver_id):
     
     Return True if we have driver driver_id.
     """
-    if type(driver_id)==type(1955):
+    if type(driver_id)==types.IntType:
         return pycdio.have_driver(driver_id)
-    elif type(driver_id)==type('Rocky') \
-             and drivers.has_key(driver_id):
+    elif type(driver_id)==types.StringType and driver_id in drivers:
         ret = pycdio.have_driver(drivers[driver_id])
         if ret == 0: return False
         if ret == 1: return True
@@ -639,13 +639,13 @@ class Track:
 
     def __init__(self, device, track_num):
 
-        if type(track_num) != type(5):
+        if type(track_num) != types.IntType:
             raise TrackError('track number parameter is not an integer')
         self.track = track_num
 
         # See if the device parameter is a string or
         # a device object.
-        if type(device) == type('a string'):
+        if type(device) == types.StringType:
             self.device = Device(device)
         else:
             test_device=Device()
