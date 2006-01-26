@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: types.swg,v 1.1 2006/01/25 04:32:39 rocky Exp $
+    $Id: types.swg,v 1.2 2006/01/26 00:41:00 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 
@@ -33,6 +33,8 @@ typedef unsigned int track_t;
 typedef long int driver_return_code_t;
 typedef long int off_t;
 typedef long int ssize_t;
+
+%constant long int VERSION_NUM = LIBCDIO_VERSION_NUM;
 
 %constant long int INVALID_LBA = CDIO_INVALID_LBA;
 %constant long int INVALID_LSN = CDIO_INVALID_LSN;
