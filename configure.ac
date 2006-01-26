@@ -24,7 +24,7 @@ AC_INIT([pycdio],[0.10],[libcdio-pycdio-devel@gnu.org])
 ## Check for Python interpreter and make we have a recent version.
 ##
 AM_PATH_PYTHON(2.3.5,, :)
-AC_REVISION([$Id: configure.ac,v 1.5 2006/01/25 16:46:08 rocky Exp $])dnl
+AC_REVISION([$Id: configure.ac,v 1.6 2006/01/26 00:32:56 rocky Exp $])dnl
 
 ##
 ## In maintainer mode we produce a ChangeLog
@@ -61,7 +61,7 @@ if test "$SWIG" = no ; then
    AC_MSG_ERROR([Need to have SWIG installed. Please check http://www.swig.org])
 fi
 
-PKG_CHECK_MODULES(libcdio, libcdio >= 0.76, [], 
+PKG_CHECK_MODULES(libcdio, libcdio >= 0.74, [], 
 	[AC_MSG_ERROR(Required libcdio library not found. Please get libcdio from http://www.gnu.org/software/libcdio/ and install it.)])
 
 
@@ -115,6 +115,25 @@ if test -f "$PYTHON_INC/Python.h" ; then
       PYTHON_LIBS=`$PYTHON -c 'import os,sys;print "-L"+os.path.join(sys.prefix,"lib").replace(os.sep,"/"),"-lpython"+sys.version[[:3]].replace(".","")'` 
       SO='.dll'
       CFLAGS="$CFLAGS -DUSE_DL_IMPORT"
+      if test "$GCC" = yes; then
+        LDSHARED="$CC -shared"
+      else
+        if test "cl" = $CC ;  then
+	  # Microsoft Visual C++ (MSVC)
+          LDSHARED="$CC -nologo -LD"
+        else
+          # Unknown compiler try gcc approach
+          LDSHARED="$CC -shared"
+        fi
+      fi
+      ;;
+    linux*) 
+      SO=.so
+      LDSHARED="gcc -shared"
+      ;;
+    darwin6*|darwin7*|darwin8*)
+      SO=.so
+      LDSHARED="cc -bundle -undefined suppress -flat_namespace"
       ;;
     *)
       AC_TRY_CFLAGS("-fPIC", cflgs="$cflgs -fPIC",)
@@ -128,6 +147,7 @@ else
 fi
 AC_SUBST(SO)
 AC_SUBST(PYTHON_LIBS)
+AC_SUBST(LDSHARED)
 
 ##
 ## Test program needs location of pycdio shared library

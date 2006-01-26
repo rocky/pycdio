@@ -1,4 +1,4 @@
-#   $Id: Makefile.am,v 1.5 2006/01/25 20:53:26 rocky Exp $
+#   $Id: Makefile.am,v 1.6 2006/01/26 00:32:56 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -81,7 +81,7 @@ $(SWIG_OBJ): $(SWIG_C)
 	$(CC) $(CFLAGS) $(libcdio_CFLAGS) -c $< -I@PYTHON_INC@
 
 _pycdio$(SO): $(top_builddir)/pycdio.py $(SWIG_OBJ)
-	$(CC) $(CFLAGS) -shared $(SWIG_OBJ) $(libcdio_LIBS) $(PYTHON_LIBS) -o $@
+	$(LDSHARED) $(SWIG_OBJ) $(libcdio_LIBS) $(PYTHON_LIBS) -o $@
 
 $(top_builddir)/pycdio.py: $(SWIG_SRC)
 	$(SWIG) -o $(SWIG_C) -outdir $(top_builddir) -python $(SWIG_ARGS) $<
