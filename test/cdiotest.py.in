@@ -1,5 +1,5 @@
 #!@PYTHON@
-# $Id: cdiotest.py.in,v 1.2 2006/01/26 00:05:44 rocky Exp $   -*- Python -*-
+# $Id: cdiotest.py.in,v 1.3 2006/01/26 00:41:44 rocky Exp $   -*- Python -*-
 """Unit test for cdio
 
 Note: for compatibility with old unittest 1.46 we won't use assertTrue
@@ -18,9 +18,10 @@ class DeviceExceptTests(unittest.TestCase):
         we're just going to run operations and see that they
         don't crash."""
         self.device = cdio.Device()
-        self.device.open()
-        self.device.have_ATAPI()
-        self.device.get_media_changed()
+        if pycdio.VERSION_NUM >= 76:
+            self.device.open()
+            self.device.have_ATAPI()
+            self.device.get_media_changed()
         self.assertEqual(True, True, "Test misc operations")
 
     def test_device_default(self):
