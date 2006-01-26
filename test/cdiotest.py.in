@@ -1,6 +1,9 @@
 #!@PYTHON@
-# $Id: cdiotest.py.in,v 1.1 2006/01/25 04:32:48 rocky Exp $   -*- Python -*-
-"Unit test for cdio"
+# $Id: cdiotest.py.in,v 1.2 2006/01/26 00:05:44 rocky Exp $   -*- Python -*-
+"""Unit test for cdio
+
+Note: for compatibility with old unittest 1.46 we won't use assertTrue
+or assertFalse."""
 import unittest, sys, os
 
 sys.path.insert(0, '@PYCDIO_LIBDIR@')
@@ -18,7 +21,7 @@ class DeviceExceptTests(unittest.TestCase):
         self.device.open()
         self.device.have_ATAPI()
         self.device.get_media_changed()
-        self.assertTrue(True, "Test misc operations")
+        self.assertEqual(True, True, "Test misc operations")
 
     def test_device_default(self):
         """Test getting default device"""
@@ -45,17 +48,17 @@ class DeviceExceptTests(unittest.TestCase):
         """Test that we have image drivers"""
         self.device = cdio.Device()
         result = cdio.have_driver('CDRDAO')
-        self.assertTrue(result, "Have cdrdrao driver via string")
+        self.assertEqual(True, result, "Have cdrdrao driver via string")
         result = cdio.have_driver(pycdio.DRIVER_CDRDAO)
-        self.assertTrue(result, "Have cdrdrao driver via driver_id")
+        self.assertEqual(True, result, "Have cdrdrao driver via driver_id")
         result = cdio.have_driver('NRG')
-        self.assertTrue(result, "Have NRG driver via string")
+        self.assertEqual(True, result, "Have NRG driver via string")
         result = cdio.have_driver(pycdio.DRIVER_NRG)
-        self.assertTrue(result, "Have NRG driver via driver_id")
+        self.assertEqual(True, result, "Have NRG driver via driver_id")
         result = cdio.have_driver('BIN/CUE')
-        self.assertTrue(result, "Have BIN/CUE driver via string")
+        self.assertEqual(True, result, "Have BIN/CUE driver via string")
         result = cdio.have_driver(pycdio.DRIVER_BINCUE)
-        self.assertTrue(result, "Have BIN/CUE driver via driver_id")
+        self.assertEqual(True, result, "Have BIN/CUE driver via driver_id")
 
     def test_tocfile(self):
         """Test functioning of cdrdao image routines"""
@@ -77,14 +80,14 @@ class DeviceExceptTests(unittest.TestCase):
         result = device.get_arg("source")
         self.assertEqual(result, tocfile, 'get_arg("source")')
         result = device.get_media_changed()
-        self.assertFalse(result, "tocfile: get_media_changed")
+        self.assertEqual(False, result, "tocfile: get_media_changed")
         # Test getting is_tocfile
         result = cdio.is_tocfile(tocfile)
-        self.assertTrue(result, "is_tocfile(tocfile)")
+        self.assertEqual(True, result, "is_tocfile(tocfile)")
         result = cdio.is_nrg(tocfile)
-        self.assertFalse(result, "is_nrgfile(tocfile)")
+        self.assertEqual(False, result, "is_nrgfile(tocfile)")
         result = cdio.is_device(tocfile)
-        self.assertFalse(result, "is_device(tocfile)")
+        self.assertEqual(False, result, "is_device(tocfile)")
         self.assertRaises(cdio.DriverUnsupportedError,
                           device.set_blocksize, 2048)
         self.assertRaises(cdio.DriverUnsupportedError,
@@ -120,17 +123,17 @@ class DeviceExceptTests(unittest.TestCase):
         self.assertEqual(result, cuefile, 'get_arg("cue")')
         # Test getting is_binfile and is_cuefile
         binfile = cdio.is_cuefile(cuefile)
-        self.assertTrue(binfile != None, "is_cuefile(cuefile)")
+        self.assertEqual(True, binfile != None, "is_cuefile(cuefile)")
         cuefile2 = cdio.is_binfile(binfile)
         # Could check that cuefile2 == cuefile, but some OS's may 
         # change the case of files
-        self.assertTrue(cuefile2 != None, "is_cuefile(binfile)")
+        self.assertEqual(True, cuefile2 != None, "is_cuefile(binfile)")
         result = cdio.is_tocfile(cuefile)
-        self.assertFalse(result, "is_tocfile(tocfile)")
+        self.assertEqual(False, result, "is_tocfile(tocfile)")
         result = cdio.is_device(cuefile)
-        self.assertFalse(result, "is_device(tocfile)")
+        self.assertEqual(False, result, "is_device(tocfile)")
         result = device.get_media_changed()
-        self.assertFalse(result, "binfile: get_media_changed")
+        self.assertEqual(False, result, "binfile: get_media_changed")
         ## There's a bug in libcdio 0.76 that causes these to crash
         ## uncomment when libcdio 0.77 comes out.
         ## self.assertRaises(IOError, device.set_blocksize, 2048)
