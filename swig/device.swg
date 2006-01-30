@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: device.swg,v 1.1 2006/01/25 04:32:39 rocky Exp $
+    $Id: device.swg,v 1.2 2006/01/30 12:40:14 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 
@@ -117,9 +117,9 @@ Get drive capabilities of device.
 In some situations of drivers or OS's we can't find a CD device if
 there is no media in it. In this situation capabilities will show up as 
 empty even though there is a hardware CD-ROM.");
-%apply int *OUTPUT { unsigned int *p_read_cap, 
-                     unsigned int *p_write_cap, 
-                     unsigned int *p_misc_cap };
+%apply unsigned int *OUTPUT { unsigned int *p_read_cap, 
+                              unsigned int *p_write_cap, 
+                              unsigned int *p_misc_cap };
 void cdio_get_drive_cap (const CdIo_t *p_cdio, 
 			 unsigned int *p_read_cap, 
 			 unsigned int *p_write_cap, 
