@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: device.swg,v 1.2 2006/01/30 12:40:14 rocky Exp $
+    $Id: device.swg,v 1.3 2006/01/31 08:05:29 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 
@@ -235,7 +235,6 @@ bool cdio_is_device(const char *psz_source,
 		    driver_id_t driver_id=DRIVER_UNKNOWN);
 
 %rename cdio_is_nrg is_nrg;
-%newobject cdio_is_nrg; // free malloc'd return value
 %feature("autodoc",
 "is_nrg(cue_name)->bool
 
