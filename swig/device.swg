@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: device.swg,v 1.3 2006/01/31 08:05:29 rocky Exp $
+    $Id: device.swg,v 1.4 2006/02/01 01:55:01 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 
@@ -227,12 +227,30 @@ Return the corresponding BIN file if bin_name is a CUE file or
 None if not a CUE file.");
 char *cdio_is_cuefile(const char *cue_name);
 
+#if LIBCDIO_VERSION_NUM <= 76
+/* There is a bug in the 0.76 code when driver_id==DRIVER_UNKNOWN
+   or DRIVER_DEVICE, so here we'll use code from compat.swg.
+*/
+bool is_device(const char *psz_source, 
+	       driver_id_t driver_id=DRIVER_UNKNOWN);
+
+%inline %{
+bool 
+is_device(const char *psz_source, driver_id_t driver_id)
+{
+  if (DRIVER_UNKNOWN == driver_id || DRIVER_DEVICE == driver_id) {
+    char *psz_drive = cdio_get_default_device_driver(&driver_id);
+    /* We don't need the psz_drive, just the driver_id */
+    free(psz_drive); 
+  }
+  return cdio_is_device(psz_source, driver_id);
+}
+%}
+#else 
 %rename cdio_is_device is_device;
-%feature("autodoc",
-"is_device(source, driver_id=None)->bool
-Return True if source refers to a real hardware CD-ROM.");
 bool cdio_is_device(const char *psz_source, 
 		    driver_id_t driver_id=DRIVER_UNKNOWN);
+#endif /* LIBCDIO_VERSION_NUM */
 
 %rename cdio_is_nrg is_nrg;
 %feature("autodoc",

@@ -1,5 +1,5 @@
 #!@PYTHON@
-# $Id: cdiotest.py.in,v 1.3 2006/01/26 00:41:44 rocky Exp $   -*- Python -*-
+# $Id: cdiotest.py.in,v 1.4 2006/02/01 01:55:01 rocky Exp $   -*- Python -*-
 """Unit test for cdio
 
 Note: for compatibility with old unittest 1.46 we won't use assertTrue
@@ -135,10 +135,12 @@ class DeviceExceptTests(unittest.TestCase):
         self.assertEqual(False, result, "is_device(tocfile)")
         result = device.get_media_changed()
         self.assertEqual(False, result, "binfile: get_media_changed")
-        ## There's a bug in libcdio 0.76 that causes these to crash
-        ## uncomment when libcdio 0.77 comes out.
-        ## self.assertRaises(IOError, device.set_blocksize, 2048)
-        ## self.assertRaises(IOError, device.set_speed, 5)
+        if pycdio.VERSION_NUM >= 77:
+            # There's a bug in libcdio 0.76 that causes these to crash
+            self.assertRaises(cdio.DriverUnsupportedError,
+                              device.set_blocksize, 2048)
+            self.assertRaises(cdio.DriverUnsupportedError,
+                              device.set_speed, 5)
         device.close()
 
     def test_cdda(self):
