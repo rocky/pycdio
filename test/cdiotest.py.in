@@ -1,5 +1,5 @@
 #!@PYTHON@
-# $Id: cdiotest.py.in,v 1.4 2006/02/01 01:55:01 rocky Exp $   -*- Python -*-
+# $Id: cdiotest.py.in,v 1.5 2006/02/03 03:43:12 rocky Exp $   -*- Python -*-
 """Unit test for cdio
 
 Note: for compatibility with old unittest 1.46 we won't use assertTrue
@@ -69,6 +69,10 @@ class DeviceExceptTests(unittest.TestCase):
         os.chdir('@srcdir@')
         tocfile="cdda.toc"
         device = cdio.Device(tocfile, pycdio.DRIVER_CDRDAO)
+        ok, vendor, model, revision  = pycdio.get_hwinfo(device.get_cdio())
+        self.assertEqual(True, ok, "get_hwinfo ok")
+        self.assertEqual('libcdio', vendor, "get_hwinfo vendor")
+        self.assertEqual('cdrdao', model, "get_hwinfo cdrdao")
         # Test known values of various access parameters:
         # access mode, driver name via string and via driver_id
         # and cue name
@@ -131,6 +135,10 @@ class DeviceExceptTests(unittest.TestCase):
         self.assertEqual(True, cuefile2 != None, "is_cuefile(binfile)")
         result = cdio.is_tocfile(cuefile)
         self.assertEqual(False, result, "is_tocfile(tocfile)")
+        ok, vendor, model, revision  = device.get_hwinfo()
+        self.assertEqual(True, ok, "get_hwinfo ok")
+        self.assertEqual('libcdio', vendor, "get_hwinfo vendor")
+        self.assertEqual('CDRWIN', model, "get_hwinfo model")
         result = cdio.is_device(cuefile)
         self.assertEqual(False, result, "is_device(tocfile)")
         result = device.get_media_changed()

@@ -1,3 +1,9 @@
+0.11
+
+- Remove bug in is_device()
+
+- Minor swig changes to be more precise.
+
 Initial Python wrapper
 
-$Id: NEWS,v 1.1 2006/01/25 04:32:37 rocky Exp $
+$Id: NEWS,v 1.2 2006/02/03 03:43:12 rocky Exp $

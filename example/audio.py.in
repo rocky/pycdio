@@ -1,6 +1,6 @@
 #!@PYTHON@
-#$Id: audio.py.in,v 1.1 2006/01/25 04:32:39 rocky Exp $ -*- Python -*-
-"""Program to read CD blocks. See read-cd from the libcdio distribution
+#$Id: audio.py.in,v 1.2 2006/02/03 03:43:12 rocky Exp $ -*- Python -*-
+"""Program to read CD blocks. See cdda-player from the libcdio distribution
 for a more complete program.
 """
 #

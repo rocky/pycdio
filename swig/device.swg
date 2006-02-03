@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: device.swg,v 1.4 2006/02/01 01:55:01 rocky Exp $
+    $Id: device.swg,v 1.5 2006/02/03 03:43:12 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 
@@ -275,22 +275,36 @@ Return 1 if media has changed since last call, 0 if not. Error
 return codes are the same as driver_return_code_t");
 int cdio_get_media_changed(CdIo_t *p_cdio);
 
-#if 0
-%exception get_hwinfo {
-  $action
-    if (!b_got_hwinfo) {
-      PyErr_SetString(PyExc_IOError, "error getting device hardware info.");
-      return NULL;
-    }
-}
 %feature("autodoc",
-"get_hwinfo(p_cdio)->[vendor, model, release]
+"get_hwinfo(p_cdio)->[vendor, model, release, drc]
 Get the CD-ROM hardware info via a SCSI MMC INQUIRY command.
 An exception is raised if we had an error.");
-%cstring_output_allocate(char **s, free(*$1));
-void get_hwinfo ( const CdIo_t *p_cdio, 
-		  char **s, char **s, char **s );
-#endif
+
+%cstring_bounded_output(char *vendor, CDIO_MMC_HW_VENDOR_LEN);
+%cstring_bounded_output(char *model, CDIO_MMC_HW_MODEL_LEN);
+%cstring_bounded_output(char *revision, CDIO_MMC_HW_REVISION_LEN);
+int get_hwinfo ( const CdIo_t *p_cdio, 
+		 char *vendor, char *model, char *revision );
+%inline %{
+int get_hwinfo ( const CdIo_t *p_cdio, 
+		 char *vendor, char *model, char *revision ) 
+{
+  /** There's a bug somewhere here. If we take off the static,
+      we clobber our parameters. So get_hwinfo sizes must not
+      aggree.
+   **/
+  static cdio_hwinfo_t hw_info;
+  bool b_got_hwinfo = cdio_get_hwinfo(p_cdio, &hw_info);
+
+  if (b_got_hwinfo) {
+    strncpy(vendor, hw_info.psz_vendor, CDIO_MMC_HW_VENDOR_LEN);
+    strncpy(model, hw_info.psz_model, CDIO_MMC_HW_MODEL_LEN);
+    strncpy(revision, hw_info.psz_revision, CDIO_MMC_HW_REVISION_LEN);
+  }
+
+  return b_got_hwinfo;
+}
+%}
 
 %rename cdio_set_blocksize set_blocksize;
 %feature("autodoc", 
@@ -406,23 +420,4 @@ CdIo_t *open_cd(const char *psz_source, driver_id_t driver_id,
   }
   return p_cdio;
  }
-
-#if 0
-static bool b_got_hwinfo;
-void get_hwinfo ( const CdIo_t *p_cdio, 
-		  char **psz_vendor, char **psz_model, char **psz_revision ) 
-{
-  cdio_hwinfo_t hw_info;
-  b_got_hwinfo = cdio_get_hwinfo(p_cdio, &hw_info);
-  printf("+++ b_got_hwinfo: %d, vendor: %s, model: %s, rev: %s\n",
-	 b_got_hwinfo, 
-	 hw_info.psz_vendor, hw_info.psz_model, hw_info.psz_revision);
-	 
-  if (b_got_hwinfo) {
-    *psz_vendor   = strdup(hw_info.psz_vendor);
-    *psz_model    = strdup(hw_info.psz_model);
-    *psz_revision = strdup(hw_info.psz_revision);
-  }
-}
-#endif
 %}
