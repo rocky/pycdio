@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: device.swg,v 1.5 2006/02/03 03:43:12 rocky Exp $
+    $Id: device.swg,v 1.6 2006/02/05 18:21:30 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 
@@ -96,15 +96,15 @@ if p_driver_id is DRIVER_UNKNOWN or DRIVER_DEVICE then find a suitable
 one set the default device for that.
     
 None is returned as the device if we couldn't get a default device.");
-char *get_default_device_driver (driver_id_t p_driver_id=DRIVER_DEVICE);
+%apply driver_id_t *OUTPUT { driver_id_t *p_out_driver_id };
+char *get_default_device_driver (driver_id_t p_driver_id,
+				 driver_id_t *p_out_driver_id);
 %inline %{
 char *
-get_default_device_driver(driver_id_t driver_id) 
+get_default_device_driver(driver_id_t driver_id, driver_id_t *p_out_driver_id)
 {
-  /* In libcdio we can return the driver_id. Don't
-     know how to easily do that here yet.
-   */
-  return cdio_get_default_device_driver(&driver_id);
+  *p_out_driver_id = driver_id;
+  return cdio_get_default_device_driver(p_out_driver_id);
 }
 %}
 

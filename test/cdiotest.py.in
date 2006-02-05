@@ -1,5 +1,5 @@
 #!@PYTHON@
-# $Id: cdiotest.py.in,v 1.5 2006/02/03 03:43:12 rocky Exp $   -*- Python -*-
+# $Id: cdiotest.py.in,v 1.6 2006/02/05 18:21:30 rocky Exp $   -*- Python -*-
 """Unit test for cdio
 
 Note: for compatibility with old unittest 1.46 we won't use assertTrue
@@ -26,12 +26,19 @@ class DeviceExceptTests(unittest.TestCase):
 
     def test_device_default(self):
         """Test getting default device"""
-        result1=pycdio.get_default_device_driver(pycdio.DRIVER_DEVICE)
-        result2=pycdio.get_default_device_driver()
-        self.assertEqual(result1, result2)
+        result1=cdio.get_default_device_driver(pycdio.DRIVER_DEVICE)
+        result2=cdio.get_default_device_driver()
+        self.assertEqual(result1, result2,
+                         "get_default_device with/out parameters")
         self.device = cdio.Device()
         result2=pycdio.get_device()
-        self.assertEqual(result1, result2)
+        if result1 is not None:
+            self.assertEqual(result1[0], result2)
+            # Now try getting device using driver that we got back
+            device=cdio.Device(driver_id=result1[1])
+            result1 = device.get_device()
+            self.assertEqual(result1, result2,
+                             "get_default_device using driver name")
 
     def test_exceptions(self):
         """Test that various routines raise proper exceptions"""
