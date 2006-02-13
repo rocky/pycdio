@@ -24,7 +24,7 @@ AC_INIT([pycdio],[0.11],[libcdio-pycdio-devel@gnu.org])
 ## Check for Python interpreter and make we have a recent version.
 ##
 AM_PATH_PYTHON(2.3.5,, :)
-AC_REVISION([$Id: configure.ac,v 1.10 2006/02/13 21:26:02 rocky Exp $])dnl
+AC_REVISION([$Id: configure.ac,v 1.11 2006/02/13 21:45:20 rocky Exp $])dnl
 
 ##
 ## In maintainer mode we produce a ChangeLog
@@ -138,6 +138,10 @@ if test -f "$PYTHON_INC/Python.h" ; then
     darwin6*|darwin7*|darwin8*)
       SO=.so
       LDSHARED="cc -bundle -undefined suppress -flat_namespace"
+      ;;
+    solaris*)
+      SO=.so
+      LDSHARED="gcc -shared"
       ;;
     *)
       AC_TRY_CFLAGS("-fPIC", cflgs="$cflgs -fPIC",)
