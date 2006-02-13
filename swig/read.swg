@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: read.swg,v 1.1 2006/01/25 04:32:39 rocky Exp $
+    $Id: read.swg,v 1.2 2006/02/13 11:10:50 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 
@@ -150,13 +150,13 @@ ssize_t read_data_bytes(const CdIo_t *p_cdio, char *p_buf, ssize_t *i_size,
     return DRIVER_OP_BAD_PARAMETER;
   }
   
-#if DEGUGGING  
+#if DEBUGGING  
   printf("p_cdio: %x, i_size: %d, lsn: %d, blocksize %d, blocks %d\n",
 	 p_cdio, *i_size, i_lsn, i_blocksize, i_blocks);
 #endif
   drc = cdio_read_data_sectors (p_cdio, p_buf, i_lsn, 
 				i_blocksize, i_blocks);
-#if DEGUGGING  
+#if DEBUGGING  
   printf("drc: %d\n", drc);
 #endif
   if (drc < 0) {

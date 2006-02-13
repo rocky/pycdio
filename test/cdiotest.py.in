@@ -1,5 +1,5 @@
 #!@PYTHON@
-# $Id: cdiotest.py.in,v 1.6 2006/02/05 18:21:30 rocky Exp $   -*- Python -*-
+# $Id: cdiotest.py.in,v 1.7 2006/02/13 11:10:50 rocky Exp $   -*- Python -*-
 """Unit test for cdio
 
 Note: for compatibility with old unittest 1.46 we won't use assertTrue
@@ -54,7 +54,6 @@ class DeviceExceptTests(unittest.TestCase):
 
     def test_have_image_drivers(self):
         """Test that we have image drivers"""
-        self.device = cdio.Device()
         result = cdio.have_driver('CDRDAO')
         self.assertEqual(True, result, "Have cdrdrao driver via string")
         result = cdio.have_driver(pycdio.DRIVER_CDRDAO)
@@ -76,7 +75,7 @@ class DeviceExceptTests(unittest.TestCase):
         os.chdir('@srcdir@')
         tocfile="cdda.toc"
         device = cdio.Device(tocfile, pycdio.DRIVER_CDRDAO)
-        ok, vendor, model, revision  = pycdio.get_hwinfo(device.get_cdio())
+        ok, vendor, model, revision  = device.get_hwinfo()
         self.assertEqual(True, ok, "get_hwinfo ok")
         self.assertEqual('libcdio', vendor, "get_hwinfo vendor")
         self.assertEqual('cdrdao', model, "get_hwinfo cdrdao")
@@ -165,6 +164,7 @@ class DeviceExceptTests(unittest.TestCase):
         device.open(cuefile)
         result = device.get_disc_mode()
         self.assertEqual(result, 'CD-DA', 'get_disc_mode')
+        self.assertEqual(device.get_mcn(), '0000010271955', 'get_mcn')
         self.assertRaises(cdio.DriverUnsupportedError,
                           device.get_last_session)
         # self.assertRaises(IOError, device.get_joliet_level)

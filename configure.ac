@@ -24,7 +24,7 @@ AC_INIT([pycdio],[0.10],[libcdio-pycdio-devel@gnu.org])
 ## Check for Python interpreter and make we have a recent version.
 ##
 AM_PATH_PYTHON(2.3.5,, :)
-AC_REVISION([$Id: configure.ac,v 1.6 2006/01/26 00:32:56 rocky Exp $])dnl
+AC_REVISION([$Id: configure.ac,v 1.7 2006/02/13 11:10:50 rocky Exp $])dnl
 
 ##
 ## In maintainer mode we produce a ChangeLog
@@ -58,10 +58,11 @@ AM_MISSING_PROG(CVS2CL, cvs2cl, $missing_dir)
 ##
 AC_PATH_PROG(SWIG, swig, no)
 if test "$SWIG" = no ; then
-   AC_MSG_ERROR([Need to have SWIG installed. Please check http://www.swig.org])
+   AC_MSG_WARN([Can't find SWIG installed; using C wrapper from distributor.])
+   AC_MSG_WARN([Check http://www.swig.org if you want to install SWIG])
 fi
 
-PKG_CHECK_MODULES(libcdio, libcdio >= 0.74, [], 
+PKG_CHECK_MODULES(libcdio, libcdio >= 0.76, [], 
 	[AC_MSG_ERROR(Required libcdio library not found. Please get libcdio from http://www.gnu.org/software/libcdio/ and install it.)])
 
 

@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: types.swg,v 1.2 2006/01/26 00:41:00 rocky Exp $
+    $Id: types.swg,v 1.3 2006/02/13 11:10:50 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 
@@ -25,13 +25,14 @@
    I'm not sure why, but including that directly will not allow
    SWIG to understand say that a lsn_t is an int.
 */
+#include <sys/types.h>
+
 typedef long int driver_id_t;
 typedef int lsn_t;
 typedef int int16_t;
 typedef int lba_t;
 typedef unsigned int track_t;
 typedef long int driver_return_code_t;
-typedef long int off_t;
 typedef long int ssize_t;
 
 %constant long int VERSION_NUM = LIBCDIO_VERSION_NUM;

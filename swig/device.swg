@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: device.swg,v 1.6 2006/02/05 18:21:30 rocky Exp $
+    $Id: device.swg,v 1.7 2006/02/13 11:10:50 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 
@@ -20,6 +20,30 @@
 /* See <cdio/device.h> for more extensive documentation. */
 
 %include "device_const.swg"
+
+/* Set up to allow functions returning device lists of type "char
+   **". We'll use a typedef so we can make sure to isolate this. I
+   don't think we need to in this program, but it I think it makes
+   thing clearer.
+*/
+%inline %{
+typedef char ** DeviceList_t;
+%}
+
+%typemap(newfree) DeviceList_t "cdio_free_device_list($1);";
+%typemap(python,out) DeviceList_t {   
+    // result is of type DeviceList_t
+    char **p   = result;
+    if (!result) goto out;
+
+    /* For each element in the array of strings, push that
+     * onto the result object. */
+    for (p = result; *p; p++) {
+      PyObject *o = PyString_FromString(*p);
+      resultobj = t_output_helper(resultobj,o);
+    }
+ out: ;
+}
 
 %rename cdio_close_tray close_tray;
 %feature("autodoc", 
@@ -106,6 +130,39 @@ get_default_device_driver(driver_id_t driver_id, driver_id_t *p_out_driver_id)
   *p_out_driver_id = driver_id;
   return cdio_get_default_device_driver(p_out_driver_id);
 }
+%}
+
+%rename cdio_get_devices get_devices; 
+%newobject cdio_get_devices;
+/*! Return an array of device names. If you want a specific
+  devices for a driver, give that device. If you want hardware
+  devices, give DRIVER_DEVICE and if you want all possible devices,
+  image drivers and hardware drivers give DRIVER_UNKNOWN.
+  
+  NULL is returned if we couldn't return a list of devices.
+  
+  In some situations of drivers or OS's we can't find a CD device if
+  there is no media in it and it is possible for this routine to return
+  NULL even though there may be a hardware CD-ROM.
+*/
+DeviceList_t cdio_get_devices (driver_id_t driver_id);
+
+%newobject get_devices_ret;
+/* Like cdio_get_devices, but we may change the p_driver_id if we
+   were given DRIVER_DEVICE or DRIVER_UNKNOWN. This is because
+   often one wants to get a drive name and then *open* it
+   afterwards. Giving the driver back facilitates this, and speeds
+   things up for libcdio as well.
+*/
+    
+DeviceList_t get_devices_ret (driver_id_t driver_id, 
+			      driver_id_t *p_out_driver_id);
+%inline %{
+DeviceList_t get_devices_ret (driver_id_t driver_id, 
+			      driver_id_t *p_out_driver_id) {
+  *p_out_driver_id = driver_id;
+  return cdio_get_devices_ret (p_out_driver_id);
+ }
 %}
 
 %rename cdio_get_drive_cap get_drive_cap;
@@ -276,9 +333,8 @@ return codes are the same as driver_return_code_t");
 int cdio_get_media_changed(CdIo_t *p_cdio);
 
 %feature("autodoc",
-"get_hwinfo(p_cdio)->[vendor, model, release, drc]
-Get the CD-ROM hardware info via a SCSI MMC INQUIRY command.
-An exception is raised if we had an error.");
+"get_hwinfo(p_cdio)->[drc, vendor, model, release]
+Get the CD-ROM hardware info via a SCSI MMC INQUIRY command.");
 
 %cstring_bounded_output(char *vendor, CDIO_MMC_HW_VENDOR_LEN);
 %cstring_bounded_output(char *model, CDIO_MMC_HW_MODEL_LEN);
@@ -291,7 +347,7 @@ int get_hwinfo ( const CdIo_t *p_cdio,
 {
   /** There's a bug somewhere here. If we take off the static,
       we clobber our parameters. So get_hwinfo sizes must not
-      aggree.
+      agree.
    **/
   static cdio_hwinfo_t hw_info;
   bool b_got_hwinfo = cdio_get_hwinfo(p_cdio, &hw_info);

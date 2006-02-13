@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: disc.swg,v 1.1 2006/01/25 04:32:39 rocky Exp $
+    $Id: disc.swg,v 1.2 2006/02/13 11:10:50 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 
@@ -66,6 +66,14 @@ Return the Joliet level recognized for cdio.
 This only makes sense for something that has an ISO-9660
 filesystem.");
 int cdio_get_joliet_level(const CdIo_t *p_cdio);
+
+%newobject cdio_get_mcn; // free malloc'd return value
+%rename cdio_get_mcn get_mcn;
+%feature("autodoc",
+"get_mcn(cdio) -> str
+
+Get the media catalog number (MCN) from the CD.");
+char * cdio_get_mcn(CdIo_t *p_cdio);
 
 %rename cdio_get_num_tracks get_num_tracks;
 %feature("autodoc",
