@@ -1,4 +1,4 @@
-#   $Id: Makefile.am,v 1.8 2006/02/13 21:04:33 rocky Exp $
+#   $Id: Makefile.am,v 1.9 2006/02/13 21:26:02 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -21,6 +21,7 @@
 ##     which make can then use to produce stuff. Isn't configuration simple? 
 
 SWIG := @SWIG@
+SWIG_FLAGS := @SWIG_FLAGS@
 PYTHON_LIBS := @PYTHON_LIBS@
 SO   := @SO@
 
@@ -85,10 +86,10 @@ _pycdio$(SO): $(top_builddir)/pycdio.py $(SWIG_OBJ)
 	$(LDSHARED) $(SWIG_OBJ) $(libcdio_LIBS) $(PYTHON_LIBS) -o $@
 
 $(top_builddir)/pycdio.py: $(SWIG_SRC)
-	$(SWIG) -o $(SWIG_C) -outdir $(top_builddir) -python $(SWIG_ARGS) $<
+	$(SWIG) -o $(SWIG_C) -outdir $(top_builddir) -python $(SWIG_FLAGS) $<
 
 $(SWIG_C): $(SWIG_SRC)
-	$(SWIG) -o $(SWIG_C) -outdir $(top_builddir) -python $(SWIG_ARGS) $<
+	$(SWIG) -o $(SWIG_C) -outdir $(top_builddir) -python $(SWIG_FLAGS) $<
 
 check: test
 test: test/cdiotest.py _pycdio$(SO)

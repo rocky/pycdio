@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: types.swg,v 1.3 2006/02/13 11:10:50 rocky Exp $
+    $Id: types.swg,v 1.4 2006/02/13 21:26:02 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 
@@ -26,6 +26,15 @@
    SWIG to understand say that a lsn_t is an int.
 */
 #include <sys/types.h>
+
+#ifdef NEED_LONG
+#define LONG long
+#else 
+#define LONG
+#endif
+
+#define uint32_t LONG unsigned int
+#define int32_t  LONG int
 
 typedef long int driver_id_t;
 typedef int lsn_t;

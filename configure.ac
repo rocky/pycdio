@@ -24,7 +24,7 @@ AC_INIT([pycdio],[0.11],[libcdio-pycdio-devel@gnu.org])
 ## Check for Python interpreter and make we have a recent version.
 ##
 AM_PATH_PYTHON(2.3.5,, :)
-AC_REVISION([$Id: configure.ac,v 1.9 2006/02/13 21:04:33 rocky Exp $])dnl
+AC_REVISION([$Id: configure.ac,v 1.10 2006/02/13 21:26:02 rocky Exp $])dnl
 
 ##
 ## In maintainer mode we produce a ChangeLog
@@ -116,6 +116,9 @@ if test -f "$PYTHON_INC/Python.h" ; then
       PYTHON_LIBS=`$PYTHON -c 'import os,sys;print "-L"+os.path.join(sys.prefix,"lib").replace(os.sep,"/"),"-lpython"+sys.version[[:3]].replace(".","")'` 
       SO='.dll'
       CFLAGS="$CFLAGS -DUSE_DL_IMPORT"
+
+      # Should we check the 32-ness?
+      SWIG_FLAGS=-DNEED_LONG
       if test "$GCC" = yes; then
         LDSHARED="$CC -shared"
       else
@@ -149,6 +152,7 @@ fi
 AC_SUBST(SO)
 AC_SUBST(PYTHON_LIBS)
 AC_SUBST(LDSHARED)
+AC_SUBST(SWIG_FLAGS)
 
 ##
 ## Test program needs location of pycdio shared library
