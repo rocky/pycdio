@@ -18,13 +18,13 @@
 ## Note: the version number (the 2nd parameter in AC_INIT) 
 ## is picked up inside the Python debugger script.
 
-AC_INIT([pycdio],[0.10],[libcdio-pycdio-devel@gnu.org])
+AC_INIT([pycdio],[0.11],[libcdio-pycdio-devel@gnu.org])
 
 ##
 ## Check for Python interpreter and make we have a recent version.
 ##
 AM_PATH_PYTHON(2.3.5,, :)
-AC_REVISION([$Id: configure.ac,v 1.8 2006/02/13 16:29:21 rocky Exp $])dnl
+AC_REVISION([$Id: configure.ac,v 1.9 2006/02/13 21:04:33 rocky Exp $])dnl
 
 ##
 ## In maintainer mode we produce a ChangeLog
