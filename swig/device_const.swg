@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: device_const.swg,v 1.1 2006/01/25 04:32:39 rocky Exp $
+    $Id: device_const.swg,v 1.2 2006/02/13 16:29:21 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 
@@ -18,6 +18,9 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 /* See <cdio/device.h> for more extensive documentation. */
+
+/**** ALL OF THESE ARE CONSTANTS *** */
+%immutable;
 
 /* Drive types returned by cdio_get_drive_cap() */
 %constant long int DRIVE_CAP_ERROR = CDIO_DRIVE_CAP_ERROR;
@@ -108,3 +111,34 @@
 %constant long int DRIVER_OP_BAD_POINTER = DRIVER_OP_BAD_POINTER;
 %constant long int DRIVER_OP_NO_DRIVER  = DRIVER_OP_NO_DRIVER;
 
+%constant unsigned int FS_AUDIO = CDIO_FS_AUDIO;
+%constant unsigned int FS_HIGH_SIERRA = CDIO_FS_HIGH_SIERRA;
+%constant unsigned int FS_ISO_9660 = CDIO_FS_ISO_9660;
+%constant unsigned int FS_INTERACTIVE = CDIO_FS_INTERACTIVE;
+%constant unsigned int FS_HFS = CDIO_FS_HFS;
+%constant unsigned int FS_UFS = CDIO_FS_UFS;
+%constant unsigned int FS_EXT2 = CDIO_FS_EXT2;
+%constant unsigned int FS_ISO_HFS = CDIO_FS_ISO_HFS;
+%constant unsigned int FS_ISO_9660_INTERACTIVE = CDIO_FS_ISO_9660_INTERACTIVE;
+%constant unsigned int FS_3DO = CDIO_FS_3DO;
+%constant unsigned int FS_XISO = CDIO_FS_XISO;
+%constant unsigned int FS_UDFX = CDIO_FS_UDFX;
+%constant unsigned int FS_UDF = CDIO_FS_UDF;
+%constant unsigned int FS_ISO_UDF = CDIO_FS_ISO_UDF;
+
+%constant unsigned int FS_ANAL_XA = CDIO_FS_ANAL_XA;
+%constant unsigned int FS_ANAL_MULTISESSION = CDIO_FS_ANAL_MULTISESSION;
+%constant unsigned int FS_ANAL_PHOTO_CD = CDIO_FS_ANAL_PHOTO_CD;
+%constant unsigned int FS_ANAL_HIDDEN_TRACK = CDIO_FS_ANAL_HIDDEN_TRACK;
+%constant unsigned int FS_ANAL_CDTV = CDIO_FS_ANAL_CDTV;
+%constant unsigned int FS_ANAL_BOOTABLE = CDIO_FS_ANAL_BOOTABLE;
+%constant unsigned int FS_ANAL_VIDEOCD = CDIO_FS_ANAL_VIDEOCD;
+%constant unsigned int FS_ANAL_ROCKRIDGE = CDIO_FS_ANAL_ROCKRIDGE;
+%constant unsigned int FS_ANAL_JOLIET = CDIO_FS_ANAL_JOLIET;
+%constant unsigned int FS_ANAL_SVCD = CDIO_FS_ANAL_SVCD;
+%constant unsigned int FS_ANAL_CVD = CDIO_FS_ANAL_CVD;
+%constant unsigned int FS_ANAL_XISO = CDIO_FS_ANAL_XISO;
+%constant unsigned int FS_MATCH_ALL = CDIO_FS_MATCH_ALL;
+%constant unsigned int FS_UNKNOWN = CDIO_FS_UNKNOWN;
+
+%mutable;

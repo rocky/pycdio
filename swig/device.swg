@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: device.swg,v 1.7 2006/02/13 11:10:50 rocky Exp $
+    $Id: device.swg,v 1.8 2006/02/13 16:29:21 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 
@@ -34,7 +34,7 @@ typedef char ** DeviceList_t;
 %typemap(python,out) DeviceList_t {   
     // result is of type DeviceList_t
     char **p   = result;
-    if (!result) goto out;
+    if (!result) goto fail;
 
     /* For each element in the array of strings, push that
      * onto the result object. */
@@ -42,7 +42,6 @@ typedef char ** DeviceList_t;
       PyObject *o = PyString_FromString(*p);
       resultobj = t_output_helper(resultobj,o);
     }
- out: ;
 }
 
 %rename cdio_close_tray close_tray;
@@ -95,7 +94,7 @@ driver_return_code_t cdio_eject_media_drive (const char *psz_drive=NULL);
 %feature("autodoc",
 "get_arg(p_cdio, key)->string
 
- Get the value associatied with key.");
+Get the value associatied with key.");
 const char *cdio_get_arg (const CdIo_t *p_cdio, const char key[]);
 
 %newobject cdio_get_default_device; // free malloc'd return value
@@ -134,26 +133,22 @@ get_default_device_driver(driver_id_t driver_id, driver_id_t *p_out_driver_id)
 
 %rename cdio_get_devices get_devices; 
 %newobject cdio_get_devices;
-/*! Return an array of device names. If you want a specific
-  devices for a driver, give that device. If you want hardware
-  devices, give DRIVER_DEVICE and if you want all possible devices,
-  image drivers and hardware drivers give DRIVER_UNKNOWN.
-  
-  NULL is returned if we couldn't return a list of devices.
-  
-  In some situations of drivers or OS's we can't find a CD device if
-  there is no media in it and it is possible for this routine to return
-  NULL even though there may be a hardware CD-ROM.
-*/
+%feature("autodoc",
+"get_devices(driver_id)->[device1, device2, ...]
+
+Get an list of device names.");
 DeviceList_t cdio_get_devices (driver_id_t driver_id);
 
 %newobject get_devices_ret;
-/* Like cdio_get_devices, but we may change the p_driver_id if we
-   were given DRIVER_DEVICE or DRIVER_UNKNOWN. This is because
-   often one wants to get a drive name and then *open* it
-   afterwards. Giving the driver back facilitates this, and speeds
-   things up for libcdio as well.
-*/
+%feature("autodoc", 
+"get_devices_ret(driver_id)->[device1, device2, ... driver_id]
+
+Like get_devices, but return the p_driver_id which may be different
+from the passed-in driver_id if it was pycdio.DRIVER_DEVICE or
+pycdio.DRIVER_UNKNOWN. The return driver_id may be useful because
+often one wants to get a drive name and then *open* it
+afterwards. Giving the driver back facilitates this, and speeds things
+up for libcdio as well.");
     
 DeviceList_t get_devices_ret (driver_id_t driver_id, 
 			      driver_id_t *p_out_driver_id);
@@ -162,6 +157,54 @@ DeviceList_t get_devices_ret (driver_id_t driver_id,
 			      driver_id_t *p_out_driver_id) {
   *p_out_driver_id = driver_id;
   return cdio_get_devices_ret (p_out_driver_id);
+ }
+%}
+
+%feature("autodoc",
+"get_devices_with_cap(capabilities, any)->[device1, device2...]
+Get an array of device names in search_devices that have at least
+the capabilities listed by the capabities parameter.  
+    
+If any is False then every capability listed in the
+extended portion of capabilities (i.e. not the basic filesystem)
+must be satisified. If any is True, then if any of the
+capabilities matches, we call that a success.
+
+To find a CD-drive of any type, use the mask pycdio.CDIO_FS_MATCH_ALL.
+
+The array of device names is returned or NULL if we couldn't get a
+default device.  It is also possible to return a non NULL but after
+dereferencing the the value is NULL. This also means nothing was
+found.");
+DeviceList_t get_devices_with_cap (unsigned int capabilities, bool b_any);
+%inline %{
+DeviceList_t 
+get_devices_with_cap (unsigned int capabilities, bool b_any) {
+  /* FIXME: ? libcdio allows one to specify a list (char **) of devices
+     to search. Don't know how to do that via SWIG though. */
+  return cdio_get_devices_with_cap (NULL, (cdio_fs_anal_t) capabilities,
+				    b_any);
+ }
+%}
+
+%apply driver_id_t *OUTPUT { driver_id_t *p_out_driver_id };
+%newobject get_devices_with_cap_ret;
+%feature("autodoc",
+"Like cdio_get_devices_with_cap but we return the driver we found
+as well. This is because often one wants to search for kind of drive
+and then *open* it afterwards. Giving the driver back facilitates this,
+  and speeds things up for libcdio as well.");
+DeviceList_t get_devices_with_cap_ret (unsigned int capabilities, bool b_any,
+				  driver_id_t *p_out_driver_id);
+%inline %{
+DeviceList_t
+get_devices_with_cap_ret (unsigned int capabilities, bool b_any,
+			  driver_id_t *p_out_driver_id) {
+  /* FIXME: ? libcdio allows one to specify a list (char **) of devices
+     to search. Don't know how to do that via SWIG though. */
+  return cdio_get_devices_with_cap_ret (NULL, 
+					(cdio_fs_anal_t) capabilities, b_any, 
+					p_out_driver_id);
  }
 %}
 

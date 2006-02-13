@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: pycdio.swg,v 1.1 2006/01/25 04:32:39 rocky Exp $
+    $Id: pycdio.swg,v 1.2 2006/02/13 16:29:21 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 
@@ -28,6 +28,7 @@ use this library."
 /* Includes the header in the wrapper code */
 #include <cdio/cdio.h>
 #include <cdio/audio.h>
+#include <cdio/cd_types.h>
 %}
 
 #include <cdio/cdio.h> 

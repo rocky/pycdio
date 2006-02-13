@@ -24,7 +24,7 @@ AC_INIT([pycdio],[0.10],[libcdio-pycdio-devel@gnu.org])
 ## Check for Python interpreter and make we have a recent version.
 ##
 AM_PATH_PYTHON(2.3.5,, :)
-AC_REVISION([$Id: configure.ac,v 1.7 2006/02/13 11:10:50 rocky Exp $])dnl
+AC_REVISION([$Id: configure.ac,v 1.8 2006/02/13 16:29:21 rocky Exp $])dnl
 
 ##
 ## In maintainer mode we produce a ChangeLog
@@ -166,6 +166,7 @@ AC_CONFIG_FILES([example/audio.py], [chmod +x example/audio.py])
 AC_CONFIG_FILES([example/cd-read.py], [chmod +x example/cd-read.py])
 AC_CONFIG_FILES([example/cdchange.py], [chmod +x example/cdchange.py])
 AC_CONFIG_FILES([example/device.py], [chmod +x example/device.py])
+AC_CONFIG_FILES([example/drives.py], [chmod +x example/drives.py])
 AC_CONFIG_FILES([example/eject.py], [chmod +x example/eject.py])
 AC_CONFIG_FILES([example/tracks.py], [chmod +x example/tracks.py])
 AC_CONFIG_FILES([test/cdiotest.py], [chmod +x test/cdiotest.py])

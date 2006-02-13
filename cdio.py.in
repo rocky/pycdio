@@ -1,6 +1,6 @@
 #!@PYTHON@
 #
-#    $Id: cdio.py.in,v 1.3 2006/02/13 11:10:50 rocky Exp $
+#    $Id: cdio.py.in,v 1.4 2006/02/13 16:29:21 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -103,6 +103,65 @@ def get_default_device_driver(driver_id=pycdio.DRIVER_DEVICE):
     there is no media in it and it is possible for this routine to return
     None even though there may be a hardware CD-ROM."""
     return pycdio.get_default_device_driver(driver_id)
+
+def get_devices(driver_id=None):
+    """
+    get_devices(driver_id)->[device1, device2, ...]
+
+    Get an list of device names.
+    """
+    return pycdio.get_devices(driver_id)
+
+def get_devices_ret(driver_id=None):
+    """
+    get_devices_ret(driver_id)->[device1, device2, ... driver_id]
+
+    Like get_devices, but return the p_driver_id which may be different
+    from the passed-in driver_id if it was pycdio.DRIVER_DEVICE or
+    pycdio.DRIVER_UNKNOWN. The return driver_id may be useful because
+    often one wants to get a drive name and then *open* it
+    afterwards. Giving the driver back facilitates this, and speeds things
+    up for libcdio as well.
+    """
+    # FIXME: SWIG code is not removing a parameter properly, hence the [1:]
+    # at the end
+    return pycdio.get_devices_ret(driver_id)[1:]
+
+def get_devices_with_cap(capabilities, any=False):
+    """
+    get_devices_with_cap(capabilities, any=False)->[device1, device2...]
+    Get an array of device names in search_devices that have at least
+    the capabilities listed by the capabities parameter.  
+        
+    If any is False then every capability listed in the
+    extended portion of capabilities (i.e. not the basic filesystem)
+    must be satisified. If any is True, then if any of the
+    capabilities matches, we call that a success.
+
+    To find a CD-drive of any type, use the mask pycdio.CDIO_FS_MATCH_ALL.
+
+    The array of device names is returned or NULL if we couldn't get a
+    default device.  It is also possible to return a non NULL but after
+    dereferencing the the value is NULL. This also means nothing was
+    found.
+    """
+    # FIXME: SWIG code is not removing a parameter properly, hence the [1:]
+    # at the end
+    return pycdio.get_devices_with_cap(capabilities, any)[1:]
+
+def get_devices_with_cap_ret(capabilities, any=False):
+    """
+    get_devices_with_cap(capabilities, any=False)
+      [device1, device2..., driver_id]
+
+    Like cdio_get_devices_with_cap but we return the driver we found
+    as well. This is because often one wants to search for kind of drive
+    and then *open* it afterwards. Giving the driver back facilitates this,
+      and speeds things up for libcdio as well.
+    """
+    # FIXME: SWIG code is not removing a parameter properly, hence the [1:]
+    # at the end
+    return pycdio.get_devices_with_cap_ret(capabilities, any)[1:]
 
 def have_driver(driver_id):
     """
