@@ -2,6 +2,7 @@ audio.py
 cd-read.py
 cdchange.py
 device.py
+drives.py
 eject.py
 track.py
 tracks.py
