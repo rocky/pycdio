@@ -1,5 +1,5 @@
 #!@PYTHON@
-#$Id: tracks.py.in,v 1.1 2006/01/25 04:32:39 rocky Exp $ -*- Python -*-
+#$Id: tracks.py.in,v 1.2 2006/02/13 11:16:57 rocky Exp $ -*- Python -*-
 """Program to show CD information"""
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
@@ -35,8 +35,13 @@ else:
     except IOError:
         print "Problem finding a CD-ROM"
         sys.exit(1)
-        
-first_track = d.get_first_track().track
+
+t = d.get_first_track()
+if t is None: 
+    print "Problem getting first track"
+    sys.exit(2)
+
+first_track = t.track
 num_tracks  = d.get_num_tracks()
 last_track  = first_track+num_tracks-1
 
@@ -48,6 +53,10 @@ except cdio.DriverUnsupportedError:
     print "CD-ROM %s has %d track(s). " % (d.get_device(), d.get_num_tracks())
 
 print "Track format is %s." %  d.get_disc_mode()
+
+mcn = d.get_mcn()
+if mcn:
+    print "Media Catalog Number: %s" % mcn 
     
 print "%3s: %-6s  %s" % ("#", "LSN", "Format")
 i=first_track
