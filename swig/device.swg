@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: device.swg,v 1.9 2006/02/13 21:26:02 rocky Exp $
+    $Id: device.swg,v 1.10 2006/02/14 10:34:09 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 
@@ -513,7 +513,7 @@ CdIo_t *open_cd(const char *psz_source, driver_id_t driver_id,
    */
   CdIo_t *p_cdio = cdio_open_am(psz_source, driver_id, psz_access_mode);
   if (NULL == p_cdio) {
-    drc = DRIVER_OP_BAD_PARAMETER;
+    drc = DRIVER_OP_ERROR;
   } else {
     drc = DRIVER_OP_SUCCESS;
   }

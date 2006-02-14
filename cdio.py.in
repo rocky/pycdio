@@ -1,6 +1,6 @@
 #!@PYTHON@
 #
-#    $Id: cdio.py.in,v 1.4 2006/02/13 16:29:21 rocky Exp $
+#    $Id: cdio.py.in,v 1.5 2006/02/14 10:34:09 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -95,14 +95,19 @@ def close_tray(drive=None, driver_id=pycdio.DRIVER_UNKNOWN):
     return found_driver_id
 
 def get_default_device_driver(driver_id=pycdio.DRIVER_DEVICE):
-    """get_default_device(self, driver_id=pycdio.DRIVER_DEVICE)->str
-    Get the default CD device.
-    If we haven't initialized a specific device driver), 
-    then find a suitable one and return the default device for that.
-    In some situations of drivers or OS's we can't find a CD device if
-    there is no media in it and it is possible for this routine to return
-    None even though there may be a hardware CD-ROM."""
-    return pycdio.get_default_device_driver(driver_id)
+    """get_default_device_driver(self, driver_id=pycdio.DRIVER_DEVICE)
+	->[device, driver]
+
+    Return a string containing the default CD device if none is
+    specified.  if driver_id is DRIVER_UNKNOWN or DRIVER_DEVICE
+    then one set the default device for that.
+    
+    None is returned as the device if we couldn't get a default
+    device."""
+    result = pycdio.get_default_device_driver(driver_id)
+    if type(result) == type([1,2]):
+	return result
+    return None
 
 def get_devices(driver_id=None):
     """
@@ -612,8 +617,8 @@ class Device:
     def open(self, source=None, driver_id=pycdio.DRIVER_UNKNOWN,
              access_mode=None):
         """
-        open_cd(self, source=NULL, driver_id=libcdio.DRIVER_UNKNOWN,
-                access_mode=None)
+        open(self, source=None, driver_id=pycdio.DRIVER_UNKNOWN,
+             access_mode=None)
         
         Sets up to read from place specified by source, driver_id and
         access mode. This should be called before using any other routine
