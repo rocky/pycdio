@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: read.swg,v 1.2 2006/02/13 11:10:50 rocky Exp $
+    $Id: read.swg,v 1.3 2006/03/14 11:08:58 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 
@@ -47,15 +47,15 @@ Reads into buf the next size bytes.
 Similar to (if not the same as) libc's read()
 
 The number of reads read is returned. -1 is returned on error.");
-%cstring_output_withsize(char *p_buf, ssize_t *i_size);
-ssize_t read_cd(const CdIo_t *p_cdio, char *p_buf, ssize_t *i_size);
+%cstring_output_withsize(char *p_buf, ssize_t *pi_size);
+ssize_t read_cd(const CdIo_t *p_cdio, char *p_buf, ssize_t *pi_size);
 
 %inline %{
 ssize_t
-read_cd(const CdIo_t *p_cdio, char *p_buf, ssize_t *i_size) 
+read_cd(const CdIo_t *p_cdio, char *p_buf, ssize_t *pi_size) 
 {
-  *i_size = cdio_read(p_cdio, p_buf, *i_size);
-  return *i_size;
+  *pi_size = cdio_read(p_cdio, p_buf, *pi_size);
+  return *pi_size;
 }
 %}
 
@@ -82,7 +82,7 @@ If size <= 0 an error has occurred.");
 
 %inline %{
 
-ssize_t read_sectors(const CdIo_t *p_cdio, char *p_buf, ssize_t *i_size, 
+ssize_t read_sectors(const CdIo_t *p_cdio, char *p_buf, ssize_t *pi_size, 
 		     lsn_t i_lsn, cdio_read_mode_t read_mode)
 {
   
@@ -106,17 +106,17 @@ ssize_t read_sectors(const CdIo_t *p_cdio, char *p_buf, ssize_t *i_size,
     i_blocksize = M2F2_SECTOR_SIZE;
     break;
   default: 
-    i_size = NULL;
+    pi_size = NULL;
     return DRIVER_OP_BAD_PARAMETER;
   }
 
-  i_blocks = *i_size / i_blocksize;
+  i_blocks = *pi_size / i_blocksize;
   drc = cdio_read_sectors(p_cdio, p_buf, i_lsn, read_mode, i_blocks);
   if (drc < 0) {
-    i_size = NULL;
+    pi_size = NULL;
     return drc;
   }
-  return *i_size;
+  return *pi_size;
 }
 %}
 
@@ -132,11 +132,11 @@ which is pycdio.M2RAW_SECTOR_SIZE.
 
 If size <= 0 an error has occurred.");
 %inline %{
-ssize_t read_data_bytes(const CdIo_t *p_cdio, char *p_buf, ssize_t *i_size, 
+ssize_t read_data_bytes(const CdIo_t *p_cdio, char *p_buf, ssize_t *pi_size, 
 			lsn_t i_lsn, int16_t i_blocksize)
 {
   driver_return_code_t drc;
-  uint32_t i_blocks = *i_size / i_blocksize;
+  uint32_t i_blocks = *pi_size / i_blocksize;
 
   switch (i_blocksize) {
   case CDIO_CD_FRAMESIZE:
@@ -146,13 +146,13 @@ ssize_t read_data_bytes(const CdIo_t *p_cdio, char *p_buf, ssize_t *i_size,
     break;
   default:
     /* Don't know about these block sizes */
-    i_size = NULL;
+    pi_size = NULL;
     return DRIVER_OP_BAD_PARAMETER;
   }
   
 #if DEBUGGING  
   printf("p_cdio: %x, i_size: %d, lsn: %d, blocksize %d, blocks %d\n",
-	 p_cdio, *i_size, i_lsn, i_blocksize, i_blocks);
+	 p_cdio, *pi_size, i_lsn, i_blocksize, i_blocks);
 #endif
   drc = cdio_read_data_sectors (p_cdio, p_buf, i_lsn, 
 				i_blocksize, i_blocks);
@@ -160,9 +160,9 @@ ssize_t read_data_bytes(const CdIo_t *p_cdio, char *p_buf, ssize_t *i_size,
   printf("drc: %d\n", drc);
 #endif
   if (drc < 0) {
-    i_size = NULL;
+    pi_size = NULL;
     return drc;
   }
-  return *i_size;
+  return *pi_size;
 }
 %}

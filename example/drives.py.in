@@ -1,10 +1,10 @@
 #!@PYTHON@
-#$Id: drives.py.in,v 1.1 2006/02/13 16:30:37 rocky Exp $
+#$Id: drives.py.in,v 1.2 2006/03/14 11:08:58 rocky Exp $
 """Program to read CD blocks. See read-cd from the libcdio distribution
 for a more complete program."""
 
 #
-#    Copyright (C) 2006 Rocky Bernstein <rocky@cpan.org>
+#    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -44,10 +44,10 @@ sys.exit(0)
 # FIXME: there's a bug in get_drive_with_cap that corrupts memory.
 print_drive_class("All CD-ROM drives (again)", pycdio.FS_MATCH_ALL, False);
 print_drive_class("All CD-DA drives...", pycdio.FS_AUDIO, False);
-rint_drive_class("All drives with ISO 9660...", pycdio.FS_ISO_9660, False);
-rint_drive_class("VCD drives...", 
-	  (pycdio.FS_ANAL_SVCD|pycdio.FS_ANAL_CVD|
-	   pycdio.FS_ANAL_VIDEOCD|pycdio.FS_UNKNOWN), True);
+print_drive_class("All drives with ISO 9660...", pycdio.FS_ISO_9660, False);
+print_drive_class("VCD drives...", 
+                  (pycdio.FS_ANAL_SVCD|pycdio.FS_ANAL_CVD|
+                   pycdio.FS_ANAL_VIDEOCD|pycdio.FS_UNKNOWN), True);
 
 
 

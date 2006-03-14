@@ -1,6 +1,6 @@
 #!@PYTHON@
 #
-#    $Id: cdio.py.in,v 1.5 2006/02/14 10:34:09 rocky Exp $
+#    $Id: cdio.py.in,v 1.6 2006/03/14 11:08:58 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -626,6 +626,8 @@ class Device:
         
         If None is given as the source, we'll use the default driver device.
         If None is given as the driver_id, we'll find a suitable device driver.
+
+        If device object was, previously opened it is closed first.
         
         Device is opened so that subsequent operations can be performed.
 

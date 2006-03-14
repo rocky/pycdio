@@ -1,4 +1,4 @@
-#   $Id: Makefile.am,v 1.9 2006/02/13 21:26:02 rocky Exp $
+#   $Id: Makefile.am,v 1.10 2006/03/14 11:08:58 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -26,7 +26,7 @@ PYTHON_LIBS := @PYTHON_LIBS@
 SO   := @SO@
 
 # Note pycdio.swg has to come first.
-SWIG_SRC = $(top_srcdir)/swig/pycdio.swg     \
+CDIO_SRC = $(top_srcdir)/swig/pycdio.swg     \
 	$(top_srcdir)/swig/Makefile          \
 	$(top_srcdir)/swig/audio.swg         \
 	$(top_srcdir)/swig/compat.swg        \
@@ -36,6 +36,8 @@ SWIG_SRC = $(top_srcdir)/swig/pycdio.swg     \
 	$(top_srcdir)/swig/read.swg          \
 	$(top_srcdir)/swig/track.swg         \
 	$(top_srcdir)/swig/types.swg 
+
+ISO_SRC = $(top_srcdir)/swig/pyiso9660.swg
 
 TEST_FILES = \
 	test/Makefile \
@@ -55,17 +57,20 @@ EXAMPLE_FILES = \
 	example/eject.py.in \
 	example/tracks.py.in
 
-SWIG_OBJ := $(top_builddir)/pycdio_wrap.o
-SWIG_C   := $(top_builddir)/pycdio_wrap.c
+CDIO_C   := $(top_builddir)/pycdio_wrap.c
+CDIO_OBJ := $(top_builddir)/pycdio_wrap.o
 
-EXTRA_DIST = $(SWIG_SRC) $(TEST_FILES) $(EXAMPLE_FILES) \
-	     cdio.py.in pycdio_wrap.c pycdio.py \
+ISO_C    := $(top_builddir)/pyiso9660_wrap.c
+ISO_OBJ  := $(top_builddir)/pyiso9660_wrap.o
+
+EXTRA_DIST = $(CDIO_SRC) $(TEST_FILES) $(EXAMPLE_FILES) \
+	     cdio.py.in pycdio_wrap.c pycdio.py pyiso9660.py \
 	     include-path.py site-packages-path.py setup.py ChangeLog.1
 
 dist-hook:
 	-rm $(top_distdir)/cdio.py $(top_distdir)/pycdio.py
 
-pkgdata_DATA := _pycdio$(SO)
+pkgdata_DATA := _pycdio$(SO) _pyiso9660$(SO)
 pkgdatadir = $(pythondir)
 
 noinst_PYTHON = 
@@ -73,30 +78,45 @@ python_PYTHON := $(top_builddir)/pycdio.py $(top_builddir)/cdio.py
 
 .PHONY: test check ChangeLog
 
-all-am: _pycdio$(SO)
+all-am: _pycdio$(SO) _pyiso9660$(SO)
 
 ## I just can't take all the crap associated with libtool any more.
 ## Testing for C++, Fortran, compile and link options to those, 
 ## existence of C headers that aren't used, and that's just in the
 ## configuration section.
-$(SWIG_OBJ): $(SWIG_C)
+$(CDIO_OBJ): $(CDIO_C)
 	$(CC) $(CFLAGS) $(libcdio_CFLAGS) -c $< -I@PYTHON_INC@
 
-_pycdio$(SO): $(top_builddir)/pycdio.py $(SWIG_OBJ)
-	$(LDSHARED) $(SWIG_OBJ) $(libcdio_LIBS) $(PYTHON_LIBS) -o $@
+$(ISO_OBJ): $(ISO_C)
+	$(CC) $(CFLAGS) $(libiso9660_CFLAGS) -c $< -I@PYTHON_INC@
 
-$(top_builddir)/pycdio.py: $(SWIG_SRC)
-	$(SWIG) -o $(SWIG_C) -outdir $(top_builddir) -python $(SWIG_FLAGS) $<
+_pycdio$(SO): $(top_builddir)/pycdio.py $(CDIO_OBJ)
+	$(LDSHARED) $(CDIO_OBJ) $(libcdio_LIBS) $(PYTHON_LIBS) -o $@
 
-$(SWIG_C): $(SWIG_SRC)
-	$(SWIG) -o $(SWIG_C) -outdir $(top_builddir) -python $(SWIG_FLAGS) $<
+_pyiso9660$(SO): $(top_builddir)/pyiso9660.py $(ISO_OBJ)
+	$(LDSHARED) $(ISO_OBJ) $(libiso9660_LIBS) $(PYTHON_LIBS) -o $@
+
+$(top_builddir)/pycdio.py: $(CDIO_SRC)
+	$(SWIG) -o $(CDIO_C) -outdir $(top_builddir) -python $(SWIG_FLAGS) $<
+
+$(top_builddir)/pyiso9660.py: $(ISO_SRC)
+	$(SWIG) -o $(ISO_C) -outdir $(top_builddir) -python $(SWIG_FLAGS) $<
+
+$(CDIO_C): $(CDIO_SRC)
+	$(SWIG) -o $(CDIO_C) -outdir $(top_builddir) -python $(SWIG_FLAGS) $<
+
+$(ISO_C): $(ISO_SRC)
+	$(SWIG) -o $(ISO_C) -outdir $(top_builddir) -python $(SWIG_FLAGS) $<
 
 check: test
 test: test/cdiotest.py _pycdio$(SO)
 	(cd test && python cdiotest.py --verbose)
 
 clean-generic: 
-	-rm $(SWIG_C) $(SWIG_OBJ) _pycdio$(SO) pycdio.py* cdio.pyc cdio.py
+	-rm $(CDIO_C) $(CDIO_OBJ) \
+	$(ISO_C) $(ISO_OBJ) \
+	_pycdio$(SO) pycdio.py* cdio.py* \
+	_pyiso9660$(SO) pyiso9660.py* iso9660.py*
 
 # From libtool documentation amended with guidance from N. Boullis: 
 #
