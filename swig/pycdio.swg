@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: pycdio.swg,v 1.3 2006/03/14 11:08:58 rocky Exp $
+    $Id: pycdio.swg,v 1.4 2006/03/14 11:44:36 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 
@@ -16,7 +16,7 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-    02110-1301 USA
+    02110-1301 USA.
 */
 %define DOCSTRING 
 "This is a wrapper for The CD Input and Control library (libcdio) which

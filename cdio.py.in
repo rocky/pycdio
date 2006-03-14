@@ -1,6 +1,6 @@
 #!@PYTHON@
 #
-#    $Id: cdio.py.in,v 1.6 2006/03/14 11:08:58 rocky Exp $
+#    $Id: cdio.py.in,v 1.7 2006/03/14 11:44:36 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -16,7 +16,8 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with this program; if not, write to the Free Software
-#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+#    02110-1301 USA.
 #
 """The CD Input and Control library (pycdio) encapsulates CD-ROM 
 reading and control. Applications wishing to be oblivious of the OS-

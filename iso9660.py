@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-#    $Id: iso9660.py,v 1.1 2006/03/14 11:08:58 rocky Exp $
+#    $Id: iso9660.py,v 1.2 2006/03/14 11:44:36 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@cpan.org>
 #
@@ -17,7 +17,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program; if not, write to the Free Software
 #    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-#    02110-1301 USA
+#    02110-1301 USA.
 #
 
 import pyiso9660

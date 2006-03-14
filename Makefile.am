@@ -1,4 +1,4 @@
-#   $Id: Makefile.am,v 1.10 2006/03/14 11:08:58 rocky Exp $
+#   $Id: Makefile.am,v 1.11 2006/03/14 11:44:36 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -14,7 +14,8 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with this program; if not, write to the Free Software
-#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+#    02110-1301 USA.
 #
 ## Process this file with automake to produce Makefile.in
 ##   which configure then turns into a Makefile  ...
