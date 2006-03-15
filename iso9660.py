@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-#    $Id: iso9660.py,v 1.2 2006/03/14 11:44:36 rocky Exp $
+#    $Id: iso9660.py,v 1.3 2006/03/15 01:00:18 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@cpan.org>
 #
@@ -102,13 +102,6 @@ portion and the filename should be composed of only DCHARs.
 True is returned if path is valid."""
     return pyiso9660.pathame_valid(path)
 
-=pod
-
-=head2 name_translate
-
-
-=cut
-
 def name_translate(filename, joliet_level):
     """name_translate(name, joliet_level=0)->str
 
@@ -124,12 +117,6 @@ The translated string is returned and it will be larger than the input
 filename."""
     return pyiso9660.name_translate_ext(filename, joliet_level)
 }
-
-=pod
-
-=head2 stat_array_to_href
-
-=cut
 
 def stat_array_to_href(filename, LSN, size, sec_size, is_dir):
     """stat_array_to_href(filename, LSN, size, sec_size, is_dir)->stat

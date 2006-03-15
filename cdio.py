@@ -1,6 +1,6 @@
-#!@PYTHON@
+#!/usr/bin/python
 #
-#    $Id: cdio.py.in,v 1.7 2006/03/14 11:44:36 rocky Exp $
+#    $Id: cdio.py,v 1.1 2006/03/15 01:00:18 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #

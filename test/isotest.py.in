@@ -1,0 +1,168 @@
+#!@PYTHON@
+# $Id: isotest.py.in,v 1.1 2006/03/15 01:00:18 rocky Exp $
+"""Unit test for iso9660
+
+Note: for compatibility with old unittest 1.46 we won't use assertTrue
+or assertFalse."""
+
+# Test some low-level ISO9660 routines
+# This is basically the same thing as libcdio's testiso9660.c
+
+import unittest, sys, os
+
+sys.path.insert(0, '@PYCDIO_LIBDIR@')
+import pyiso9660
+
+def is_eq(a, b):
+    if len(a) != len(b): return False
+    
+    for i in range(len(a)):
+        if a[i] != b[i]:
+            print "position %d: %d != %d\n" % (i, a[i] != b[i])
+            return False
+    return True
+    
+achars = ('!', '"', '%', '&', '(', ')', '*', '+', ',', '-', '.',
+           '/', '?', '<', '=', '>')
+
+class ISO9660Tests(unittest.TestCase):
+
+    ###################################
+    # Test ACHAR and DCHAR
+    ###################################
+    
+    def test_chars(self):
+        bad = 0
+        c=ord('A')
+        while c<=ord('Z'):
+            if not pyiso9660.is_dchar(c):
+                print "Failed iso9660_is_achar test on %c" % c
+                bad += 1
+            if not pyiso9660.is_achar(c):
+                print "Failed iso9660_is_achar test on %c" % c
+                bad += 1
+            c += 1
+
+        self.assertTrue(bad==0, 'is_dchar & is_achar A..Z')
+
+        bad=0
+        c=ord('0')
+        while c<=ord('9'):
+            if not pyiso9660.is_dchar(c):
+                print "Failed iso9660_is_dchar test on %c" % c
+                bad += 1
+            if not pyiso9660.is_achar(c):
+                print "Failed iso9660_is_achar test on %c" % c
+                bad += 1
+            c += 1
+        self.assertTrue(bad==0, 'is_dchar & is_achar 0..9')
+
+        bad=0
+        i=0
+        while i<=13:
+            c=ord(achars[i])
+            if pyiso9660.is_dchar(c):
+                print "Should not pass is_dchar test on %c" % c
+                bad += 1
+            if not pyiso9660.is_achar(c):
+                print "Failed is_achar test on symbol %c" % c
+                bad += 1
+            i += 1
+
+        self.assertTrue(bad==0, 'is_dchar & is_achar symbols')
+
+#####################################
+# Test pyiso9660.strncpy_pad
+#####################################
+
+# SKIP: 
+#
+#    skip("strncpy_pad broken too often. Volunteers for fixing?.", 2)
+#       # if 'cygwin' eq $Config{osname}
+#
+#    $dst = pyiso9660.strncpy_pad("1_3", 5, pyiso9660.DCHARS)
+#    ok($dst eq "1_3  ", "strncpy_pad DCHARS")
+#    
+#    $dst = pyiso9660.strncpy_pad("ABC!123", 2, pyiso9660.ACHARS)
+#    ok($dst eq "AB", "strncpy_pad ACHARS truncation")
+
+#####################################
+# Test pyiso9660.dirname_valid_p 
+#####################################
+
+"""
+bad=0
+if ( pyiso9660.dirname_valid_p("/NOGOOD") ) {
+    printf("/NOGOOD should fail pyiso9660.dirname_valid_p\n")
+    bad++
+}
+ok(bad==0, 'pyiso9660.dirname_valid_p - invalid name - bad symbol')
+
+bad=0
+if ( pyiso9660.dirname_valid_p("LONGDIRECTORY/NOGOOD") ) {
+    printf("LONGDIRECTORY/NOGOOD should fail pyiso9660.dirname_valid_p\n")
+    bad++
+}
+ok(bad==0, 'pyiso9660.dirname_valid_p - invalid long name')
+
+bad=0
+if ( !pyiso9660.dirname_valid_p("OKAY/DIR") ) {
+    printf("OKAY/DIR should pass pyiso9660.dirname_valid_p\n")
+    bad++
+}
+ok(bad==0, 'pyiso9660.dirname_valid_p - valid with directory')
+
+bad=0
+if ( pyiso9660.dirname_valid_p("OKAY/FILE.EXT") ) {
+    printf("OKAY/FILENAME.EXT should fail pyiso9660.dirname_valid_p\n")
+    bad++
+}
+ok(bad==0, 'pyiso9660.dirname_valid_p - invalid with .EXT')
+
+#####################################
+# Test pyiso9660.pathname_valid_p
+#####################################
+
+bad=0
+if ( !pyiso9660.pathname_valid_p("OKAY/FILE.EXT") ) {
+    printf("OKAY/FILE.EXT should pass pyiso9660.dirname_valid_p\n")
+    bad++
+}
+ok(bad==0, 'pyiso9660.pathname_valid_p - valid')
+
+bad=0
+if ( pyiso9660.pathname_valid_p("OKAY/FILENAMETOOLONG.EXT") ) {
+    printf("OKAY/FILENAMETOOLONG.EXT should fail pyiso9660.dirname_valid_p\n")
+    bad++
+}
+ok(bad==0, 'pyiso9660.pathname_valid_p - invalid, long basename')
+
+bad=0
+if ( pyiso9660.pathname_valid_p("OKAY/FILE.LONGEXT") ) {
+    printf("OKAY/FILE.LONGEXT should fail pyiso9660.dirname_valid_p\n")
+    bad++
+}
+ok(bad==0, 'pyiso9660.pathname_valid_p - invalid, long extension')
+
+bad=0
+$dst = pyiso9660.pathname_isofy("this/file.ext", 1)
+if ($dst ne "this/file.ext1") {
+    printf("Failed iso9660_pathname_isofy\n")
+    bad++
+}
+ok(bad==0, 'pyiso9660.pathname_isofy')
+
+my @tm = gmtime(0)
+my $dtime = pyiso9660.set_dtime($tm[0], $tm[1], $tm[2], $tm[3], $tm[4],
+                                   $tm[5], $tm[6], $tm[7], $tm[8])
+my ($bool, @new_tm) = pyiso9660.get_dtime($dtime, 0)
+
+### FIXME Don't know why the discrepancy, but there is a 5 hour difference.
+$new_tm[2] = $tm[2] 
+
+ok(is_eq(\@new_tm, \@tm), 'get_dtime != set_dtime')
+"""
+
+if __name__ == "__main__":
+    unittest.main()
+

@@ -1,4 +1,4 @@
-#   $Id: Makefile.am,v 1.12 2006/03/15 00:54:53 rocky Exp $
+#   $Id: Makefile.am,v 1.13 2006/03/15 01:00:18 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -117,8 +117,8 @@ test: test/cdiotest.py _pycdio$(SO) _pyiso9660$(SO)
 clean-generic: 
 	-rm $(CDIO_C) $(CDIO_OBJ) \
 	$(ISO_C) $(ISO_OBJ) \
-	_pycdio$(SO) pycdio.py* cdio.py* \
-	_pyiso9660$(SO) pyiso9660.py* iso9660.py*
+	_pycdio$(SO) pycdio.py* cdio.py? \
+	_pyiso9660$(SO) pyiso9660.py* iso9660.py?
 
 # From libtool documentation amended with guidance from N. Boullis: 
 #
