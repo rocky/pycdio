@@ -24,7 +24,7 @@ AC_INIT([pycdio],[0.12cvs],[libcdio-pycdio-devel@gnu.org])
 ## Check for Python interpreter and make we have a recent version.
 ##
 AM_PATH_PYTHON(2.3.5,, :)
-AC_REVISION([$Id: configure.ac,v 1.12 2006/03/14 11:08:58 rocky Exp $])dnl
+AC_REVISION([$Id: configure.ac,v 1.13 2006/03/15 00:38:56 rocky Exp $])dnl
 
 ##
 ## In maintainer mode we produce a ChangeLog
@@ -64,6 +64,9 @@ fi
 
 PKG_CHECK_MODULES(libcdio, libcdio >= 0.76, [], 
 	[AC_MSG_ERROR(Required libcdio library not found. Please get libcdio from http://www.gnu.org/software/libcdio/ and install it.)])
+
+PKG_CHECK_MODULES(libiso9660, libiso9660 >= 0.76, [], 
+	[AC_MSG_ERROR(Required libiso9660 library not found. Please get libcdio from http://www.gnu.org/software/libcdio/ and install it.)])
 
 
 ##
