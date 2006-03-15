@@ -1,4 +1,4 @@
-#   $Id: Makefile.am,v 1.11 2006/03/14 11:44:36 rocky Exp $
+#   $Id: Makefile.am,v 1.12 2006/03/15 00:54:53 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -110,8 +110,9 @@ $(ISO_C): $(ISO_SRC)
 	$(SWIG) -o $(ISO_C) -outdir $(top_builddir) -python $(SWIG_FLAGS) $<
 
 check: test
-test: test/cdiotest.py _pycdio$(SO)
+test: test/cdiotest.py _pycdio$(SO) _pyiso9660$(SO)
 	(cd test && python cdiotest.py --verbose)
+	(cd test && python isotest.py --verbose)
 
 clean-generic: 
 	-rm $(CDIO_C) $(CDIO_OBJ) \

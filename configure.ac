@@ -24,7 +24,7 @@ AC_INIT([pycdio],[0.12cvs],[libcdio-pycdio-devel@gnu.org])
 ## Check for Python interpreter and make we have a recent version.
 ##
 AM_PATH_PYTHON(2.3.5,, :)
-AC_REVISION([$Id: configure.ac,v 1.13 2006/03/15 00:38:56 rocky Exp $])dnl
+AC_REVISION([$Id: configure.ac,v 1.14 2006/03/15 00:54:53 rocky Exp $])dnl
 
 ##
 ## In maintainer mode we produce a ChangeLog
@@ -172,7 +172,6 @@ AC_SUBST(PYCDIO_LIBDIR)dnl
 ## Produced derived files.
 ##
 AC_CONFIG_FILES([Makefile])
-AC_CONFIG_FILES([cdio.py], [chmod +x cdio.py])
 AC_CONFIG_FILES([example/audio.py], [chmod +x example/audio.py])
 AC_CONFIG_FILES([example/cd-read.py], [chmod +x example/cd-read.py])
 AC_CONFIG_FILES([example/cdchange.py], [chmod +x example/cdchange.py])
@@ -181,6 +180,7 @@ AC_CONFIG_FILES([example/drives.py], [chmod +x example/drives.py])
 AC_CONFIG_FILES([example/eject.py], [chmod +x example/eject.py])
 AC_CONFIG_FILES([example/tracks.py], [chmod +x example/tracks.py])
 AC_CONFIG_FILES([test/cdiotest.py], [chmod +x test/cdiotest.py])
+AC_CONFIG_FILES([test/isotest.py], [chmod +x test/isotest.py])
 
 AC_OUTPUT
 

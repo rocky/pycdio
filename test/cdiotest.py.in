@@ -1,5 +1,5 @@
 #!@PYTHON@
-# $Id: cdiotest.py.in,v 1.8 2006/02/14 10:34:09 rocky Exp $   -*- Python -*-
+# $Id: cdiotest.py.in,v 1.9 2006/03/15 00:54:53 rocky Exp $   -*- Python -*-
 """Unit test for cdio
 
 Note: for compatibility with old unittest 1.46 we won't use assertTrue
@@ -10,7 +10,7 @@ sys.path.insert(0, '@PYCDIO_LIBDIR@')
 import pycdio
 import cdio
 
-class DeviceExceptTests(unittest.TestCase):
+class CdioTests(unittest.TestCase):
 
     def test_ops(self):
         """Test running miscellaneous operations
