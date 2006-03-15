@@ -1,4 +1,4 @@
-#   $Id: Makefile.am,v 1.13 2006/03/15 01:00:18 rocky Exp $
+#   $Id: Makefile.am,v 1.14 2006/03/15 01:02:35 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -65,7 +65,7 @@ ISO_C    := $(top_builddir)/pyiso9660_wrap.c
 ISO_OBJ  := $(top_builddir)/pyiso9660_wrap.o
 
 EXTRA_DIST = $(CDIO_SRC) $(TEST_FILES) $(EXAMPLE_FILES) \
-	     cdio.py.in pycdio_wrap.c pycdio.py pyiso9660.py \
+	     pycdio_wrap.c pycdio.py pyiso9660.py \
 	     include-path.py site-packages-path.py setup.py ChangeLog.1
 
 dist-hook:
