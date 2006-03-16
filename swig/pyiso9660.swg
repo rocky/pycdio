@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: pyiso9660.swg,v 1.2 2006/03/16 05:45:50 rocky Exp $
+    $Id: pyiso9660.swg,v 1.3 2006/03/16 17:13:57 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@cpan.org>
 
@@ -46,6 +46,7 @@ equivalant standard is called ECMA-119."
 %feature("autodoc", 1);
 
 typedef uint8_t iso_extension_mask_t;
+typedef unsigned int uint16_t;
 
 %constant long int ISO_BLOCKSIZE        = CDIO_CD_FRAMESIZE;
 %constant long int PVD_SECTOR 	        = ISO_PVD_SECTOR ;
@@ -113,18 +114,49 @@ typedef iso9660_stat_t IsoStat_t;
 %typemap(newfree) IsoStatList_t "cdio_free_device_list($1);";
 
 %typemap(python,out) IsoStat_t *{   
-    // $1 is of type IsoStatList_t
     iso9660_stat_t *p_statbuf = result;
 
     if (result) {
       PyObject *o;
       o = PyString_FromString(p_statbuf->filename);
       resultobj = t_output_helper(resultobj,o);
-      resultobj = SWIG_From_long((long)(p_statbuf->lsn)); 
-      resultobj = SWIG_From_long((long)(p_statbuf->size)); 
-      resultobj = SWIG_From_long((long)(p_statbuf->secsize)); 
-      resultobj = SWIG_From_long((long)(p_statbuf->type)); 
+      o = SWIG_From_long((long)(p_statbuf->lsn)); 
+      resultobj = t_output_helper(resultobj,o);
+      o = SWIG_From_long((long)(p_statbuf->size)); 
+      resultobj = t_output_helper(resultobj,o);
+      o = SWIG_From_long((long)(p_statbuf->secsize)); 
+      resultobj = t_output_helper(resultobj,o);
+      o = SWIG_From_long((long)(p_statbuf->type)); 
+      resultobj = t_output_helper(resultobj,o);
       free (p_statbuf);
+    }
+}
+
+%typemap(python,out) struct tm *{   
+    struct tm *p_tm = result;
+
+    if (result) {
+      PyObject *o;
+      resultobj = PyList_New(9);
+      o = SWIG_From_int(p_tm->tm_year+1900);
+      PyList_SetItem(resultobj, 0, o);
+      o = SWIG_From_int(p_tm->tm_mon+1);
+      PyList_SetItem(resultobj, 1, o);
+      o = SWIG_From_int(p_tm->tm_mday);
+      PyList_SetItem(resultobj, 2, o);
+      o = SWIG_From_int(p_tm->tm_hour);
+      PyList_SetItem(resultobj, 3, o);
+      o = SWIG_From_int(p_tm->tm_min);
+      PyList_SetItem(resultobj, 4, o);
+      o = SWIG_From_int(p_tm->tm_sec);
+      PyList_SetItem(resultobj, 5, o);
+      o = SWIG_From_int((p_tm->tm_wday-1)%7);
+      PyList_SetItem(resultobj, 6, o);
+      o = SWIG_From_int(p_tm->tm_yday+1);
+      PyList_SetItem(resultobj, 7, o);
+      o = SWIG_From_int(p_tm->tm_isdst);
+      PyList_SetItem(resultobj, 8, o);
+      free (p_tm);
     }
 }
 
@@ -306,15 +338,15 @@ bool iso9660_ifs_read_superblock (iso9660_t *p_iso,
 %feature("autodoc",
 "Set time in format used in ISO 9660 directory index record");
 iso9660_dtime_t *
-set_dtime ( int tm_sec, int tm_min, int tm_hour, int tm_mday, int tm_mon, 
-	    int tm_year, int tm_wday, int tm_yday, int tm_isdst);
+set_dtime ( int tm_year, int tm_mon,  int tm_mday, int tm_hour, int tm_min, 
+	    int tm_sec,  int tm_wday, int tm_yday, int tm_isdst);
 %inline %{
 iso9660_dtime_t *
-set_dtime ( int tm_sec, int tm_min, int tm_hour, int tm_mday, int tm_mon, 
-	    int tm_year, int tm_wday, int tm_yday, int tm_isdst)
+set_dtime ( int tm_year, int tm_mon,  int tm_mday, int tm_hour, int tm_min, 
+	    int tm_sec,  int tm_wday, int tm_yday, int tm_isdst)
 {
-  struct tm tm = { tm_sec, tm_min, tm_hour, tm_mday, tm_mon, tm_year, tm_wday,
-		   tm_isdst };
+  struct tm tm = { tm_sec,  tm_min, tm_hour, tm_mday, tm_mon-1, tm_year-1900, 
+		   (tm_wday-1)%7, tm_yday-1, tm_isdst };
   static iso9660_dtime_t idr_date;
   iso9660_set_dtime (&tm, &idr_date);
   return &idr_date;
@@ -324,17 +356,16 @@ set_dtime ( int tm_sec, int tm_min, int tm_hour, int tm_mday, int tm_mon,
 %feature("autodoc",
 "Set 'long' time in format used in ISO 9660 primary volume descriptor");
 iso9660_ltime_t *
-set_ltime ( int tm_sec, int tm_min, int tm_hour, int tm_mday, int tm_mon, 
-	    int tm_year, int tm_wday, int tm_yday, int tm_isdst);
+set_ltime ( int tm_year, int tm_mon,  int tm_mday, int tm_hour, int tm_min, 
+	    int tm_sec,  int tm_wday, int tm_yday, int tm_isdst);
 
 %inline %{
 iso9660_ltime_t *
-set_ltime ( int tm_sec, int tm_min, int tm_hour, int tm_mday, int tm_mon, 
-	    int tm_year, int tm_wday, int tm_yday, int tm_isdst)
-
+set_ltime ( int tm_year, int tm_mon,  int tm_mday, int tm_hour, int tm_min, 
+	    int tm_sec,  int tm_wday, int tm_yday, int tm_isdst)
 {
-  struct tm tm = { tm_sec, tm_min, tm_hour, tm_mday, tm_mon, tm_year, tm_wday,
-		   tm_isdst };
+  struct tm tm = { tm_sec, tm_min, tm_hour, tm_mday, tm_mon-1, tm_year-1900,
+		   (tm_wday-1)%7, tm_yday-1, tm_isdst };
   static iso9660_ltime_t pvd_date;
   iso9660_set_ltime (&tm, &pvd_date);
   return &pvd_date;
@@ -348,69 +379,33 @@ idr_date, they are calculated from the other fields.
 
 If tm is to reflect the localtime, set 'use_localtime' true, otherwise
 tm will reported in GMT.");
-%apply int *OUTPUT { int *tm_sec, int *tm_min,  int *tm_hour, int *tm_mday,
-                     int *tm_mon, int *tm_year, int *tm_wday, int *tm_yday,
-                     int *tm_isdst };
-
-bool get_dtime (const iso9660_dtime_t *idr_date, bool use_localtime,
-		int *tm_sec, int *tm_min,  int *tm_hour, int *tm_mday,
-		int *tm_mon, int *tm_year, int *tm_wday, int *tm_yday,
-		int *tm_isdst);
-
+struct tm *get_dtime (const iso9660_dtime_t *p_idr_date, bool use_localtime);
 %inline %{
-bool get_dtime (const iso9660_dtime_t *idr_date, bool use_localtime,
-		int *tm_sec, int *tm_min,  int *tm_hour, int *tm_mday,
-		int *tm_mon, int *tm_year, int *tm_wday, int *tm_yday,
-		int *tm_isdst) 
-{
-  struct tm tm;
-  bool b_okay = iso9660_get_dtime (idr_date, use_localtime, &tm);
-  if (b_okay) {
-    *tm_sec   = tm.tm_sec;
-    *tm_min   = tm.tm_min;
-    *tm_hour  = tm.tm_hour;
-    *tm_mon   = tm.tm_mon;
-    *tm_mday  = tm.tm_mday;
-    *tm_year  = tm.tm_year;
-    *tm_wday  = tm.tm_wday;
-    *tm_yday  = tm.tm_yday;
-    *tm_isdst = tm.tm_isdst;
+struct tm *get_dtime (const iso9660_dtime_t *p_idr_date, bool use_localtime) {
+  struct tm *p_tm = (struct tm *) calloc(1, sizeof(struct tm));
+  if (!iso9660_get_dtime (p_idr_date, use_localtime, p_tm)) {
+    free(p_tm);
+    return NULL;
   }
-  return b_okay;
-}
+  return p_tm;
+ }
 %}
 
 %feature("autodoc",
 "Get 'long' time in format used in ISO 9660 primary volume descriptor
  from a Unix time structure.");
-bool get_ltime (const iso9660_ltime_t *idr_date, 
-		int *tm_sec, int *tm_min,  int *tm_hour, int *tm_mday,
-		int *tm_mon, int *tm_year, int *tm_wday, int *tm_yday,
-		int *tm_isdst);
-
+struct tm *get_ltime (const iso9660_ltime_t *p_ldate);
 %inline %{
-bool get_ltime (const iso9660_ltime_t *p_ldate, 
-		int *tm_sec, int *tm_min,  int *tm_hour, int *tm_mday,
-		int *tm_mon, int *tm_year, int *tm_wday, int *tm_yday,
-		int *tm_isdst) 
+struct tm *get_ltime (const iso9660_ltime_t *p_ldate)
 {
-  struct tm tm;
-  bool b_okay = iso9660_get_ltime (p_ldate, &tm);
-  if (b_okay) {
-    *tm_sec   = tm.tm_sec;
-    *tm_min   = tm.tm_min;
-    *tm_hour  = tm.tm_hour;
-    *tm_mon   = tm.tm_mon;
-    *tm_mday  = tm.tm_mday;
-    *tm_year  = tm.tm_year;
-    *tm_wday  = tm.tm_wday;
-    *tm_yday  = tm.tm_yday;
-    *tm_isdst = tm.tm_isdst;
+  struct tm *p_tm = (struct tm *) calloc(1, sizeof(struct tm));
+  if (!iso9660_get_ltime (p_ldate, p_tm)) {
+    free(p_tm);
+    return NULL;
   }
-  return b_okay;
+  return p_tm;
 }
 %}
-
 
 /*========================================================
   Characters used in file and directory and manipulation

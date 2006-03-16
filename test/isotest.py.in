@@ -1,5 +1,5 @@
 #!@PYTHON@
-# $Id: isotest.py.in,v 1.2 2006/03/16 05:45:50 rocky Exp $
+# $Id: isotest.py.in,v 1.3 2006/03/16 17:13:57 rocky Exp $ -*- Python -*-
 """Unit test for iso9660
 
 Note: for compatibility with old unittest 1.46 we won't use assertTrue
@@ -87,61 +87,58 @@ class ISO9660Tests(unittest.TestCase):
 
         
         self.assertFalse(pyiso9660.dirname_valid_p("/NOGOOD"),
-                         "/NOGOOD should fail pyiso9660.dirname_valid_p")
+                         "dirname_valid_p - /NOGOOD is no good.")
 
         self.assertFalse(pyiso9660.dirname_valid_p("LONGDIRECTORY/NOGOOD"),
-               "LONGDIRECTORY/NOGOOD should fail pyiso9660.dirname_valid_p")
+                         "pyiso9660.dirname_valid_p - too long directory")
 
         self.assertTrue(pyiso9660.dirname_valid_p("OKAY/DIR"),
-                        "OKAY/DIR should pass pyiso9660.dirname_valid_p")
+                        "dirname_valid_p - OKAY/DIR should pass ")
 
         self.assertFalse(pyiso9660.dirname_valid_p("OKAY/FILE.EXT"),
-                "OKAY/FILENAME.EXT should fail pyiso9660.dirname_valid_p")
+                         "pyiso9660.dirname_valid_p - OKAY/FILENAME.EXT")
 
         #####################################
         # Test pyiso9660.pathname_valid_p
         #####################################
 
-"""
-bad=0
-if ( !pyiso9660.pathname_valid_p("OKAY/FILE.EXT") ) {
-    printf("OKAY/FILE.EXT should pass pyiso9660.dirname_valid_p\n")
-    bad++
-}
-ok(bad==0, 'pyiso9660.pathname_valid_p - valid')
+        self.assertTrue(pyiso9660.pathname_valid_p("OKAY/FILE.EXT"),
+                        "pyiso9660.dirname_valid_p - OKAY/FILE.EXT ")
+        self.assertFalse(pyiso9660.pathname_valid_p("OKAY/FILENAMELONG.EXT"),
+                        'invalid pathname, long basename')
 
-bad=0
-if ( pyiso9660.pathname_valid_p("OKAY/FILENAMETOOLONG.EXT") ) {
-    printf("OKAY/FILENAMETOOLONG.EXT should fail pyiso9660.dirname_valid_p\n")
-    bad++
-}
-ok(bad==0, 'pyiso9660.pathname_valid_p - invalid, long basename')
+        self.assertFalse( pyiso9660.pathname_valid_p("OKAY/FILE.LONGEXT"),
+                          "pathname_valid_p - long extension" )
 
-bad=0
-if ( pyiso9660.pathname_valid_p("OKAY/FILE.LONGEXT") ) {
-    printf("OKAY/FILE.LONGEXT should fail pyiso9660.dirname_valid_p\n")
-    bad++
-}
-ok(bad==0, 'pyiso9660.pathname_valid_p - invalid, long extension')
+        dst = pyiso9660.pathname_isofy("this/file.ext", 1)
+        self.assertNotEqual(dst, "this/file.ext1", "iso9660_pathname_isofy")
 
-bad=0
-$dst = pyiso9660.pathname_isofy("this/file.ext", 1)
-if ($dst ne "this/file.ext1") {
-    printf("Failed iso9660_pathname_isofy\n")
-    bad++
-}
-ok(bad==0, 'pyiso9660.pathname_isofy')
+        import time
 
-my @tm = gmtime(0)
-my $dtime = pyiso9660.set_dtime($tm[0], $tm[1], $tm[2], $tm[3], $tm[4],
-                                   $tm[5], $tm[6], $tm[7], $tm[8])
-my ($bool, @new_tm) = pyiso9660.get_dtime($dtime, 0)
+        tm = time.localtime(0)
+        dtime = pyiso9660.set_dtime(tm[0], tm[1], tm[2], tm[3], tm[4],
+                                    tm[5], tm[6], tm[7], tm[8])
+        new_tm =  pyiso9660.get_dtime(dtime, True)
 
-### FIXME Don't know why the discrepancy, but there is a 5 hour difference.
-$new_tm[2] = $tm[2] 
+        ### FIXME Don't know why the discrepancy, but there is a 5-hour
+        ### difference. Or is it TZ which for me is 5 hours?
+        if new_tm is not None:
+            new_tm[3] = tm[3]
+            self.assertTrue(is_eq(new_tm, tm), 'get_dtime != set_dtime')
+        else: 
+            self.assertTrue(False, 'get_dtime is None')
 
-ok(is_eq(\@new_tm, \@tm), 'get_dtime != set_dtime')
-"""
+        if 0:
+            tm = time.gmtime(0)
+            ltime = pyiso9660.set_ltime(tm[0], tm[1], tm[2], tm[3], tm[4],
+                                        tm[5], tm[6], tm[7], tm[8])
+            new_tm =  pyiso9660.get_ltime(ltime)
+            
+        ### FIXME Don't know why the discrepancy, but there is a 5-hour
+        ### difference. Or is it TZ which for me is 5 hours?
+            new_tm[3] = tm[3]
+
+            self.assertTrue(is_eq(new_tm, tm), 'get_ltime != set_ltime')
 
 if __name__ == "__main__":
     unittest.main()
