@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: pyiso9660.swg,v 1.1 2006/03/14 11:08:58 rocky Exp $
+    $Id: pyiso9660.swg,v 1.2 2006/03/16 05:45:50 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@cpan.org>
 
@@ -99,6 +99,67 @@ typedef uint8_t iso_extension_mask_t;
 %constant long int EXTENSION_ALL           = ISO_EXTENSION_ALL;
 %constant long int EXTENSION_NONE          = ISO_EXTENSION_NONE;
 %constant long int EXTENSION_JOLIET        = ISO_EXTENSION_JOLIET;
+
+/* Set up to allow functions to return stat lists of type "stat
+   *". We'll use a typedef so we can make sure to isolate this. 
+*/
+%inline %{
+typedef CdioList_t IsoStatList_t;
+typedef iso9660_stat_t IsoStat_t;
+%}
+typedef CdioList_t IsoStatList_t;
+typedef iso9660_stat_t IsoStat_t;
+
+%typemap(newfree) IsoStatList_t "cdio_free_device_list($1);";
+
+%typemap(python,out) IsoStat_t *{   
+    // $1 is of type IsoStatList_t
+    iso9660_stat_t *p_statbuf = result;
+
+    if (result) {
+      PyObject *o;
+      o = PyString_FromString(p_statbuf->filename);
+      resultobj = t_output_helper(resultobj,o);
+      resultobj = SWIG_From_long((long)(p_statbuf->lsn)); 
+      resultobj = SWIG_From_long((long)(p_statbuf->size)); 
+      resultobj = SWIG_From_long((long)(p_statbuf->secsize)); 
+      resultobj = SWIG_From_long((long)(p_statbuf->type)); 
+      free (p_statbuf);
+    }
+}
+
+#ifdef FINISHED
+%typemap(python,out) IsoStatList_t *{   
+    // $1 is of type IsoStatList_t
+    CdioList_t *p_entlist   = result;
+    CdioListNode_t *p_entnode;
+    unsigned int num = 0;
+
+    if (!result) goto out;
+
+ PPCODE:
+    /* Figure out how many items in the array */
+    _CDIO_LIST_FOREACH (p_entnode, p_entlist) {
+      num +=5;
+    }
+
+    /* For each element in the array of strings, create a new
+     * mortalscalar, and stuff it into the above array. */
+    _CDIO_LIST_FOREACH (p_entnode, p_entlist) {
+      iso9660_stat_t *p_statbuf = 
+	(iso9660_stat_t *) _cdio_list_node_data (p_entnode);
+      /* Have perl compute the length of the string using strlen() */
+      XPUSHs(sv_2mortal(newSVpv(p_statbuf->filename, 0)));
+      XPUSHs(sv_2mortal(newSViv(p_statbuf->lsn)));
+      XPUSHs(sv_2mortal(newSViv(p_statbuf->size)));
+      XPUSHs(sv_2mortal(newSViv(p_statbuf->secsize)));
+      XPUSHs(sv_2mortal(newSViv(p_statbuf->type)));
+    }
+    _cdio_list_free (p_entlist, true);
+    argvi += num + 2;
+ out: ;
+}
+#endif
 
 %feature("autodoc",
 "open_iso(path)
@@ -473,18 +534,16 @@ bool iso9660_pathname_valid_p (const char psz_path[]);
 
 /* ... */
 
-#ifdef FINISHED
 %feature("autodoc",
 "Given a directory pointer, find the filesystem entry that contains
 lsn and return information about it.
 
 Returns stat_t of entry if we found lsn, or None otherwise.");
+#if 0
 %rename iso9660_find_fs_lsn fs_find_lsn;
 IsoStat_t *iso9660_find_fs_lsn(CdIo_t *p_cdio, lsn_t i_lsn);
-#endif
 
 
-#if LIBCDIO_VERSION_NUM > 76
 %feature("autodoc",
 "Given a directory pointer, find the filesystem entry that contains
 lsn and return information about it.
@@ -492,6 +551,7 @@ lsn and return information about it.
 Returns stat_t of entry if we found lsn, or None otherwise.");
 %rename iso9660_find_ifs_lsn ifs_find_lsn;
 IsoStat_t *iso9660_find_ifs_lsn(const iso9660_t *p_iso, lsn_t i_lsn);
+#endif
 
 
 %feature("autodoc",
@@ -550,7 +610,6 @@ IsoStatList_t *ifs_readdir (iso9660_t *p_iso, const char psz_path[])
   return p_statlist;
 }
 %}
-#endif
 
 %feature("autodoc",
 "Return the PVD's application ID.

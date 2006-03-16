@@ -1,5 +1,5 @@
 #!@PYTHON@
-# $Id: isotest.py.in,v 1.1 2006/03/15 01:00:18 rocky Exp $
+# $Id: isotest.py.in,v 1.2 2006/03/16 05:45:50 rocky Exp $
 """Unit test for iso9660
 
 Note: for compatibility with old unittest 1.46 we won't use assertTrue
@@ -71,58 +71,38 @@ class ISO9660Tests(unittest.TestCase):
 
         self.assertTrue(bad==0, 'is_dchar & is_achar symbols')
 
-#####################################
-# Test pyiso9660.strncpy_pad
-#####################################
+        #####################################
+        # Test pyiso9660.strncpy_pad
+        #####################################
 
-# SKIP: 
-#
-#    skip("strncpy_pad broken too often. Volunteers for fixing?.", 2)
-#       # if 'cygwin' eq $Config{osname}
-#
-#    $dst = pyiso9660.strncpy_pad("1_3", 5, pyiso9660.DCHARS)
-#    ok($dst eq "1_3  ", "strncpy_pad DCHARS")
-#    
-#    $dst = pyiso9660.strncpy_pad("ABC!123", 2, pyiso9660.ACHARS)
-#    ok($dst eq "AB", "strncpy_pad ACHARS truncation")
+        dst = pyiso9660.strncpy_pad("1_3", 5, pyiso9660.DCHARS)
+        self.assertEqual(dst, "1_3  ", "strncpy_pad DCHARS")
+    
+        dst = pyiso9660.strncpy_pad("ABC!123", 2, pyiso9660.ACHARS)
+        self.assertEqual(dst, "AB", "strncpy_pad ACHARS truncation")
 
-#####################################
-# Test pyiso9660.dirname_valid_p 
-#####################################
+        #####################################
+        # Test pyiso9660.dirname_valid_p 
+        #####################################
+
+        
+        self.assertFalse(pyiso9660.dirname_valid_p("/NOGOOD"),
+                         "/NOGOOD should fail pyiso9660.dirname_valid_p")
+
+        self.assertFalse(pyiso9660.dirname_valid_p("LONGDIRECTORY/NOGOOD"),
+               "LONGDIRECTORY/NOGOOD should fail pyiso9660.dirname_valid_p")
+
+        self.assertTrue(pyiso9660.dirname_valid_p("OKAY/DIR"),
+                        "OKAY/DIR should pass pyiso9660.dirname_valid_p")
+
+        self.assertFalse(pyiso9660.dirname_valid_p("OKAY/FILE.EXT"),
+                "OKAY/FILENAME.EXT should fail pyiso9660.dirname_valid_p")
+
+        #####################################
+        # Test pyiso9660.pathname_valid_p
+        #####################################
 
 """
-bad=0
-if ( pyiso9660.dirname_valid_p("/NOGOOD") ) {
-    printf("/NOGOOD should fail pyiso9660.dirname_valid_p\n")
-    bad++
-}
-ok(bad==0, 'pyiso9660.dirname_valid_p - invalid name - bad symbol')
-
-bad=0
-if ( pyiso9660.dirname_valid_p("LONGDIRECTORY/NOGOOD") ) {
-    printf("LONGDIRECTORY/NOGOOD should fail pyiso9660.dirname_valid_p\n")
-    bad++
-}
-ok(bad==0, 'pyiso9660.dirname_valid_p - invalid long name')
-
-bad=0
-if ( !pyiso9660.dirname_valid_p("OKAY/DIR") ) {
-    printf("OKAY/DIR should pass pyiso9660.dirname_valid_p\n")
-    bad++
-}
-ok(bad==0, 'pyiso9660.dirname_valid_p - valid with directory')
-
-bad=0
-if ( pyiso9660.dirname_valid_p("OKAY/FILE.EXT") ) {
-    printf("OKAY/FILENAME.EXT should fail pyiso9660.dirname_valid_p\n")
-    bad++
-}
-ok(bad==0, 'pyiso9660.dirname_valid_p - invalid with .EXT')
-
-#####################################
-# Test pyiso9660.pathname_valid_p
-#####################################
-
 bad=0
 if ( !pyiso9660.pathname_valid_p("OKAY/FILE.EXT") ) {
     printf("OKAY/FILE.EXT should pass pyiso9660.dirname_valid_p\n")
