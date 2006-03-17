@@ -1,5 +1,5 @@
 #!@PYTHON@
-# $Id: isotest.py.in,v 1.3 2006/03/16 17:13:57 rocky Exp $ -*- Python -*-
+# $Id: isotest.py.in,v 1.4 2006/03/17 02:27:56 rocky Exp $ -*- Python -*-
 """Unit test for iso9660
 
 Note: for compatibility with old unittest 1.46 we won't use assertTrue
@@ -18,7 +18,7 @@ def is_eq(a, b):
     
     for i in range(len(a)):
         if a[i] != b[i]:
-            print "position %d: %d != %d\n" % (i, a[i] != b[i])
+            print "position %d: %d != %d\n" % (i, a[i], b[i])
             return False
     return True
     
@@ -116,28 +116,23 @@ class ISO9660Tests(unittest.TestCase):
         import time
 
         tm = time.localtime(0)
-        dtime = pyiso9660.set_dtime(tm[0], tm[1], tm[2], tm[3], tm[4],
-                                    tm[5], tm[6], tm[7], tm[8])
+        dtime = pyiso9660.set_dtime(tm[0], tm[1], tm[2], tm[3], tm[4], tm[5])
         new_tm =  pyiso9660.get_dtime(dtime, True)
 
-        ### FIXME Don't know why the discrepancy, but there is a 5-hour
-        ### difference. Or is it TZ which for me is 5 hours?
+        ### FIXME Don't know why the discrepancy, but there is an hour
+        ### difference, perhaps daylight savings time.
+        ### Versions before 0.77 have other bugs.
         if new_tm is not None:
             new_tm[3] = tm[3]
             self.assertTrue(is_eq(new_tm, tm), 'get_dtime != set_dtime')
         else: 
             self.assertTrue(False, 'get_dtime is None')
 
-        if 0:
+        if pyiso9660.VERSION_NUM >= 77:
             tm = time.gmtime(0)
             ltime = pyiso9660.set_ltime(tm[0], tm[1], tm[2], tm[3], tm[4],
-                                        tm[5], tm[6], tm[7], tm[8])
+                                        tm[5])
             new_tm =  pyiso9660.get_ltime(ltime)
-            
-        ### FIXME Don't know why the discrepancy, but there is a 5-hour
-        ### difference. Or is it TZ which for me is 5 hours?
-            new_tm[3] = tm[3]
-
             self.assertTrue(is_eq(new_tm, tm), 'get_ltime != set_ltime')
 
 if __name__ == "__main__":

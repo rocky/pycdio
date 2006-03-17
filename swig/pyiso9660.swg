@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: pyiso9660.swg,v 1.3 2006/03/16 17:13:57 rocky Exp $
+    $Id: pyiso9660.swg,v 1.4 2006/03/17 02:27:56 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@cpan.org>
 
@@ -338,37 +338,31 @@ bool iso9660_ifs_read_superblock (iso9660_t *p_iso,
 %feature("autodoc",
 "Set time in format used in ISO 9660 directory index record");
 iso9660_dtime_t *
-set_dtime ( int tm_year, int tm_mon,  int tm_mday, int tm_hour, int tm_min, 
-	    int tm_sec,  int tm_wday, int tm_yday, int tm_isdst);
+set_dtime ( int year, int mon,  int mday, int hour, int min, int sec);
 %inline %{
 iso9660_dtime_t *
-set_dtime ( int tm_year, int tm_mon,  int tm_mday, int tm_hour, int tm_min, 
-	    int tm_sec,  int tm_wday, int tm_yday, int tm_isdst)
+set_dtime ( int year, int mon,  int mday, int hour, int min, int sec)
 {
-  struct tm tm = { tm_sec,  tm_min, tm_hour, tm_mday, tm_mon-1, tm_year-1900, 
-		   (tm_wday-1)%7, tm_yday-1, tm_isdst };
-  static iso9660_dtime_t idr_date;
-  iso9660_set_dtime (&tm, &idr_date);
-  return &idr_date;
+  struct tm tm = { sec,  min, hour, mday, mon-1, year-1900, 0, 0, -1 };
+  static iso9660_dtime_t dtime;
+  iso9660_set_dtime (&tm, &dtime);
+  return &dtime;
 }
 %}
 
 %feature("autodoc",
 "Set 'long' time in format used in ISO 9660 primary volume descriptor");
 iso9660_ltime_t *
-set_ltime ( int tm_year, int tm_mon,  int tm_mday, int tm_hour, int tm_min, 
-	    int tm_sec,  int tm_wday, int tm_yday, int tm_isdst);
+set_ltime ( int year, int mon,  int mday, int hour, int min, int sec);
 
 %inline %{
 iso9660_ltime_t *
-set_ltime ( int tm_year, int tm_mon,  int tm_mday, int tm_hour, int tm_min, 
-	    int tm_sec,  int tm_wday, int tm_yday, int tm_isdst)
-{
-  struct tm tm = { tm_sec, tm_min, tm_hour, tm_mday, tm_mon-1, tm_year-1900,
-		   (tm_wday-1)%7, tm_yday-1, tm_isdst };
-  static iso9660_ltime_t pvd_date;
-  iso9660_set_ltime (&tm, &pvd_date);
-  return &pvd_date;
+set_ltime ( int year, int mon,  int mday, int hour, int min, int sec)
+ {
+   struct tm tm = { sec, min, hour, mday, mon-1, year-1900, 0, 0, -1 };
+  static iso9660_ltime_t ldate;
+  iso9660_set_ltime (&tm, &ldate);
+  return &ldate;
 }
 %}
 
@@ -379,11 +373,11 @@ idr_date, they are calculated from the other fields.
 
 If tm is to reflect the localtime, set 'use_localtime' true, otherwise
 tm will reported in GMT.");
-struct tm *get_dtime (const iso9660_dtime_t *p_idr_date, bool use_localtime);
+struct tm *get_dtime (const iso9660_dtime_t *p_dtime, bool use_localtime);
 %inline %{
-struct tm *get_dtime (const iso9660_dtime_t *p_idr_date, bool use_localtime) {
+struct tm *get_dtime (const iso9660_dtime_t *p_dtime, bool use_localtime) {
   struct tm *p_tm = (struct tm *) calloc(1, sizeof(struct tm));
-  if (!iso9660_get_dtime (p_idr_date, use_localtime, p_tm)) {
+  if (!iso9660_get_dtime (p_dtime, use_localtime, p_tm)) {
     free(p_tm);
     return NULL;
   }
@@ -394,12 +388,12 @@ struct tm *get_dtime (const iso9660_dtime_t *p_idr_date, bool use_localtime) {
 %feature("autodoc",
 "Get 'long' time in format used in ISO 9660 primary volume descriptor
  from a Unix time structure.");
-struct tm *get_ltime (const iso9660_ltime_t *p_ldate);
+struct tm *get_ltime (const iso9660_ltime_t *p_ltime);
 %inline %{
-struct tm *get_ltime (const iso9660_ltime_t *p_ldate)
+struct tm *get_ltime (const iso9660_ltime_t *p_ltime)
 {
   struct tm *p_tm = (struct tm *) calloc(1, sizeof(struct tm));
-  if (!iso9660_get_ltime (p_ldate, p_tm)) {
+  if (!iso9660_get_ltime (p_ltime, p_tm)) {
     free(p_tm);
     return NULL;
   }
