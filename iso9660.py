@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-#    $Id: iso9660.py,v 1.3 2006/03/15 01:00:18 rocky Exp $
+#    $Id: iso9660.py,v 1.4 2006/03/23 16:36:07 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@cpan.org>
 #
@@ -152,3 +152,8 @@ If the I<check> parameter is given it must be one of the 'nocheck',
         return None
     return pyiso9660.strncpy_pad(name, len, check_types[check])
 
+class ISO9660:
+    """ """
+    class IFS:
+        """ISO 9660 Filesystem image reading"""
+        pass
