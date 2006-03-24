@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: pyiso9660.swg,v 1.6 2006/03/24 03:39:24 rocky Exp $
+    $Id: pyiso9660.swg,v 1.7 2006/03/24 12:36:14 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@cpan.org>
 
@@ -144,16 +144,17 @@ typedef iso9660_stat_t IsoStat_t;
 
     if (result) {
       PyObject *o;
+      resultobj = PyList_New(0);
       o = PyString_FromString(p_statbuf->filename);
-      resultobj = t_output_helper(resultobj,o);
+      PyList_Append(resultobj, o);
       o = SWIG_From_long((long)(p_statbuf->lsn)); 
-      resultobj = t_output_helper(resultobj,o);
+      PyList_Append(resultobj, o);
       o = SWIG_From_long((long)(p_statbuf->size)); 
-      resultobj = t_output_helper(resultobj,o);
+      PyList_Append(resultobj, o);
       o = SWIG_From_long((long)(p_statbuf->secsize)); 
-      resultobj = t_output_helper(resultobj,o);
+      PyList_Append(resultobj, o);
       o = SWIG_From_long((long)(p_statbuf->type)); 
-      resultobj = t_output_helper(resultobj,o);
+      PyList_Append(resultobj, o);
       free (p_statbuf);
     }
 }
@@ -278,30 +279,10 @@ be returned.");
 %rename iso9660_close close;
 bool iso9660_close (iso9660_t * p_iso);
 
-%typemap(perl5,out) buf_t {   
-  /* $1 is of type buf_t */
-  ST(argvi) = sv_newmortal();
-  if (result) {
-    /* I don't yet know how to pick up arg4 another way.
-       THIS MEANS ARG3 MUST ALWAYS BE THE SIZE.  */
-    sv_setpvn((SV*)ST(argvi++), (char *) result, *arg4);
-    /* Don't leak memory. return value was malloc'd by libcdio. */
-    /* free(result);   */
-  } else {
-    sv_setsv((SV*)ST(argvi++), &PL_sv_undef);
-  }
-}
-%inline %{
-  typedef long int my_ssize_t;
-%}
-%apply my_ssize_t *OUTPUT { my_ssize_t *pi_size };
-
 %feature("autodoc",
 "Seek to a position and then read n bytes. (buffer, size) are
  returned.");
-%newobject seek_read; // free malloc'd return value
 %cstring_output_withsize(char *p_buf, ssize_t *pi_size);
-typedef char *buf_t;
 ssize_t seek_read (const iso9660_t *p_iso, 
 		   lsn_t start, char *p_buf, ssize_t *pi_size);
 %inline %{
@@ -309,7 +290,8 @@ ssize_t
 seek_read (const iso9660_t *p_iso, lsn_t start, char *p_buf, 
 	   ssize_t *pi_size) 
 {
-  *pi_size = iso9660_iso_seek_read(p_iso, p_buf, start, *pi_size);
+  *pi_size = iso9660_iso_seek_read(p_iso, p_buf, start, 
+				   (*pi_size) / ISO_BLOCKSIZE);
   return *pi_size;
  }
 %}

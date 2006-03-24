@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-#    $Id: iso9660.py,v 1.6 2006/03/24 03:39:24 rocky Exp $
+#    $Id: iso9660.py,v 1.7 2006/03/24 12:36:14 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@cpan.org>
 #
@@ -118,25 +118,22 @@ filename."""
     return pyiso9660.name_translate_ext(filename, joliet_level)
 
 
-def stat_array_to_dict(*args):
+# FIXME: should be
+# def stat_array_to_dict(*args):
+# Probably have a SWIG error.
+def stat_array_to_dict(filename, LSN, size, sec_size, is_dir):
     """stat_array_to_href(filename, LSN, size, sec_size, is_dir)->stat
 
 Convert a ISO 9660 array to an hash reference of the values.
 
 Used internally in convert from C code."""
 
-    filename = args[0]
-    LSN      = args[1]
-    size     = args[2]
-    sec_size = args[3]
-    is_dir   = args[4]
     stat = {}
-    stat[filename] = filename
-    stat[LSN]      = LSN
-    stat[size]     = size
-    stat[sec_size] = sec_size
-    stat[is_dir]   = is_dir
-    stat[is_dir]   = stat[is_dir] == 2
+    stat['filename'] = filename
+    stat['LSN']      = LSN
+    stat['size']     = size
+    stat['sec_size'] = sec_size
+    stat['is_dir']   = is_dir == 2
     return stat
  
 def strncpy_pad(name, len, check):
@@ -370,9 +367,13 @@ class ISO9660:
             return pyiso9660.ifs_read_superblock(self.iso9660, iso_mask)
 
         def seek_read(self, start, size=1):
-            """seek_read(self, start, size=1)->(size, str)
+            """seek_read(self, start, size=1)
+            ->(size, str)
             
-            Seek to a position and then read n bytes. Size read is returned."""
+            Seek to a position and then read n blocks. A block is
+            pycdio.ISO_BLOCKSIZE (2048) bytes. The Size in BYTES (not blocks)
+            is returned."""
+            size *= pyiso9660.ISO_BLOCKSIZE
             return pyiso9660.seek_read(self.iso9660, start, size)
 
         def stat(self, path, translate=False):
@@ -393,6 +394,8 @@ class ISO9660:
             * is_dir   - True if a directory; False if a not."""
             
             if translate:
-                return pyiso9660.ifs_stat_translate(self.iso9660, path)
+                values = pyiso9660.ifs_stat_translate(self.iso9660, path)
             else:
-                return pyiso9660.ifs_stat(self.iso9660, path)
+                values = pyiso9660.ifs_stat(self.iso9660, path)
+            return stat_array_to_dict(values[0], values[1], values[2],
+                                      values[3], values[4])

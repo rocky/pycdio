@@ -1,4 +1,4 @@
-#   $Id: Makefile.am,v 1.16 2006/03/24 03:40:46 rocky Exp $
+#   $Id: Makefile.am,v 1.17 2006/03/24 12:36:14 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -59,6 +59,7 @@ EXAMPLE_FILES = \
 	example/device.py.in 
 	example/eject.py.in \
 	example/iso1.py.in \
+	example/iso3.py.in \
 	example/tracks.py.in
 
 CDIO_C   := $(top_builddir)/pycdio_wrap.c
