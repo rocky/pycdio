@@ -1,4 +1,4 @@
-#   $Id: Makefile.am,v 1.17 2006/03/24 12:36:14 rocky Exp $
+#   $Id: Makefile.am,v 1.18 2006/03/24 18:07:22 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -48,7 +48,7 @@ TEST_FILES = \
 	test/isofs-m1.bin \
 	test/isofs-m1.cue
 
-DATA_FILES = data/copying.iso
+DATA_FILES = data/copying.iso data/isofs-m1.cue data/isofs-m1.bin
 
 EXAMPLE_FILES = \
 	example/Makefile \
@@ -59,6 +59,7 @@ EXAMPLE_FILES = \
 	example/device.py.in 
 	example/eject.py.in \
 	example/iso1.py.in \
+	example/iso2.py.in \
 	example/iso3.py.in \
 	example/tracks.py.in
 

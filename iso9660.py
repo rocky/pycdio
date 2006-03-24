@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-#    $Id: iso9660.py,v 1.7 2006/03/24 12:36:14 rocky Exp $
+#    $Id: iso9660.py,v 1.8 2006/03/24 18:07:22 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@cpan.org>
 #
@@ -21,6 +21,7 @@
 #
 
 import pyiso9660
+import cdio
 import types
 
 check_types = {
@@ -397,5 +398,98 @@ class ISO9660:
                 values = pyiso9660.ifs_stat_translate(self.iso9660, path)
             else:
                 values = pyiso9660.ifs_stat(self.iso9660, path)
+            return stat_array_to_dict(values[0], values[1], values[2],
+                                      values[3], values[4])
+
+    class FS(cdio.Device):
+        """ISO 9660 CD reading"""
+
+        def __init__(self, source=None, driver_id=None,
+                     access_mode=None):
+
+            """Create a new ISO 9660 object.  If source is given, open()
+            is called using that and the optional iso_mask parameter;
+            iso_mask is used only if source is specified.  If source is
+            given but opening fails, undef is returned.  If source is not
+            given, an object is always returned."""
+            
+            cdio.Device.__init__(self, source, driver_id, access_mode)
+
+
+        def find_lsn(self, lsn):
+            """find_lsn(self, lsn)->[stat_href]
+
+            Find the filesystem entry that contains LSN and return
+            file stat information about it. None is returned on
+            error."""
+
+            filename, LSN, size, sec_size, is_dir = \
+                      pyiso9660.fs_find_lsn(self.cd, lsn)
+            return stat_array_to_href(filename, LSN, size, sec_size, is_dir)
+    
+        
+        def readdir(self, dirname): 
+            """readdir(dirname)->[LSN, size, sec_size, filename, XA, is_dir]
+            
+            Read path (a directory) and return a list of iso9660 stat
+            references
+            
+            Each item of @iso_stat is a hash reference which contains
+
+            * LSN       - the Logical sector number (an integer)
+            * size      - the total size of the file in bytes
+            * sec_size  - the number of sectors allocated
+            * filename  - the file name of the statbuf entry
+            * XA        - if the file has XA attributes; 0 if not
+            * is_dir    - 1 if a directory; 0 if a not;
+            
+            FIXME: If you look at iso9660.h you'll see more fields, such as for
+            Rock-Ridge specific fields or XA specific fields. Eventually these
+            will be added. Volunteers?"""
+            
+            return pyiso9660.fs_readdir(self.cd, dirname)
+
+
+        def read_pvd(self):
+            """read_pvd()->pvd
+            
+            Read the Super block of an ISO 9660 image. This is the
+            Primary Volume Descriptor (PVD) and perhaps a Supplemental
+            Volume Descriptor if (Joliet) extensions are
+            acceptable."""
+            
+            return pyiso9660.fs_read_pvd(self.cd)
+
+        def read_superblock(self, iso_mask=pyiso9660.EXTENSION_NONE):
+            """read_superblock(iso_mask=pyiso9660.EXTENSION_NONE)->bool
+            
+            Read the Super block of an ISO 9660 image. This is the
+            Primary Volume Descriptor (PVD) and perhaps a Supplemental
+            Volume Descriptor if (Joliet) extensions are
+            acceptable."""
+            
+            return pyiso9660.fs_read_superblock(self.cd, iso_mask)
+
+        def stat(self, path, translate=False):
+            """stat(self, path, translate=False)->{stat}
+            
+            Return file status for path name psz_path. None is returned on
+            error.  If translate is True, version numbers in the ISO 9660
+            name are dropped, i.e. ;1 is removed and if level 1 ISO-9660
+            names are lowercased.
+            
+            Each item of the return is a hash reference which contains:
+            
+            * LSN      - the Logical sector number (an integer)
+            * size     - the total size of the file in bytes
+            * sec_size - the number of sectors allocated
+            * filename - the file name of the statbuf entry
+            * XA       - if the file has XA attributes; False if not
+            * is_dir   - True if a directory; False if a not."""
+            
+            if translate:
+                values = pyiso9660.fs_stat_translate(self.cd, path)
+            else:
+                values = pyiso9660.fs_stat(self.cd, path)
             return stat_array_to_dict(values[0], values[1], values[2],
                                       values[3], values[4])

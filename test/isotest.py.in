@@ -1,5 +1,5 @@
 #!@PYTHON@
-# $Id: isotest.py.in,v 1.6 2006/03/23 17:18:14 rocky Exp $ -*- Python -*-
+# $Id: isotest.py.in,v 1.7 2006/03/24 18:07:22 rocky Exp $ -*- Python -*-
 """Unit test for iso9660
 
 Note: for compatibility with old unittest 1.46 we won't use assertTrue
@@ -12,6 +12,7 @@ import unittest, sys, os
 
 sys.path.insert(0, '@PYCDIO_LIBDIR@')
 import pyiso9660
+import iso9660
 
 def is_eq(a, b):
     if len(a) != len(b): return False
@@ -91,6 +92,33 @@ class ISO9660Tests(unittest.TestCase):
 
         self.assertFalse(pyiso9660.dirname_valid_p("OKAY/FILE.EXT"),
                          "pyiso9660.dirname_valid_p - OKAY/FILENAME.EXT")
+
+    def test_image_info(self):
+        """Test retrieving image information"""
+        
+        # The test ISO 9660 image
+        image_path="../data"
+        image_fname=os.path.join(image_path, "copying.iso")
+        iso = iso9660.ISO9660.IFS(source=image_fname)
+        self.assertNotEqual(iso, None, "Opening %s" % image_fname)
+
+        self.assertEqual(iso.get_application_id(),
+"MKISOFS ISO 9660/HFS FILESYSTEM BUILDER & CDRECORD CD-R/DVD CREATOR (C) 1993 E.YOUNGDALE (C) 1997 J.PEARSON/J.SCHILLING",
+        "get_application_id()")
+
+        self.assertEqual(iso.get_system_id(), "LINUX",
+        "get_system_id() eq 'LINUX'")
+        self.assertEqual(iso.get_volume_id(), "CDROM",
+        "get_volume_id() eq 'CDROM'")
+
+        file_stats = iso.readdir('/')
+
+        okay_stats = [
+          ['.', 23, 2048, 1, 2],
+          ['..', 23, 2048, 1, 2],
+          ['COPYING.;1', 24, 18002, 9, 1]
+          ]
+        self.assertEqual(file_stats, okay_stats, "file stat info")
 
     def test_pathname_valid(self):
         """Test pyiso9660.pathname_valid_p"""
