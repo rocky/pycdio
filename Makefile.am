@@ -1,4 +1,4 @@
-#   $Id: Makefile.am,v 1.15 2006/03/24 03:39:24 rocky Exp $
+#   $Id: Makefile.am,v 1.16 2006/03/24 03:40:46 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -48,6 +48,8 @@ TEST_FILES = \
 	test/isofs-m1.bin \
 	test/isofs-m1.cue
 
+DATA_FILES = data/copying.iso
+
 EXAMPLE_FILES = \
 	example/Makefile \
 	example/README \
@@ -65,7 +67,7 @@ CDIO_OBJ := $(top_builddir)/pycdio_wrap.o
 ISO_C    := $(top_builddir)/pyiso9660_wrap.c
 ISO_OBJ  := $(top_builddir)/pyiso9660_wrap.o
 
-EXTRA_DIST = $(CDIO_SRC) $(TEST_FILES) $(EXAMPLE_FILES) \
+EXTRA_DIST = $(CDIO_SRC) $(TEST_FILES) $(EXAMPLE_FILES) $(DATA_FILES) \
 	     pycdio_wrap.c pycdio.py pyiso9660.py \
 	     include-path.py site-packages-path.py setup.py ChangeLog.1
 
