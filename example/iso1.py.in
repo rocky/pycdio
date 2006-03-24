@@ -1,5 +1,5 @@
 #!@PYTHON@
-#$Id: iso1.py.in,v 1.1 2006/03/24 03:39:24 rocky Exp $
+#$Id: iso1.py.in,v 1.2 2006/03/24 04:42:03 rocky Exp $ -*- Python -*-
 
 """ A simple program to show using libiso9660 to list files in a directory of
    an ISO-9660 image.
@@ -25,7 +25,7 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import sys
+import os, sys
 sys.path.insert(0, '@PYCDIO_LIBDIR@')
 import pycdio
 import cdio
@@ -36,15 +36,15 @@ import iso9660
 ISO9660_IMAGE_PATH="../data"
 ISO9660_IMAGE=os.path.join(ISO9660_IMAGE_PATH, "copying.iso")
 
-if len(sys.argv) >= 1:
-    iso_image_fname = sys.argv[0]
+if len(sys.argv) > 1:
+    iso_image_fname = sys.argv[1]
 else:    
     iso_image_fname = ISO9660_IMAGE
 
 iso = iso9660.ISO9660.IFS(source=iso_image_fname)
   
-if iso is None:
-    print "Sorry, couldn't open %s as an ISO-9660 image" %  iso_image_fname
+if not iso.is_open():
+    print "Sorry, couldn't open %s as an ISO-9660 image." %  iso_image_fname
     sys.exit(1)
 
 path = '/'
@@ -69,14 +69,17 @@ if id is not None: print "Volume ID: %s" % id
 id = iso.get_volumeset_id()
 if id is not None: print "Volumeset ID: %s" % id
 
-dir_tr[False] = '-'
-dir_tr[True]  = 'd'
+dir_tr=['-', 'd']
 
 for stat in file_stats:
-    print "%s [LSN %6d] %8d %s%s" % (dir_tr[stat[is_dir]], 
-                                     stat[LSN], stat[size],
-                                     path,
-                                     iso9660.name_translate(stat[filename]))
+    # FIXME
+    filename = stat[0]
+    LSN      = stat[1]
+    size     = stat[2]
+    sec_size = stat[3]
+    is_dir   = stat[4] == 2
+    print "%s [LSN %6d] %8d %s%s" % (dir_tr[is_dir], LSN, size, path,
+                                     iso9660.name_translate(filename))
 iso.close()
 sys.exit(0)
 
