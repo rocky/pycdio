@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: pyiso9660.swg,v 1.5 2006/03/23 16:36:07 rocky Exp $
+    $Id: pyiso9660.swg,v 1.6 2006/03/24 03:39:24 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@cpan.org>
 
@@ -45,7 +45,8 @@ equivalant standard is called ECMA-119."
 
 %feature("autodoc", 1);
 
-typedef uint8_t iso_extension_mask_t;
+typedef unsigned int iso_extension_mask_t;
+typedef unsigned int uint8_t;
 typedef unsigned int uint16_t;
 
 %constant long int ISO_BLOCKSIZE        = CDIO_CD_FRAMESIZE;
