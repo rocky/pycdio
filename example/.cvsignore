@@ -1,6 +1,8 @@
+COPYING
 audio.py
 cd-read.py
 cdchange.py
+copying
 device.py
 device.py?
 drives.py
@@ -8,6 +10,8 @@ drives.py?
 eject.py
 iso1.py
 iso1.py?
+iso2.py*
+iso3.py*
 track.py
 tracks.py
 tracks.py?
