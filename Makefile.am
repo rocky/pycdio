@@ -1,4 +1,4 @@
-#   $Id: Makefile.am,v 1.19 2006/03/27 04:43:14 rocky Exp $
+#   $Id: Makefile.am,v 1.20 2006/03/27 05:01:25 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -44,7 +44,7 @@ TEST_FILES = \
 	test/Makefile \
 	test/cdda.bin \
 	test/cdda.cue \
-	test/cdtest.py.in \
+	test/cdiotest.py.in \
 	test/isotest.py.in \
 	test/isocopy.py.in \
 	test/cdda.cue \
@@ -74,7 +74,7 @@ ISO_C    := $(top_builddir)/pyiso9660_wrap.c
 ISO_OBJ  := $(top_builddir)/pyiso9660_wrap.o
 
 EXTRA_DIST = $(CDIO_SRC) $(TEST_FILES) $(EXAMPLE_FILES) $(DATA_FILES) \
-	     pycdio_wrap.c pycdio.py pyiso9660.py \
+	     pycdio_wrap.c pycdio.py pyiso9660.py cdio.py iso9660.py \
 	     include-path.py site-packages-path.py setup.py ChangeLog.1
 
 dist-hook:
@@ -84,7 +84,8 @@ pkgdata_DATA := _pycdio$(SO) _pyiso9660$(SO)
 pkgdatadir = $(pythondir)
 
 noinst_PYTHON = 
-python_PYTHON := $(top_builddir)/pycdio.py $(top_builddir)/cdio.py
+python_PYTHON := $(top_builddir)/pycdio.py $(top_srcdir)/cdio.py \
+	         $(top_builddir)/pyiso9660.py $(top_srcdir)/iso9660.py
 
 .PHONY: test check ChangeLog
 
