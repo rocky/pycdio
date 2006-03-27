@@ -1,5 +1,5 @@
 #!@PYTHON@
-# $Id: isotest.py.in,v 1.8 2006/03/27 04:40:44 rocky Exp $ -*- Python -*-
+# $Id: isotest.py.in,v 1.9 2006/03/27 12:03:05 rocky Exp $ -*- Python -*-
 """Unit test for iso9660"""
 
 # Test some low-level ISO9660 routines
@@ -113,7 +113,7 @@ class ISO9660Tests(unittest.TestCase):
         okay_stats = [
           ['.', 23, 2048, 1, 2],
           ['..', 23, 2048, 1, 2],
-          ['COPYING.;1', 24, 18002, 9, 1]
+          ['COPYING.;1', 24, 17992, 9, 1]
           ]
         self.assertEqual(file_stats, okay_stats, "file stat info")
 

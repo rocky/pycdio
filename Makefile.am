@@ -1,4 +1,4 @@
-#   $Id: Makefile.am,v 1.20 2006/03/27 05:01:25 rocky Exp $
+#   $Id: Makefile.am,v 1.21 2006/03/27 12:03:05 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -44,13 +44,13 @@ TEST_FILES = \
 	test/Makefile \
 	test/cdda.bin \
 	test/cdda.cue \
-	test/cdiotest.py.in \
-	test/isotest.py.in \
-	test/isocopy.py.in \
 	test/cdda.cue \
 	test/cdda.toc \
+	test/cdiotest.py.in \
 	test/isofs-m1.bin \
-	test/isofs-m1.cue
+	test/isofs-m1.cue \
+	test/isoread.py.in \
+	test/isotest.py.in
 
 DATA_FILES = data/copying.iso data/isofs-m1.cue data/isofs-m1.bin
 
@@ -77,7 +77,7 @@ EXTRA_DIST = $(CDIO_SRC) $(TEST_FILES) $(EXAMPLE_FILES) $(DATA_FILES) \
 	     pycdio_wrap.c pycdio.py pyiso9660.py cdio.py iso9660.py \
 	     include-path.py site-packages-path.py setup.py ChangeLog.1
 
-dist-hook:
+ dist-hook:
 	-rm $(top_distdir)/cdio.py $(top_distdir)/pycdio.py
 
 pkgdata_DATA := _pycdio$(SO) _pyiso9660$(SO)
@@ -122,8 +122,8 @@ $(ISO_C): $(ISO_SRC)
 check: test
 test: test/cdiotest.py _pycdio$(SO) _pyiso9660$(SO)
 	(cd test && python cdiotest.py --verbose)
+	(cd test && python isoread.py --verbose)
 	(cd test && python isotest.py --verbose)
-	(cd test && python isocopy.py --verbose)
 
 clean-generic: 
 	-rm $(CDIO_C) $(CDIO_OBJ) \
