@@ -1,4 +1,4 @@
-#   $Id: Makefile.am,v 1.18 2006/03/24 18:07:22 rocky Exp $
+#   $Id: Makefile.am,v 1.19 2006/03/27 04:43:14 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -43,6 +43,10 @@ ISO_SRC = $(top_srcdir)/swig/pyiso9660.swg
 TEST_FILES = \
 	test/Makefile \
 	test/cdda.bin \
+	test/cdda.cue \
+	test/cdtest.py.in \
+	test/isotest.py.in \
+	test/isocopy.py.in \
 	test/cdda.cue \
 	test/cdda.toc \
 	test/isofs-m1.bin \
@@ -118,6 +122,7 @@ check: test
 test: test/cdiotest.py _pycdio$(SO) _pyiso9660$(SO)
 	(cd test && python cdiotest.py --verbose)
 	(cd test && python isotest.py --verbose)
+	(cd test && python isocopy.py --verbose)
 
 clean-generic: 
 	-rm $(CDIO_C) $(CDIO_OBJ) \
