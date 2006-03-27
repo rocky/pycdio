@@ -14,11 +14,12 @@ config.log
 config.status
 config.sub
 configure
+iso9660.py
 pycdio.py
 pycdio.py?
-pyiso9660.py
-pyiso9660.py?
 pycdio_wrap.c
 pycdio_wrap.o
+pyiso9660.py
+pyiso9660.py?
 pyiso9660_wrap.c
 pyiso9660_wrap.o
