@@ -1,9 +1,6 @@
 #!@PYTHON@
-# $Id: isotest.py.in,v 1.7 2006/03/24 18:07:22 rocky Exp $ -*- Python -*-
-"""Unit test for iso9660
-
-Note: for compatibility with old unittest 1.46 we won't use assertTrue
-or assertFalse."""
+# $Id: isotest.py.in,v 1.8 2006/03/27 04:40:44 rocky Exp $ -*- Python -*-
+"""Unit test for iso9660"""
 
 # Test some low-level ISO9660 routines
 # This is basically the same thing as libcdio's testiso9660.c
