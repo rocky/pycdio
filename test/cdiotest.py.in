@@ -1,5 +1,5 @@
 #!@PYTHON@
-# $Id: cdiotest.py.in,v 1.9 2006/03/15 00:54:53 rocky Exp $   -*- Python -*-
+# $Id: cdiotest.py.in,v 1.10 2006/03/28 00:55:00 rocky Exp $   -*- Python -*-
 """Unit test for cdio
 
 Note: for compatibility with old unittest 1.46 we won't use assertTrue
@@ -7,6 +7,7 @@ or assertFalse."""
 import unittest, sys, os
 
 sys.path.insert(0, '@PYCDIO_LIBDIR@')
+sys.path.insert(0, '@top_srcdir@')
 import pycdio
 import cdio
 
