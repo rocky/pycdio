@@ -1,4 +1,4 @@
-#   $Id: Makefile.am,v 1.21 2006/03/27 12:03:05 rocky Exp $
+#   $Id: Makefile.am,v 1.22 2006/03/28 01:24:01 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -38,7 +38,9 @@ CDIO_SRC = $(top_srcdir)/swig/pycdio.swg     \
 	$(top_srcdir)/swig/track.swg         \
 	$(top_srcdir)/swig/types.swg 
 
-ISO_SRC = $(top_srcdir)/swig/pyiso9660.swg
+ISO_SRC = $(top_srcdir)/swig/pyiso9660.swg   \
+	  $(top_srcdir)/swig/compat.swg      \
+	  $(top_srcdir)/swig/types.swg 
 
 TEST_FILES = \
 	test/Makefile \
@@ -73,7 +75,8 @@ CDIO_OBJ := $(top_builddir)/pycdio_wrap.o
 ISO_C    := $(top_builddir)/pyiso9660_wrap.c
 ISO_OBJ  := $(top_builddir)/pyiso9660_wrap.o
 
-EXTRA_DIST = $(CDIO_SRC) $(TEST_FILES) $(EXAMPLE_FILES) $(DATA_FILES) \
+EXTRA_DIST = $(CDIO_SRC) $(ISO_SRC) $(TEST_FILES) \
+	     $(EXAMPLE_FILES) $(DATA_FILES) \
 	     pycdio_wrap.c pycdio.py pyiso9660.py cdio.py iso9660.py \
 	     include-path.py site-packages-path.py setup.py ChangeLog.1
 
