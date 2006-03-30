@@ -24,7 +24,7 @@ AC_INIT([pycdio],[0.11],[libcdio-pycdio-devel@gnu.org])
 ## Check for Python interpreter and make we have a recent version.
 ##
 AM_PATH_PYTHON(2.3.5,, :)
-AC_REVISION([$Id: configure.ac,v 1.20 2006/03/28 01:24:01 rocky Exp $])dnl
+AC_REVISION([$Id: configure.ac,v 1.21 2006/03/30 18:56:03 rocky Exp $])dnl
 
 ##
 ## In maintainer mode we produce a ChangeLog
@@ -145,6 +145,8 @@ if test -f "$PYTHON_INC/Python.h" ; then
     solaris*)
       SO=.so
       LDSHARED="gcc -shared"
+      AC_TRY_CFLAGS("-fPIC", cflgs="$cflgs -fPIC",)
+      CFLAGS="$CFLAGS $cflgs"
       ;;
     *)
       AC_TRY_CFLAGS("-fPIC", cflgs="$cflgs -fPIC",)
