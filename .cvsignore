@@ -15,6 +15,7 @@ config.status
 config.sub
 configure
 iso9660.py
+iso9660.py?
 pycdio.py
 pycdio.py?
 pycdio_wrap.c
