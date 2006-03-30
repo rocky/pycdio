@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-#    $Id: cdio.py,v 1.1 2006/03/15 01:00:18 rocky Exp $
+#    $Id: cdio.py,v 1.2 2006/03/30 21:55:25 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -419,7 +419,7 @@ class Device:
         get_disc_last_lsn(self)->int
         Get the LSN of the end of the CD
         
-        DriverError is raised on error.
+        DriverError and IOError may raised on error.
         """
         lsn = pycdio.get_disc_last_lsn(self.cd)
         if lsn == pycdio.INVALID_LSN:
@@ -564,7 +564,7 @@ class Device:
         get_num_tracks(self)->int
         
         Return the number of tracks on the CD. 
-        TrackError is be raised on error.
+        A TrackError or IOError exception may be raised on error.
         """
         track = pycdio.get_num_tracks(self.cd)
         if track == pycdio.INVALID_TRACK:
@@ -777,7 +777,7 @@ class Track:
         get_last_lsn(self)->lsn
         
         Return the ending LSN for a track 
-        A TrackError exception is raised on error.
+        A TrackError or IOError exception may be raised on error.
         """
         lsn = pycdio.get_track_last_lsn(self.device, self.track)
         if lsn == pycdio.INVALID_LSN:
