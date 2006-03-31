@@ -11,13 +11,14 @@ libcdio may be on the horizon.)
 
 What is in pycdio is incomplete; over time it may grow to completion
 depending on various factors: e.g. interest, whether others help
-out, , whether I get a job at google or some such place that
+out, whether I get a job at google or some such place that
 uses python ;-)
 
 Sections of libcdio that are currently missing are the (SCSI) MMC
-commands, the cdparanoia library, CD-Text handling and the entire
-ISO-9660 library. Of the audio controls, I put in those things that
-didn't require any thought.
+commands, the cdparanoia library, CD-Text handling. Of the audio
+controls, I put in those things that didn't require any thought. The
+ISO 9660 library is pretty complete, except file "stat" information
+which is at present is pretty minimal.
 
 That said, what's in there is very usable (It contains probably more
 access capabilities than what most media players that don't use
@@ -50,4 +51,4 @@ Standalone documentation is missing although many of the methods,
 classes and functions have some document strings. See also the
 programs in the example directory.
 
-$Id: README,v 1.2 2006/01/25 20:27:47 rocky Exp $
+$Id: README,v 1.3 2006/03/31 08:35:11 rocky Exp $
