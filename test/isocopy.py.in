@@ -1,10 +1,11 @@
 #!@PYTHON@
-# $Id: isocopy.py.in,v 1.1 2006/03/27 04:40:44 rocky Exp $ -*- Python -*-
+# $Id: isocopy.py.in,v 1.2 2006/03/31 04:39:56 rocky Exp $ -*- Python -*-
 """Unit test of iso9660 file extraction."""
 
 import unittest, sys, os
 
 sys.path.insert(0, '@PYCDIO_LIBDIR@')
+sys.path.insert(0, '@top_srcdir@')
 import pyiso9660
 import pycdio
 import iso9660
@@ -16,7 +17,7 @@ def ceil(x):
 
 
 # The test CD image
-CD_IMAGE_PATH="../data"
+CD_IMAGE_PATH =os.path.join("@top_srcdir@", "data")
 cd_image_fname=os.path.join(CD_IMAGE_PATH, "isofs-m1.cue")
 local_filename="COPYING"
 
