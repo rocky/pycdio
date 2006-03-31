@@ -1,4 +1,4 @@
-#   $Id: Makefile.am,v 1.22 2006/03/28 01:24:01 rocky Exp $
+#   $Id: Makefile.am,v 1.23 2006/03/31 04:24:12 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -51,7 +51,7 @@ TEST_FILES = \
 	test/cdiotest.py.in \
 	test/isofs-m1.bin \
 	test/isofs-m1.cue \
-	test/isoread.py.in \
+	test/isocopy.py.in \
 	test/isotest.py.in
 
 DATA_FILES = data/copying.iso data/isofs-m1.cue data/isofs-m1.bin
@@ -78,7 +78,8 @@ ISO_OBJ  := $(top_builddir)/pyiso9660_wrap.o
 EXTRA_DIST = $(CDIO_SRC) $(ISO_SRC) $(TEST_FILES) \
 	     $(EXAMPLE_FILES) $(DATA_FILES) \
 	     pycdio_wrap.c pycdio.py pyiso9660.py cdio.py iso9660.py \
-	     include-path.py site-packages-path.py setup.py ChangeLog.1
+	     include-path.py site-packages-path.py setup.py ChangeLog.1 \
+	     get-cygwin-python-libs
 
  dist-hook:
 	-rm $(top_distdir)/cdio.py $(top_distdir)/pycdio.py
@@ -105,10 +106,10 @@ $(ISO_OBJ): $(ISO_C)
 	$(CC) $(CFLAGS) $(libiso9660_CFLAGS) -c $< -I@PYTHON_INC@
 
 _pycdio$(SO): $(top_builddir)/pycdio.py $(CDIO_OBJ)
-	$(LDSHARED) $(CDIO_OBJ) $(libcdio_LIBS) $(PYTHON_LIBS) -o $@
+	$(LDSHARED) $(CDIO_OBJ) $(PYTHON_LIBS) $(libcdio_LIBS) -o $@
 
 _pyiso9660$(SO): $(top_builddir)/pyiso9660.py $(ISO_OBJ)
-	$(LDSHARED) $(ISO_OBJ) $(libiso9660_LIBS) $(PYTHON_LIBS) -o $@
+	$(LDSHARED) $(ISO_OBJ) $(PYTHON_LIBS) $(libiso9660_LIBS) -o $@
 
 $(top_builddir)/pycdio.py: $(CDIO_SRC)
 	$(SWIG) -o $(CDIO_C) -outdir $(top_builddir) -python $(SWIG_FLAGS) $<
@@ -125,7 +126,7 @@ $(ISO_C): $(ISO_SRC)
 check: test
 test: test/cdiotest.py _pycdio$(SO) _pyiso9660$(SO)
 	(cd test && python cdiotest.py --verbose)
-	(cd test && python isoread.py --verbose)
+	(cd test && python isocopy.py --verbose)
 	(cd test && python isotest.py --verbose)
 
 clean-generic: 

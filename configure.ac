@@ -24,7 +24,7 @@ AC_INIT([pycdio],[0.11],[libcdio-pycdio-devel@gnu.org])
 ## Check for Python interpreter and make we have a recent version.
 ##
 AM_PATH_PYTHON(2.3.5,, :)
-AC_REVISION([$Id: configure.ac,v 1.21 2006/03/30 18:56:03 rocky Exp $])dnl
+AC_REVISION([$Id: configure.ac,v 1.22 2006/03/31 04:24:12 rocky Exp $])dnl
 
 ##
 ## In maintainer mode we produce a ChangeLog
@@ -116,14 +116,14 @@ if test -f "$PYTHON_INC/Python.h" ; then
   AC_CANONICAL_HOST
   case $host_os in
     cygwin* | mingw* | pw32*)
-      PYTHON_LIBS=`$PYTHON -c 'import os,sys;print "-L"+os.path.join(sys.prefix,"lib").replace(os.sep,"/"),"-lpython"+sys.version[[:3]].replace(".","")'` 
+      PYTHON_LIBS=`$PYTHON ./get-cygwin-python-libs`
       SO='.dll'
       CFLAGS="$CFLAGS -DUSE_DL_IMPORT"
 
       # Should we check the 32-ness?
       SWIG_FLAGS=-DNEED_LONG
       if test "$GCC" = yes; then
-        LDSHARED="$CC -shared"
+        LDSHARED="$CC -shared -Wl,--enable-auto-image-base"
       else
         if test "cl" = $CC ;  then
 	  # Microsoft Visual C++ (MSVC)
@@ -185,8 +185,8 @@ AC_CONFIG_FILES([example/iso2.py],     [chmod +x example/iso2.py])
 AC_CONFIG_FILES([example/iso3.py],     [chmod +x example/iso3.py])
 AC_CONFIG_FILES([example/tracks.py],   [chmod +x example/tracks.py])
 AC_CONFIG_FILES([test/cdiotest.py],    [chmod +x test/cdiotest.py])
+AC_CONFIG_FILES([test/isocopy.py],     [chmod +x test/isocopy.py])
 AC_CONFIG_FILES([test/isotest.py],     [chmod +x test/isotest.py])
-AC_CONFIG_FILES([test/isoread.py],     [chmod +x test/isoread.py])
 
 AC_OUTPUT
 

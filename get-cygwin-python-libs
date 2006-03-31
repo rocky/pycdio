@@ -1,0 +1,13 @@
+#!/usr/bin/python
+# $Id: get-cygwin-python-libs,v 1.1 2006/03/31 04:24:12 rocky Exp $
+# The incantation of libraries needed for cygwin.
+# distutils seems to do better here, but it has other problems.
+import os,sys
+
+python_version=sys.version[:3]
+sys_lib = os.path.join(sys.prefix,"lib").replace(os.sep,"/")
+
+libs  = " -L%s%spython%s/config" % (sys_lib, os.sep, python_version)
+libs += " -lpython%s" % python_version
+
+print libs

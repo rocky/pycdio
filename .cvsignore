@@ -1,5 +1,6 @@
 *.directive
 *.directive.asc
+*.dll
 *.sig
 *.sig
 *.tar.gz
