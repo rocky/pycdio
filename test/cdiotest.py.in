@@ -1,5 +1,5 @@
 #!@PYTHON@
-# $Id: cdiotest.py.in,v 1.13 2006/03/31 08:20:45 rocky Exp $   -*- Python -*-
+# $Id: cdiotest.py.in,v 1.14 2006/03/31 08:23:19 rocky Exp $   -*- Python -*-
 """Unit test for cdio
 
 Note: for compatibility with old unittest 1.46 we won't use assertTrue
@@ -21,7 +21,7 @@ class CdioTests(unittest.TestCase):
         self.device = cdio.Device()
         if pycdio.VERSION_NUM >= 76:
             # FIXME: Broken on Darwin? 
-	    # self.device.open()
+            # self.device.open()
             self.device.have_ATAPI()
             # FIXME: Broken on Darwin? 
             # self.device.get_media_changed()
@@ -38,37 +38,37 @@ class CdioTests(unittest.TestCase):
         if result1 is not None:
             self.assertEqual(result1[0], result2)
             # Now try getting device using driver that we got back
-	    try: 
+            try: 
               device=cdio.Device(driver_id=result1[1])
               result1 = device.get_device()
               self.assertEqual(result1, result2,
                              "get_default_device using driver name")
-	    except:
-	      pass
+            except:
+              pass
 
     def test_exceptions(self):
         """Test that various routines raise proper exceptions"""
         self.device = cdio.Device()
         # No CD or or CD image has been set yet. So these fail
-	try: 
-	  lsn = self.device.get_disc_last_lsn()
-	except IOError:
-	  self.assertEqual(True, True, "get_last_lsn() IO Error")
-	except cdio.DriverError:
-	  self.assertEqual(True, True, "get_last_lsn() DriverError")
+        try: 
+          lsn = self.device.get_disc_last_lsn()
+        except IOError:
+          self.assertEqual(True, True, "get_last_lsn() IO Error")
+        except cdio.DriverError:
+          self.assertEqual(True, True, "get_last_lsn() DriverError")
         else:
-	   self.assertTrue(False, "get_last_lsn() should raise error")
+           self.assertTrue(False, "get_last_lsn() should raise error")
         self.assertRaises(IOError, self.device.get_disc_mode)
         try:
           track = self.device.get_num_tracks()
-	except IOError:
-	  self.assertEqual(True, True, "get_num_tracks() IO Error")
-	except cdio.DriverError:
-	  self.assertEqual(True, True, "get_num_tracks() DriverError")
-	except cdio.TrackError:
-	  self.assertEqual(True, True, "get_num_tracks() TrackError")
+        except IOError:
+          self.assertEqual(True, True, "get_num_tracks() IO Error")
+        except cdio.DriverError:
+          self.assertEqual(True, True, "get_num_tracks() DriverError")
+        except cdio.TrackError:
+          self.assertEqual(True, True, "get_num_tracks() TrackError")
         else:
-	   self.assertTrue(False, "get_last_lsn() should raise error")
+           self.assertTrue(False, "get_last_lsn() should raise error")
         self.assertRaises(IOError, self.device.get_driver_name)
         self.assertRaises(cdio.DriverUninitError,
                           self.device.get_media_changed)

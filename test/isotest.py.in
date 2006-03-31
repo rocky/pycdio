@@ -1,5 +1,5 @@
 #!@PYTHON@
-# $Id: isotest.py.in,v 1.11 2006/03/31 08:20:45 rocky Exp $ -*- Python -*-
+# $Id: isotest.py.in,v 1.12 2006/03/31 08:23:19 rocky Exp $ -*- Python -*-
 """Unit test for iso9660"""
 
 # Test some low-level ISO9660 routines
@@ -83,7 +83,7 @@ class ISO9660Tests(unittest.TestCase):
                          "dirname_valid_p - /NOGOOD is no good.")
 
         self.assertEqual(False, 
-	                 pyiso9660.dirname_valid_p("LONGDIRECTORY/NOGOOD"),
+                         pyiso9660.dirname_valid_p("LONGDIRECTORY/NOGOOD"),
                          "pyiso9660.dirname_valid_p - too long directory")
 
         self.assertEqual(True, pyiso9660.dirname_valid_p("OKAY/DIR"),
@@ -129,7 +129,7 @@ class ISO9660Tests(unittest.TestCase):
                         'invalid pathname, long basename')
 
         self.assertEqual(False, 
-	                 pyiso9660.pathname_valid_p("OKAY/FILE.LONGEXT"),
+                         pyiso9660.pathname_valid_p("OKAY/FILE.LONGEXT"),
                          "pathname_valid_p - long extension" )
 
         dst = pyiso9660.pathname_isofy("this/file.ext", 1)
