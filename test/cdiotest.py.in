@@ -1,5 +1,5 @@
 #!@PYTHON@
-# $Id: cdiotest.py.in,v 1.12 2006/03/31 04:24:12 rocky Exp $   -*- Python -*-
+# $Id: cdiotest.py.in,v 1.13 2006/03/31 08:20:45 rocky Exp $   -*- Python -*-
 """Unit test for cdio
 
 Note: for compatibility with old unittest 1.46 we won't use assertTrue
@@ -53,20 +53,20 @@ class CdioTests(unittest.TestCase):
 	try: 
 	  lsn = self.device.get_disc_last_lsn()
 	except IOError:
-	  self.assertTrue(True, "get_last_lsn() IO Error")
+	  self.assertEqual(True, True, "get_last_lsn() IO Error")
 	except cdio.DriverError:
-	  self.assertTrue(True, "get_last_lsn() DriverError")
+	  self.assertEqual(True, True, "get_last_lsn() DriverError")
         else:
 	   self.assertTrue(False, "get_last_lsn() should raise error")
         self.assertRaises(IOError, self.device.get_disc_mode)
         try:
           track = self.device.get_num_tracks()
 	except IOError:
-	  self.assertTrue(True, "get_num_tracks() IO Error")
+	  self.assertEqual(True, True, "get_num_tracks() IO Error")
 	except cdio.DriverError:
-	  self.assertTrue(True, "get_num_tracks() DriverError")
+	  self.assertEqual(True, True, "get_num_tracks() DriverError")
 	except cdio.TrackError:
-	  self.assertTrue(True, "get_num_tracks() TrackError")
+	  self.assertEqual(True, True, "get_num_tracks() TrackError")
         else:
 	   self.assertTrue(False, "get_last_lsn() should raise error")
         self.assertRaises(IOError, self.device.get_driver_name)

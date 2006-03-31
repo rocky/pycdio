@@ -1,5 +1,5 @@
 #!@PYTHON@
-# $Id: isocopy.py.in,v 1.2 2006/03/31 04:39:56 rocky Exp $ -*- Python -*-
+# $Id: isocopy.py.in,v 1.3 2006/03/31 08:20:45 rocky Exp $ -*- Python -*-
 """Unit test of iso9660 file extraction."""
 
 import unittest, sys, os
@@ -26,7 +26,8 @@ class ISO9660Tests(unittest.TestCase):
     def test_fs(self):
 
         cd = iso9660.ISO9660.FS(source=cd_image_fname)
-        self.assertTrue(cd is not None, "Open CD image %s" % cd_image_fname)
+        self.assertEqual(True, cd is not None, 
+	                "Open CD image %s" % cd_image_fname)
         statbuf = cd.stat (os.path.join("/", local_filename))
         
         good_stat = { 'LSN': 26, 'filename': 'COPYING', 'is_dir': False, 
@@ -41,7 +42,7 @@ class ISO9660Tests(unittest.TestCase):
             lsn = statbuf['LSN'] + i
             size, buf = cd.read_data_blocks(lsn)
             
-            self.assertTrue( size >= 0,
+            self.assertEqual( True, size >= 0,
                              "Error reading ISO 9660 file %d" % lsn )
             buf_all.append(buf)
 
