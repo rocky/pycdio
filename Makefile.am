@@ -1,4 +1,4 @@
-#   $Id: Makefile.am,v 1.23 2006/03/31 04:24:12 rocky Exp $
+#   $Id: Makefile.am,v 1.24 2006/03/31 06:57:02 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -77,7 +77,8 @@ ISO_OBJ  := $(top_builddir)/pyiso9660_wrap.o
 
 EXTRA_DIST = $(CDIO_SRC) $(ISO_SRC) $(TEST_FILES) \
 	     $(EXAMPLE_FILES) $(DATA_FILES) \
-	     pycdio_wrap.c pycdio.py pyiso9660.py cdio.py iso9660.py \
+	     pycdio_wrap.c pycdio.py pyiso9660.py cdio.py \
+	     iso9660.py pyiso9660_wrap.c pyiso9660.py \
 	     include-path.py site-packages-path.py setup.py ChangeLog.1 \
 	     get-cygwin-python-libs
 
