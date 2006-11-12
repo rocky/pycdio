@@ -1,7 +1,7 @@
 /* -*- c -*-
-    $Id: pyiso9660.swg,v 1.8 2006/03/30 21:55:26 rocky Exp $
+    $Id: pyiso9660.swg,v 1.9 2006/11/12 22:50:04 rocky Exp $
 
-    Copyright (C) 2006 Rocky Bernstein <rocky@cpan.org>
+    Copyright (C) 2006 Rocky Bernstein <rocky@gnu.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

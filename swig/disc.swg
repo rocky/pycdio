@@ -1,7 +1,7 @@
 /* -*- c -*-
-    $Id: disc.swg,v 1.2 2006/02/13 11:10:50 rocky Exp $
+    $Id: disc.swg,v 1.3 2006/11/12 22:50:04 rocky Exp $
 
-    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
+    Copyright (C) 2006 Rocky Bernstein <rocky@gnu.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

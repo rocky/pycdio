@@ -1,7 +1,7 @@
 /* -*- c -*-
-    $Id: pycdio.swg,v 1.4 2006/03/14 11:44:36 rocky Exp $
+    $Id: pycdio.swg,v 1.5 2006/11/12 22:50:04 rocky Exp $
 
-    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
+    Copyright (C) 2006 Rocky Bernstein <rocky@gnu.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

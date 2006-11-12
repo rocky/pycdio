@@ -1,7 +1,7 @@
 /* -*- c -*-
-    $Id: track.swg,v 1.2 2006/11/12 02:44:15 rocky Exp $
+    $Id: track.swg,v 1.3 2006/11/12 22:50:04 rocky Exp $
 
-    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
+    Copyright (C) 2006 Rocky Bernstein <rocky@gnu.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
