@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: track.swg,v 1.1 2006/01/25 04:32:39 rocky Exp $
+    $Id: track.swg,v 1.2 2006/11/12 02:44:15 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 
@@ -150,29 +150,37 @@ using i_track pycdio.CDROM_LEADOUT_TRACK or the total tracks+1.
 pycdio.INVALID_LSN is returned on error.");
 lsn_t cdio_get_track_lsn(const CdIo_t *p_cdio, track_t i_track);
 
-#if FIXED
-%rename cdio_get_track_msf get_track_msf;
 %feature("autodoc",
-"cdio_get_track_msf  
-    Return the starting MSF (minutes/secs/frames) for track number
-    i_track in p_cdio.  Track numbers usually start at something 
-    greater than 0, usually 1.
+"get_track_msf(cdio,track)->string
 
-    The 'leadout' track is specified either by
-    using i_track CDIO_CDROM_LEADOUT_TRACK or the total tracks+1.
+  Return the starting MSF (minutes/secs/frames) for track number
+  track.  Track numbers usually start at something 
+  greater than 0, usually 1.
+
+  The 'leadout' track is specified either by
+  using i_track CDIO_CDROM_LEADOUT_TRACK or the total tracks+1.
     
-    @return true if things worked or false if there is no track entry.");
-bool cdio_get_track_msf(const CdIo_t *p_cdio, track_t i_track, 
-			/*out*/ msf_t *msf);
-#endif
+@return string mm:ss:ff if all good, or string 'error' on error.");
+char *get_track_msf(const CdIo_t *p_cdio, track_t i_track);
+%inline %{
+char *get_track_msf(const CdIo_t *p_cdio, track_t i_track)
+{
+	msf_t msf;
+
+	if (!cdio_get_track_msf( p_cdio, i_track, &msf )) {
+	  return NULL;
+	} else {
+	  return cdio_msf_to_str( &msf );
+	}
+}
+%}
 
 %rename cdio_get_track_preemphasis get_track_preemphasis;
 %feature("autodoc",
 "cdio_get_track_preemphasis(cdio, track)
 
 Get linear preemphasis status on an audio track.
-This is not meaningful if not an audio track?
-");
+This is not meaningful if not an audio track?");
 track_flag_t cdio_get_track_preemphasis(const CdIo_t *p_cdio, track_t i_track);
 
 %rename cdio_get_track_sec_count get_track_sec_count;

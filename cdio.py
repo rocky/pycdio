@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-#    $Id: cdio.py,v 1.2 2006/03/30 21:55:25 rocky Exp $
+#    $Id: cdio.py,v 1.3 2006/11/12 02:44:15 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -807,6 +807,18 @@ class Track:
         if lsn == pycdio.INVALID_LSN:
             raise TrackError('Invalid LSN returned')
         return lsn
+
+    def get_msf(self):
+        """
+        get_msf(self)->str
+
+        Return the starting MSF (minutes/secs/frames) for track number track.
+        Track numbers usually start at something greater than 0, usually 1.
+        
+        Returns string of the form mm:ss:ff if all good, or string None on
+        error.
+        """
+        return pycdio.get_track_msf(self.device, self.track)
 
     def get_preemphasis(self):
         """
