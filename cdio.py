@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-#    $Id: cdio.py,v 1.3 2006/11/12 02:44:15 rocky Exp $
+#    $Id: cdio.py,v 1.4 2006/11/13 20:06:09 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -44,18 +44,24 @@ class TrackError(DeviceException): pass
 # cdio_get_driver_name()
 
 drivers = {
-    'Unknown': pycdio.DRIVER_UNKNOWN,
-    'AIX': pycdio.DRIVER_AIX,
-    'BSDI': pycdio.DRIVER_BSDI,
-    'FreeBSD': pycdio.DRIVER_FREEBSD,
+    'Unknown'  : pycdio.DRIVER_UNKNOWN,
+    'AIX'      : pycdio.DRIVER_AIX,
+    'aix'      : pycdio.DRIVER_AIX,
+    'BSDI'     : pycdio.DRIVER_BSDI,
+    'bsdi'     : pycdio.DRIVER_BSDI,
+    'FreeBSD'  : pycdio.DRIVER_FREEBSD,
+    'freebsd'  : pycdio.DRIVER_FREEBSD,
     'GNU/Linux': pycdio.DRIVER_LINUX,
-    'Solaris': pycdio.DRIVER_SOLARIS,
-    'OS X': pycdio.DRIVER_OSX,
-    'WIN32': pycdio.DRIVER_WIN32,
-    'CDRDAO': pycdio.DRIVER_CDRDAO,
-    'BIN/CUE': pycdio.DRIVER_BINCUE,
-    'NRG': pycdio.DRIVER_NRG,
-    'device': pycdio.DRIVER_DEVICE
+    'Solaris'  : pycdio.DRIVER_SOLARIS,
+    'solaris'  : pycdio.DRIVER_SOLARIS,
+    'OS X'     : pycdio.DRIVER_OSX,
+    'WIN32'    : pycdio.DRIVER_WIN32,
+    'CDRDAO'   : pycdio.DRIVER_CDRDAO,
+    'cdrdao'   : pycdio.DRIVER_CDRDAO,
+    'BIN/CUE'  : pycdio.DRIVER_BINCUE,
+    'NRG'      : pycdio.DRIVER_NRG,
+    'Nero'     : pycdio.DRIVER_NRG,
+    'device'   : pycdio.DRIVER_DEVICE
     }
 
 read_mode2blocksize = {
@@ -183,7 +189,7 @@ def have_driver(driver_id):
         if ret == 1: return True
         raise ValueError('internal error: driver id came back %d' % ret)
     else:
-        raise ValueError('need either a number or string driver id');
+        raise ValueError('need either a number or string driver id')
     
 def is_binfile(binfile_name):
     """
@@ -238,27 +244,27 @@ def convert_drive_cap_misc(bitmask):
     into a dictionary of drive capabilities"""
     result={}
     if bitmask & pycdio.DRIVE_CAP_ERROR:
-        result['DRIVE_CAP_ERROR'] = True;
+        result['DRIVE_CAP_ERROR'] = True
     if bitmask & pycdio.DRIVE_CAP_UNKNOWN:
-        result['DRIVE_CAP_UNKNOWN'] = True;
+        result['DRIVE_CAP_UNKNOWN'] = True
     if bitmask & pycdio.DRIVE_CAP_MISC_CLOSE_TRAY:
-        result['DRIVE_CAP_MISC_CLOSE_TRAY'] = True;
+        result['DRIVE_CAP_MISC_CLOSE_TRAY'] = True
     if bitmask & pycdio.DRIVE_CAP_MISC_EJECT:
-        result['DRIVE_CAP_MISC_EJECT'] = True;
+        result['DRIVE_CAP_MISC_EJECT'] = True
     if bitmask & pycdio.DRIVE_CAP_MISC_LOCK:
-        result['DRIVE_CAP_MISC_LOCK'] = True;
+        result['DRIVE_CAP_MISC_LOCK'] = True
     if bitmask & pycdio.DRIVE_CAP_MISC_SELECT_SPEED:
-        result['DRIVE_CAP_MISC_SELECT_SPEED'] = True;
+        result['DRIVE_CAP_MISC_SELECT_SPEED'] = True
     if bitmask & pycdio.DRIVE_CAP_MISC_SELECT_DISC:
-        result['DRIVE_CAP_MISC_SELECT_DISC'] = True;
+        result['DRIVE_CAP_MISC_SELECT_DISC'] = True
     if bitmask & pycdio.DRIVE_CAP_MISC_MULTI_SESSION:
-        result['DRIVE_CAP_MISC_MULTI_SESSION'] = True;
+        result['DRIVE_CAP_MISC_MULTI_SESSION'] = True
     if bitmask & pycdio.DRIVE_CAP_MISC_MEDIA_CHANGED:
-        result['DRIVE_CAP_MISC_MEDIA_CHANGED'] = True;
+        result['DRIVE_CAP_MISC_MEDIA_CHANGED'] = True
     if bitmask & pycdio.DRIVE_CAP_MISC_RESET:
-        result['DRIVE_CAP_MISC_RESET'] = True;
+        result['DRIVE_CAP_MISC_RESET'] = True
     if bitmask & pycdio.DRIVE_CAP_MISC_FILE:
-        result['DRIVE_CAP_MISC_FILE'] = True;
+        result['DRIVE_CAP_MISC_FILE'] = True
     return result
 
 def convert_drive_cap_read(bitmask):
@@ -266,37 +272,37 @@ def convert_drive_cap_read(bitmask):
     into a dictionary of drive capabilities"""
     result={}
     if bitmask & pycdio.DRIVE_CAP_READ_AUDIO:
-        result['DRIVE_CAP_READ_AUDIO'] = True;
+        result['DRIVE_CAP_READ_AUDIO'] = True
     if bitmask & pycdio.DRIVE_CAP_READ_CD_DA:
-        result['DRIVE_CAP_READ_CD_DA'] = True;
+        result['DRIVE_CAP_READ_CD_DA'] = True
     if bitmask & pycdio.DRIVE_CAP_READ_CD_G:
-        result['DRIVE_CAP_READ_CD_G'] = True;
+        result['DRIVE_CAP_READ_CD_G'] = True
     if bitmask & pycdio.DRIVE_CAP_READ_CD_R:
-        result['DRIVE_CAP_READ_CD_R'] = True;
+        result['DRIVE_CAP_READ_CD_R'] = True
     if bitmask & pycdio.DRIVE_CAP_READ_CD_RW:
-        result['DRIVE_CAP_READ_CD_RW'] = True;
+        result['DRIVE_CAP_READ_CD_RW'] = True
     if bitmask & pycdio.DRIVE_CAP_READ_DVD_R:
-        result['DRIVE_CAP_READ_DVD_R'] = True;
+        result['DRIVE_CAP_READ_DVD_R'] = True
     if bitmask & pycdio.DRIVE_CAP_READ_DVD_PR:
-        result['DRIVE_CAP_READ_DVD_PR'] = True;
+        result['DRIVE_CAP_READ_DVD_PR'] = True
     if bitmask & pycdio.DRIVE_CAP_READ_DVD_RAM:
-        result['DRIVE_CAP_READ_DVD_RAM'] = True;
+        result['DRIVE_CAP_READ_DVD_RAM'] = True
     if bitmask & pycdio.DRIVE_CAP_READ_DVD_ROM:
-        result['DRIVE_CAP_READ_DVD_ROM'] = True;
+        result['DRIVE_CAP_READ_DVD_ROM'] = True
     if bitmask & pycdio.DRIVE_CAP_READ_DVD_RW:
-        result['DRIVE_CAP_READ_DVD_RW'] = True;
+        result['DRIVE_CAP_READ_DVD_RW'] = True
     if bitmask & pycdio.DRIVE_CAP_READ_DVD_RPW:
-        result['DRIVE_CAP_READ_DVD_RPW'] = True;
+        result['DRIVE_CAP_READ_DVD_RPW'] = True
     if bitmask & pycdio.DRIVE_CAP_READ_C2_ERRS:
-        result['DRIVE_CAP_READ_C2_ERRS'] = True;
+        result['DRIVE_CAP_READ_C2_ERRS'] = True
     if bitmask & pycdio.DRIVE_CAP_READ_MODE2_FORM1:
-        result['DRIVE_CAP_READ_MODE2_FORM1'] = True;
+        result['DRIVE_CAP_READ_MODE2_FORM1'] = True
     if bitmask & pycdio.DRIVE_CAP_READ_MODE2_FORM2:
-        result['DRIVE_CAP_READ_MODE2_FORM2'] = True;
+        result['DRIVE_CAP_READ_MODE2_FORM2'] = True
     if bitmask & pycdio.DRIVE_CAP_READ_MCN:
-        result['DRIVE_CAP_READ_MCN'] = True;
+        result['DRIVE_CAP_READ_MCN'] = True
     if bitmask & pycdio.DRIVE_CAP_READ_ISRC:
-        result['DRIVE_CAP_READ_ISRC'] = True;
+        result['DRIVE_CAP_READ_ISRC'] = True
     return result
 
 def convert_drive_cap_write(bitmask):
@@ -304,23 +310,23 @@ def convert_drive_cap_write(bitmask):
     into a dictionary of drive capabilities"""
     result={}
     if bitmask & pycdio.DRIVE_CAP_WRITE_CD_R:
-        result['DRIVE_CAP_WRITE_CD_R'] = True;
+        result['DRIVE_CAP_WRITE_CD_R'] = True
     if bitmask & pycdio.DRIVE_CAP_WRITE_CD_RW:
-        result['DRIVE_CAP_WRITE_CD_RW'] = True;
+        result['DRIVE_CAP_WRITE_CD_RW'] = True
     if bitmask & pycdio.DRIVE_CAP_WRITE_DVD_R:
-        result['DRIVE_CAP_WRITE_DVD_R'] = True;
+        result['DRIVE_CAP_WRITE_DVD_R'] = True
     if bitmask & pycdio.DRIVE_CAP_WRITE_DVD_PR:
-        result['DRIVE_CAP_WRITE_DVD_PR'] = True;
+        result['DRIVE_CAP_WRITE_DVD_PR'] = True
     if bitmask & pycdio.DRIVE_CAP_WRITE_DVD_RAM:
-        result['DRIVE_CAP_WRITE_DVD_RAM'] = True;
+        result['DRIVE_CAP_WRITE_DVD_RAM'] = True
     if bitmask & pycdio.DRIVE_CAP_WRITE_DVD_RW:
-        result['DRIVE_CAP_WRITE_DVD_RW'] = True;
+        result['DRIVE_CAP_WRITE_DVD_RW'] = True
     if bitmask & pycdio.DRIVE_CAP_WRITE_DVD_RPW:
-        result['DRIVE_CAP_WRITE_DVD_RPW'] = True;
+        result['DRIVE_CAP_WRITE_DVD_RPW'] = True
     if bitmask & pycdio.DRIVE_CAP_WRITE_MT_RAINIER:
-        result['DRIVE_CAP_WRITE_MT_RAINIER'] = True;
+        result['DRIVE_CAP_WRITE_MT_RAINIER'] = True
     if bitmask & pycdio.DRIVE_CAP_WRITE_BURN_PROOF:
-        result['DRIVE_CAP_WRITE_BURN_PROOF'] = True;
+        result['DRIVE_CAP_WRITE_BURN_PROOF'] = True
     return result
 
 class Device:
@@ -871,7 +877,7 @@ class Track:
         
         Set a new track number.
         """
-        self.track = track_num;
+        self.track = track_num
 
 
 #

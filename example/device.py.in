@@ -1,8 +1,8 @@
 #!@PYTHON@
-#$Id: device.py.in,v 1.3 2006/02/13 16:29:21 rocky Exp $ -*- Python -*-
+#$Id: device.py.in,v 1.4 2006/11/13 20:06:09 rocky Exp $ -*- Python -*-
 """Program to show CD-ROM device information"""
 #
-#    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
+#    Copyright (C) 2006 Rocky Bernstein <rocky@gnu.org>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
