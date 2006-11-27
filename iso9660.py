@@ -1,8 +1,8 @@
 #!/usr/bin/python
 #
-#    $Id: iso9660.py,v 1.8 2006/03/24 18:07:22 rocky Exp $
+#    $Id: iso9660.py,v 1.9 2006/11/27 22:19:56 rocky Exp $
 #
-#    Copyright (C) 2006 Rocky Bernstein <rocky@cpan.org>
+#    Copyright (C) 2006 Rocky Bernstein <rocky@gnu.org>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ True is returned if path is valid."""
 
 
 def is_achar(achar):
-    """is_dchar(achar)->bool
+    """is_achar(achar)->bool
 
 Return 1 if achar is an ACHAR. achar should either be a string of 
 length one or the ord() of a string of length 1.

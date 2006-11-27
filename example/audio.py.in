@@ -1,7 +1,7 @@
 #!@PYTHON@
-#$Id: audio.py.in,v 1.3 2006/11/13 20:06:09 rocky Exp $ -*- Python -*-
-"""Program to read CD blocks. See cdda-player from the libcdio distribution
-for a more complete program.
+#$Id: audio.py.in,v 1.4 2006/11/27 22:19:57 rocky Exp $ -*- Python -*-
+"""A program to show use of audio controls. See cdda-player from the
+libcdio distribution for a more complete program.
 """
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@gnu.org>
@@ -65,7 +65,7 @@ argv = process_options()
 if opts.close:
     try:
         device_name = opts.close
-        cdio.close_tray(opts.close)
+        cdio.close_tray(device_name)
     except cdio.DeviceException:
         print "Closing tray of CD-ROM drive %s failed" % drive_name
         

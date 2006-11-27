@@ -1,5 +1,5 @@
 #!@PYTHON@
-# $Id: cdiotest.py.in,v 1.14 2006/03/31 08:23:19 rocky Exp $   -*- Python -*-
+# $Id: cdiotest.py.in,v 1.15 2006/11/27 22:19:57 rocky Exp $   -*- Python -*-
 """Unit test for cdio
 
 Note: for compatibility with old unittest 1.46 we won't use assertTrue
@@ -130,7 +130,7 @@ class CdioTests(unittest.TestCase):
 
     def test_read(self):
         """Test functioning of read routines"""
-        cuefile="@srcdir@/isofs-m1.cue"
+        cuefile="@srcdir@/../data/isofs-m1.cue"
         device = cdio.Device(source=cuefile)
         # Read the ISO Primary Volume descriptor
         blocks, data=device.read_sectors(16, pycdio.READ_MODE_M1F1)

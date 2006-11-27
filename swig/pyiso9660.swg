@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: pyiso9660.swg,v 1.9 2006/11/12 22:50:04 rocky Exp $
+    $Id: pyiso9660.swg,v 1.10 2006/11/27 22:19:57 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@gnu.org>
 
@@ -64,8 +64,8 @@ typedef unsigned int uint16_t;
 %constant long int ASSOCIATED           = ISO_ASSOCIATED;
 %constant long int RECORD               = ISO_RECORD;
 
-/* When version 0.77 comes out, require it and fix this fix this. */
-#if 0
+#include <cdio/version.h>
+#if LIBCDIO_VERSION_NUM <= 76
 %constant long int PROTECTION           = ISO_PROTECTION;
 #else 
 %constant long int PROTECTION           = 16;

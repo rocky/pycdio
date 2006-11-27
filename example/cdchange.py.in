@@ -1,8 +1,8 @@
 #!@PYTHON@
-#$Id: cdchange.py.in,v 1.1 2006/01/25 04:32:39 rocky Exp $ -*- Python -*-
+#$Id: cdchange.py.in,v 1.2 2006/11/27 22:19:57 rocky Exp $ -*- Python -*-
 """Program to show CD media changing"""
 #
-#    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
+#    Copyright (C) 2006 Rocky Bernstein <rocky@gnu.org>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
