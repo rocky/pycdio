@@ -22,13 +22,13 @@ drives.py:    A program list CD-ROMs and CD properties in the drives.
 eject.py      A program to eject a CD from a CD-ROM drive and then close the 
 	      door again.
 
-iso1.py:      A program to show using Device::Cdio::ISO9660 to list files in a
+iso1.py:      A program to show using iso9660.ISO9660.IFS to list files in a
 	      directory of an ISO-9660 image.
 
-iso2.py:      A program to show using Device::Cdio::ISO9660 to extract a file
+iso2.py:      A program to show using iso9660.ISO9660.FS to extract a file
 	      from a CDRWIN cue/bin CD image.
 
-iso3.py:      A program to show using Device::Cdio::ISO9660 to extract a file 
+iso3.py:      A program to show using iso9660.ISO9660.IFS to extract a file 
 	      from an ISO-9660 image.
 
 tracks.py     A program to list track numbers and logical sector
