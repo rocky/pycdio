@@ -1,7 +1,7 @@
 #!@PYTHON@
-#$Id: iso2.py.in,v 1.1 2006/03/24 18:07:22 rocky Exp $ -*- Python -*-
+#$Id: iso2.py.in,v 1.2 2006/11/28 14:43:46 rocky Exp $ -*- Python -*-
 #
-#  Copyright (C) 2006 Rocky Bernstein <rocky@cpan.org>
+#  Copyright (C) 2006 Rocky Bernstein <rocky@gnu.org>
 #  
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
