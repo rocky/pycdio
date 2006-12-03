@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: disc.swg,v 1.3 2006/11/12 22:50:04 rocky Exp $
+    $Id: disc.swg,v 1.4 2006/12/03 03:28:00 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@gnu.org>
 
@@ -46,7 +46,7 @@ lsn_t cdio_get_disc_last_lsn(const CdIo_t *p_cdio);
 %feature("autodoc",
 "get_disc_mode(p_cdio) -> str
 
-Get disc mode - the kind of CD (CD-DA, CD-ROM mode 1, CD-MIXED, etc.
+Get disc mode - the kind of CD (CD-DA, CD-ROM mode 1, CD-MIXED, ...)
 that we've got. The notion of 'CD' is extended a little to include
 DVD's.");
 %exception get_disc_mode {

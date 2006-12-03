@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: pyiso9660.swg,v 1.10 2006/11/27 22:19:57 rocky Exp $
+    $Id: pyiso9660.swg,v 1.11 2006/12/03 03:28:00 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@gnu.org>
 
@@ -514,7 +514,7 @@ number. For example, mydir/file.ext -> MYDIR/FILE.EXT;1 for version
 1. The resulting ISO-9660 pathname is returned.");
 %rename iso9660_pathname_isofy pathname_isofy;
 %newobject iso9660_pathname_isofy; // free malloc'd return value
-char *iso9660_pathname_isofy (const char psz_path[], uint16_t i_version);
+char *iso9660_pathname_isofy (const char psz_path[], uint16_t i_version=1);
 
 %feature("autodoc",
 "Check that psz_path is a valid ISO-9660 pathname.  

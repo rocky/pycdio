@@ -1,4 +1,4 @@
-#   $Id: Makefile.am,v 1.24 2006/03/31 06:57:02 rocky Exp $
+#   $Id: Makefile.am,v 1.25 2006/12/03 03:28:00 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -49,8 +49,6 @@ TEST_FILES = \
 	test/cdda.cue \
 	test/cdda.toc \
 	test/cdiotest.py.in \
-	test/isofs-m1.bin \
-	test/isofs-m1.cue \
 	test/isocopy.py.in \
 	test/isotest.py.in
 
