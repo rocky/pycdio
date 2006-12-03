@@ -6,6 +6,7 @@
 *.tar.gz
 Makefile
 Makefile.in
+PKG-INFO
 aclocal.m4
 autom4te.cache
 cdio.py
