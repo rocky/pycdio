@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: read.swg,v 1.5 2006/11/12 22:50:04 rocky Exp $
+    $Id: read.swg,v 1.6 2006/12/04 02:56:11 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@gnu.org>
 
@@ -39,7 +39,7 @@ whence is like corresponding parameter in libc's lseek, e.g.
 it should be SEEK_SET or SEEK_END.
 
 the offset is returned or -1 on error.");
-off_t cdio_lseek(const CdIo_t *p_cdio, off_t offset, int whence=SEEK_SET);
+off_t cdio_lseek(const CdIo_t *p_cdio, int offset, int whence=SEEK_SET);
     
 %feature("autodoc",
 "read_cd(cdio, size)->[size, data]

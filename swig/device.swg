@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: device.swg,v 1.12 2006/11/12 22:50:04 rocky Exp $
+    $Id: device.swg,v 1.13 2006/12/04 02:56:11 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@gnu.org>
 
@@ -51,9 +51,19 @@ typedef char ** DeviceList_t;
 
 close media tray in CD drive if there is a routine to do so. 
 The driver id is returned. An exception is thrown on error.");
-%apply int *INOUT { driver_id_t *p_driver_id };
-driver_return_code_t cdio_close_tray(const char *psz_drive=NULL, 
-				     driver_id_t *p_driver_id=NULL);
+%apply driver_id_t *OUTPUT { driver_id_t *p_out_driver_id };
+driver_return_code_t close_tray(const char *psz_drive,
+				driver_id_t p_driver_id=DRIVER_UNKNOWN, 
+				driver_id_t *p_out_driver_id);
+%inline %{
+driver_return_code_t 
+close_tray(const char *psz_drive, driver_id_t p_driver_id,
+	     driver_id_t *p_out_driver_id)  
+{
+  *p_out_driver_id = p_driver_id;
+  return cdio_close_tray(psz_drive, p_out_driver_id);
+}
+%}
 
 %rename cdio_destroy close;
 %feature("autodoc",

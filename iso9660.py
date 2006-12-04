@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-#    $Id: iso9660.py,v 1.10 2006/12/03 03:14:54 rocky Exp $
+#    $Id: iso9660.py,v 1.11 2006/12/04 02:56:11 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@gnu.org>
 #
@@ -104,8 +104,8 @@ True is returned if path is valid."""
     return pyiso9660.pathame_valid(path)
 
 
-def pathname_isofy(path, version=1)
-"""pathname_valid_p(path, version=1)->string
+def pathname_isofy(path, version=1):
+    """pathname_valid_p(path, version=1)->string
 
 Take path and a version number and turn that into a ISO-9660 pathname.
 (That's just the pathname followed by ';' and the version number. For
