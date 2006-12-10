@@ -1,8 +1,8 @@
 #!/usr/bin/python
 #
-#    $Id: cdio.py,v 1.4 2006/11/13 20:06:09 rocky Exp $
+#    $Id: cdio.py,v 1.5 2006/12/10 21:50:00 rocky Exp $
 #
-#    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
+#    Copyright (C) 2006 Rocky Bernstein <rocky@gnu.org>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -116,15 +116,19 @@ def get_default_device_driver(driver_id=pycdio.DRIVER_DEVICE):
 	return result
     return None
 
-def get_devices(driver_id=None):
+def get_devices(driver_id=pycdio.DRIVER_UNKNOWN):
     """
     get_devices(driver_id)->[device1, device2, ...]
 
     Get an list of device names.
     """
-    return pycdio.get_devices(driver_id)
+    result = pycdio.get_devices(driver_id)
+    if type(result) == types.StringType:
+        return [result]
+    else:
+        return result
 
-def get_devices_ret(driver_id=None):
+def get_devices_ret(driver_id=pycdio.DRIVER_UNKNOWN):
     """
     get_devices_ret(driver_id)->[device1, device2, ... driver_id]
 
