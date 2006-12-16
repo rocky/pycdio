@@ -1,5 +1,6 @@
 #!@PYTHON@
-#$Id: cd-read.py.in,v 1.1 2006/01/25 04:32:39 rocky Exp $
+# -*- Python -*-
+#$Id: cd-read.py.in,v 1.2 2006/12/16 03:30:09 rocky Exp $
 """Program to read CD blocks. See read-cd from the libcdio distribution
 for a more complete program.
 """
@@ -68,6 +69,33 @@ def process_options():
         
     return argv
 
+import re
+PRINTABLE = r'[ -~]'
+pat = re.compile(PRINTABLE)
+def isprint(c):
+    global pat
+    return pat.match(c)
+
+def hexdump (buffer, just_hex=False):
+    i = 0
+    while i < len(buffer):
+        if (i % 16) == 0:
+            print ("0x%04x: " % i),
+        print "%02x%02x" % (ord(buffer[i]), ord(buffer[i+1])),
+        if (i % 16) == 14:
+            if not just_hex:
+                s = "  "
+                for j in range(i-14, i+2):
+                    if isprint(buffer[j]):
+                        s += buffer[j]
+                    else:
+                        s += '.'
+                print s,
+            print
+        i += 2
+    print
+    return
+
 argv = process_options()
 # While sys.argv[0] is a program name and sys.argv[1] the first
 # option, argv[0] is the first unprocessed option -- roughly
@@ -90,5 +118,5 @@ if read_mode == None:
     blocks, data=d.read_data_blocks(opts.start, opts.number)
 else:
     blocks, data=d.read_sectors(opts.start, read_mode, opts.number)
-print data
+hexdump(data)
 
