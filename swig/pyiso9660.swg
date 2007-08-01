@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: pyiso9660.swg,v 1.11 2006/12/03 03:28:00 rocky Exp $
+    $Id: pyiso9660.swg,v 1.12 2007/08/01 04:18:00 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@gnu.org>
 
@@ -441,7 +441,7 @@ char * name_translate(const char *psz_oldname);
 %inline %{
 char *
 name_translate(const char *psz_oldname) {
-  char *psz_newname=calloc(sizeof(char), strlen(psz_oldname));
+  char *psz_newname=calloc(sizeof(char), strlen(psz_oldname)+1);
   iso9660_name_translate(psz_oldname, psz_newname);
   return psz_newname;
 }
@@ -465,7 +465,7 @@ char * name_translate_ext(const char *psz_oldname, uint8_t i_joliet_level);
 %inline %{
 char * 
 name_translate_ext(const char *psz_oldname, uint8_t i_joliet_level) {
-  char *psz_newname=calloc(sizeof(char), strlen(psz_oldname));
+  char *psz_newname=calloc(sizeof(char), strlen(psz_oldname)+1);
   iso9660_name_translate_ext(psz_oldname, psz_newname, i_joliet_level);
   return psz_newname;
 }
