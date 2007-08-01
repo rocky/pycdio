@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: pyiso9660.swg,v 1.12 2007/08/01 04:18:00 rocky Exp $
+    $Id: pyiso9660.swg,v 1.13 2007/08/01 04:20:44 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@gnu.org>
 
@@ -114,7 +114,7 @@ typedef iso9660_stat_t IsoStat_t;
 
 %typemap(newfree) IsoStatList_t "_cdio_list_free($1, 1);";
 
-%typemap(python,out) IsoStatList_t *{   
+%typemap(out) IsoStatList_t *{   
     CdioList_t *p_entlist   = result;
     CdioListNode_t *p_entnode;
 
@@ -139,7 +139,7 @@ typedef iso9660_stat_t IsoStat_t;
       }
     }
 }
-%typemap(python,out) IsoStat_t *{   
+%typemap(out) IsoStat_t *{   
     iso9660_stat_t *p_statbuf = result;
 
     if (result) {
@@ -159,7 +159,7 @@ typedef iso9660_stat_t IsoStat_t;
     }
 }
 
-%typemap(python,out) struct tm *{   
+%typemap(out) struct tm *{   
     struct tm *p_tm = result;
 
     if (result) {
@@ -188,7 +188,7 @@ typedef iso9660_stat_t IsoStat_t;
 }
 
 #ifdef FINISHED
-%typemap(python,out) IsoStatList_t *{   
+%typemap(out) IsoStatList_t *{   
     // $1 is of type IsoStatList_t
     CdioList_t *p_entlist   = result;
     CdioListNode_t *p_entnode;
