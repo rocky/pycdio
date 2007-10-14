@@ -1,5 +1,5 @@
 /* -*- c -*-
-    $Id: device.swg,v 1.14 2007/10/14 02:07:15 rocky Exp $
+    $Id: device.swg,v 1.15 2007/10/14 10:23:29 rocky Exp $
 
     Copyright (C) 2006 Rocky Bernstein <rocky@gnu.org>
 
@@ -32,7 +32,7 @@ typedef char ** DeviceList_t;
 %}
 
 %typemap(newfree) DeviceList_t "cdio_free_device_list($1);";
-%typemap(python,out,fragment="t_output_helper") DeviceList_t {   
+%typemap(out,fragment="t_output_helper") DeviceList_t {   
     // result is of type DeviceList_t
     char **p   = result;
     if (!result) goto fail;
