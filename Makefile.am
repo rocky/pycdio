@@ -1,4 +1,4 @@
-#   $Id: Makefile.am,v 1.25 2006/12/03 03:28:00 rocky Exp $
+#   $Id: Makefile.am,v 1.26 2007/10/14 02:07:15 rocky Exp $
 #
 #    Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
 #
@@ -21,10 +21,10 @@
 ##   which configure then turns into a Makefile  ...
 ##     which make can then use to produce stuff. Isn't configuration simple? 
 
-SWIG := @SWIG@
-SWIG_FLAGS := @SWIG_FLAGS@
-PYTHON_LIBS := @PYTHON_LIBS@
-SO   := @SO@
+SWIG = @SWIG@
+SWIG_FLAGS = @SWIG_FLAGS@
+PYTHON_LIBS = @PYTHON_LIBS@
+SO   = @SO@
 
 # Note pycdio.swg has to come first.
 CDIO_SRC = $(top_srcdir)/swig/pycdio.swg     \
@@ -67,11 +67,11 @@ EXAMPLE_FILES = \
 	example/iso3.py.in \
 	example/tracks.py.in
 
-CDIO_C   := $(top_builddir)/pycdio_wrap.c
-CDIO_OBJ := $(top_builddir)/pycdio_wrap.o
+CDIO_C   = $(top_builddir)/pycdio_wrap.c
+CDIO_OBJ = $(top_builddir)/pycdio_wrap.o
 
-ISO_C    := $(top_builddir)/pyiso9660_wrap.c
-ISO_OBJ  := $(top_builddir)/pyiso9660_wrap.o
+ISO_C    = $(top_builddir)/pyiso9660_wrap.c
+ISO_OBJ  = $(top_builddir)/pyiso9660_wrap.o
 
 EXTRA_DIST = $(CDIO_SRC) $(ISO_SRC) $(TEST_FILES) \
 	     $(EXAMPLE_FILES) $(DATA_FILES) \
@@ -83,11 +83,11 @@ EXTRA_DIST = $(CDIO_SRC) $(ISO_SRC) $(TEST_FILES) \
  dist-hook:
 	-rm $(top_distdir)/cdio.py $(top_distdir)/pycdio.py
 
-pkgdata_DATA := _pycdio$(SO) _pyiso9660$(SO)
+pkgdata_DATA = _pycdio$(SO) _pyiso9660$(SO)
 pkgdatadir = $(pythondir)
 
 noinst_PYTHON = 
-python_PYTHON := $(top_builddir)/pycdio.py $(top_srcdir)/cdio.py \
+python_PYTHON = $(top_builddir)/pycdio.py $(top_srcdir)/cdio.py \
 	         $(top_builddir)/pyiso9660.py $(top_srcdir)/iso9660.py
 
 .PHONY: test check ChangeLog
@@ -156,11 +156,11 @@ clean-generic:
 #     public release, then set AGE to 0. A changed interface means an
 #     incompatibility with previous versions.
 
-## pycdio_la_CURRENT := 0
-## pybcdio_la_REVISION := 0
-## pybcdio_la_AGE := 0
+## pycdio_la_CURRENT = 0
+## pybcdio_la_REVISION = 0
+## pybcdio_la_AGE = 0
 
-## pycdio_libnum := $(pycdio_la_CURRENT):$(pycdio_la_REVISION):$(pycdio_la_AGE)
+## pycdio_libnum = $(pycdio_la_CURRENT):$(pycdio_la_REVISION):$(pycdio_la_AGE)
 
 ##install-exec-hook:
 ##	$(LN_S) ${prefix}/lib/libpycdio$(SO).$(pycdio_libnum) ${prefix}/lib/pycdio$(SO)
