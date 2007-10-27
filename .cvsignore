@@ -26,3 +26,16 @@ pyiso9660.py
 pyiso9660.py?
 pyiso9660_wrap.c
 pyiso9660_wrap.o
+example/audio.py
+example/cd-read.py
+example/cdchange.py
+example/copying
+example/device.py
+example/drives.py
+example/drives.pyc
+example/eject.py
+example/iso1.py
+example/iso2.py
+example/iso3.py
+example/tracks.py
+example/tracks.pyc
