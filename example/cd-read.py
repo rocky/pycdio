@@ -54,20 +54,19 @@ def process_options():
     optparser.add_option("-n", "--number", dest="number",
                          action="store", type='int', default=1,
                          help="Number of blocks")
-    global opts
     (opts, argv) = optparser.parse_args()
     if opts.mode is None:
         print "Mode option must given " + \
               "(and one of audio, m1f1, m1f2, m1f2 or m1f2)."
         sys.exit(1)
     try:
-        global read_mode
         read_mode = read_modes[opts.mode]
     except KeyError:
         print "Need to use the --mode option with one of" + \
               "audio, m1f1, m1f2, m1f2 or m1f2"
+        sys.exit(2)
         
-    return argv
+    return opts, argv, read_mode
 
 import re
 PRINTABLE = r'[ -~]'
@@ -96,7 +95,7 @@ def hexdump (buffer, just_hex=False):
     print
     return
 
-argv = process_options()
+opts, argv, read_mode = process_options()
 # While sys.argv[0] is a program name and sys.argv[1] the first
 # option, argv[0] is the first unprocessed option -- roughly
 # the equivalent of sys.argv[1].

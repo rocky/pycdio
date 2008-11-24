@@ -64,7 +64,7 @@ statbuf = cd.stat (local_filename, False)
 
 if statbuf is None:
     print "Could not get ISO-9660 file information for file %s in %s" \
-          % (local_filename, cd_image_name)
+          % (local_filename, cd_image_fname)
     cd.close()
     sys.exit(2)
 

@@ -27,9 +27,6 @@ libdir = os.path.join(os.path.dirname(__file__), '..')
 if libdir[-1] != os.path.sep:
     libdir += os.path.sep
 sys.path.insert(0, libdir)
-import pycdio
-import cdio
-import pyiso9660
 import iso9660
 
 # The default ISO 9660 image if none given

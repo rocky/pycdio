@@ -7,12 +7,11 @@ libdir = os.path.join(os.path.dirname(__file__), '..')
 if libdir[-1] != os.path.sep:
     libdir += os.path.sep
 sys.path.insert(0, libdir)
-import pyiso9660
 import pycdio
 import iso9660
 
-# Python has rounding (round) and trucation (int), but what about an integer
-# ceiling function? Until I learn what it is...
+# Python has rounding (round) and truncation (int), but what about an
+# integer ceiling function? Until I learn what it is...
 def ceil(x):
     return int(round(x+0.5))
 
