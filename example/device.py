@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import sys
+import os, sys
 libdir = os.path.join(os.path.dirname(__file__), '..')
 if libdir[-1] != os.path.sep:
     libdir += os.path.sep

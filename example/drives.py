@@ -1,5 +1,5 @@
 #!/usr/bin/python
-#  $Id: drives.py,v 1.1 2008/11/24 00:10:38 rocky Exp $
+#  $Id: drives.py,v 1.2 2008/11/24 00:53:59 rocky Exp $
 """Program to read CD blocks. See read-cd from the libcdio distribution
 for a more complete program."""
 
@@ -22,7 +22,7 @@ for a more complete program."""
 #    02110-1301 USA.
 #
 
-import sys
+import os, sys
 libdir = os.path.join(os.path.dirname(__file__), '..')
 if libdir[-1] != os.path.sep:
     libdir += os.path.sep
