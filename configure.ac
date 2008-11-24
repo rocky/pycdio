@@ -16,13 +16,13 @@
 ## Note: the version number (the 2nd parameter in AC_INIT) 
 ## is picked up inside the Python debugger script.
 
-AC_INIT([pycdio],[0.13],[libcdio-pycdio-devel@gnu.org])
+AC_INIT([pycdio],[0.14cvs],[libcdio-pycdio-devel@gnu.org])
 
 ##
 ## Check for Python interpreter and make we have a recent version.
 ##
 AM_PATH_PYTHON(2.3.5,, :)
-AC_REVISION([$Id: configure.ac,v 1.26 2008/05/01 16:55:03 karl Exp $])dnl
+AC_REVISION([$Id: configure.ac,v 1.27 2008/11/24 00:10:21 rocky Exp $])dnl
 
 ##
 ## In maintainer mode we produce a ChangeLog
@@ -174,19 +174,6 @@ AC_SUBST(PYCDIO_LIBDIR)dnl
 ## Produced derived files.
 ##
 AC_CONFIG_FILES([Makefile])
-AC_CONFIG_FILES([example/audio.py],    [chmod +x example/audio.py])
-AC_CONFIG_FILES([example/cd-read.py],  [chmod +x example/cd-read.py])
-AC_CONFIG_FILES([example/cdchange.py], [chmod +x example/cdchange.py])
-AC_CONFIG_FILES([example/device.py],   [chmod +x example/device.py])
-AC_CONFIG_FILES([example/drives.py],   [chmod +x example/drives.py])
-AC_CONFIG_FILES([example/eject.py],    [chmod +x example/eject.py])
-AC_CONFIG_FILES([example/iso1.py],     [chmod +x example/iso1.py])
-AC_CONFIG_FILES([example/iso2.py],     [chmod +x example/iso2.py])
-AC_CONFIG_FILES([example/iso3.py],     [chmod +x example/iso3.py])
-AC_CONFIG_FILES([example/tracks.py],   [chmod +x example/tracks.py])
-AC_CONFIG_FILES([test/cdiotest.py],    [chmod +x test/cdiotest.py])
-AC_CONFIG_FILES([test/isocopy.py],     [chmod +x test/isocopy.py])
-AC_CONFIG_FILES([test/isotest.py],     [chmod +x test/isotest.py])
 
 AC_OUTPUT
 

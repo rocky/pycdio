@@ -1,6 +1,4 @@
-#!@PYTHON@
-# -*- Python -*-
-#  $Id: cd-read.py.in,v 1.3 2008/05/01 16:55:04 karl Exp $
+#!/usr/bin/env python
 """Program to read CD blocks. See read-cd from the libcdio distribution
 for a more complete program.
 """
@@ -23,7 +21,10 @@ for a more complete program.
 import sys, os
 from optparse import OptionParser
 
-sys.path.insert(0, '@PYCDIO_LIBDIR@')
+libdir = os.path.join(os.path.dirname(__file__), '..')
+if libdir[-1] != os.path.sep:
+    libdir += os.path.sep
+sys.path.insert(0, libdir)
 import pycdio
 import cdio
 

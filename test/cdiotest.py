@@ -1,13 +1,14 @@
-#!@PYTHON@
-# $Id: cdiotest.py.in,v 1.15 2006/11/27 22:19:57 rocky Exp $   -*- Python -*-
+#!/usr/bin/env python
 """Unit test for cdio
 
 Note: for compatibility with old unittest 1.46 we won't use assertTrue
 or assertFalse."""
 import unittest, sys, os
 
-sys.path.insert(0, '@PYCDIO_LIBDIR@')
-sys.path.insert(0, '@top_srcdir@')
+libdir = os.path.join(os.path.dirname(__file__), '..')
+if libdir[-1] != os.path.sep:
+    libdir += os.path.sep
+sys.path.insert(0, libdir)
 import pycdio
 import cdio
 
@@ -94,7 +95,7 @@ class CdioTests(unittest.TestCase):
         ## TOC reading needs to be done in the directory where the
         ## TOC/BIN files reside.
         olddir=os.getcwd()
-        os.chdir('@srcdir@')
+        os.chdir('.')
         tocfile="cdda.toc"
         device = cdio.Device(tocfile, pycdio.DRIVER_CDRDAO)
         ok, vendor, model, revision  = device.get_hwinfo()
@@ -130,7 +131,7 @@ class CdioTests(unittest.TestCase):
 
     def test_read(self):
         """Test functioning of read routines"""
-        cuefile="@srcdir@/../data/isofs-m1.cue"
+        cuefile="./../data/isofs-m1.cue"
         device = cdio.Device(source=cuefile)
         # Read the ISO Primary Volume descriptor
         blocks, data=device.read_sectors(16, pycdio.READ_MODE_M1F1)
@@ -141,7 +142,7 @@ class CdioTests(unittest.TestCase):
 
     def test_bincue(self):
         """Test functioning of BIN/CUE image routines"""
-        cuefile="@srcdir@/cdda.cue"
+        cuefile="./cdda.cue"
         device = cdio.Device(source=cuefile)
         # Test known values of various access parameters:
         # access mode, driver name via string and via driver_id
@@ -182,7 +183,7 @@ class CdioTests(unittest.TestCase):
     def test_cdda(self):
         """Test functioning CD-DA"""
         device = cdio.Device()
-        cuefile="@srcdir@/cdda.cue"
+        cuefile="./cdda.cue"
         device.open(cuefile)
         result = device.get_disc_mode()
         self.assertEqual(result, 'CD-DA', 'get_disc_mode')

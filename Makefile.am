@@ -1,4 +1,4 @@
-#  $Id: Makefile.am,v 1.28 2008/05/01 16:55:03 karl Exp $
+#  $Id: Makefile.am,v 1.29 2008/11/24 00:10:21 rocky Exp $
 #
 #  Copyright (C) 2006, 2007, 2008 Rocky Bernstein <rocky@gnu.org>
 #  
@@ -46,24 +46,24 @@ TEST_FILES = \
 	test/cdda.cue \
 	test/cdda.cue \
 	test/cdda.toc \
-	test/cdiotest.py.in \
-	test/isocopy.py.in \
-	test/isotest.py.in
+	test/cdiotest.py \
+	test/isocopy.py  \
+	test/isotest.py
 
 DATA_FILES = data/copying.iso data/isofs-m1.cue data/isofs-m1.bin
 
 EXAMPLE_FILES = \
-	example/Makefile \
-	example/README \
-	example/audio.py.in \
-	example/cd-read.py.in \
-	example/cdchange.py.in \
-	example/device.py.in 
-	example/eject.py.in \
-	example/iso1.py.in \
-	example/iso2.py.in \
-	example/iso3.py.in \
-	example/tracks.py.in
+	example/Makefile    \
+	example/README      \
+	example/audio.py    \
+	example/cd-read.py  \
+	example/cdchange.py \
+	example/device.py   \
+	example/eject.py    \
+	example/iso1.py     \
+	example/iso2.py     \
+	example/iso3.py     \
+	example/tracks.py
 
 CDIO_C   = $(top_builddir)/pycdio_wrap.c
 CDIO_OBJ = $(top_builddir)/pycdio_wrap.o

@@ -1,14 +1,15 @@
-#!@PYTHON@
-# $Id: isotest.py.in,v 1.12 2006/03/31 08:23:19 rocky Exp $ -*- Python -*-
-"""Unit test for iso9660"""
+#!/usr/bin/env python
+"""Unit test for iso9660
 
-# Test some low-level ISO9660 routines
-# This is basically the same thing as libcdio's testiso9660.c
+Test some low-level ISO9660 routines
+This is basically the same thing as libcdio's testiso9660.c"""
 
 import unittest, sys, os
 
-sys.path.insert(0, '@PYCDIO_LIBDIR@')
-sys.path.insert(0, '@top_srcdir@')
+libdir = os.path.join(os.path.dirname(__file__), '..')
+if libdir[-1] != os.path.sep:
+    libdir += os.path.sep
+sys.path.insert(0, libdir)
 import pyiso9660
 import iso9660
 
@@ -96,7 +97,7 @@ class ISO9660Tests(unittest.TestCase):
         """Test retrieving image information"""
         
         # The test ISO 9660 image
-        image_path="@top_srcdir@/data"
+        image_path="../data"
         image_fname=os.path.join(image_path, "copying.iso")
         iso = iso9660.ISO9660.IFS(source=image_fname)
         self.assertNotEqual(iso, None, "Opening %s" % image_fname)
@@ -160,6 +161,7 @@ class ISO9660Tests(unittest.TestCase):
 #            new_tm =  pyiso9660.get_ltime(ltime)
 #            self.assertEqual(True, is_eq(new_tm, tm), 
 #                             'get_ltime(set_ltime())')
-
+        return
+    
 if __name__ == "__main__":
     unittest.main()

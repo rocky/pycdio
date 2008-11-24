@@ -1,5 +1,9 @@
-#!@PYTHON@
-#  $Id: iso3.py.in,v 1.3 2008/05/01 16:55:04 karl Exp $ -*- Python -*-
+#!/usr/bin/env python
+"""A program to show using iso9660 to extract a file from an ISO-9660
+image.  If a single argument is given, it is used as the ISO 9660
+image to use in the extraction. Otherwise a compiled in default ISO
+9660 image name (that comes with the libcdio distribution) will be
+used."""
 #
 #  Copyright (C) 2006, 2008 Rocky Bernstein <rocky@gnu.org>
 #  
@@ -16,19 +20,15 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# A program to show using iso9660 to extract a file
-# from an ISO-9660 image.
-#
-# If a single argument is given, it is used as the ISO 9660 image to
-# use in the extraction. Otherwise a compiled in default ISO 9660
-# image name (that comes with the libcdio distribution) will be used.
-
 import os, sys
-sys.path.insert(0, '@PYCDIO_LIBDIR@')
+libdir = os.path.join(os.path.dirname(__file__), '..')
+if libdir[-1] != os.path.sep:
+    libdir += os.path.sep
+sys.path.insert(0, libdir)
 import pycdio
 import iso9660
 
-# Python has rounding (round) and trucation (int), but what about an integer
+# Python has rounding (round) and truncation (int), but what about an integer
 # ceiling function? Until I learn what it is...
 def ceil(x):
     return int(round(x+0.5))

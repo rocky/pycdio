@@ -1,5 +1,4 @@
-#!@PYTHON@
-#  $Id: iso1.py.in,v 1.4 2008/05/01 16:55:04 karl Exp $ -*- Python -*-
+#!/usr/bin/env python
 
 """ A simple program to show using libiso9660 to list files in a directory of
    an ISO-9660 image.
@@ -24,7 +23,10 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os, sys
-sys.path.insert(0, '@PYCDIO_LIBDIR@')
+libdir = os.path.join(os.path.dirname(__file__), '..')
+if libdir[-1] != os.path.sep:
+    libdir += os.path.sep
+sys.path.insert(0, libdir)
 import pycdio
 import cdio
 import pyiso9660

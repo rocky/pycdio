@@ -1,5 +1,4 @@
-#!@PYTHON@
-#  $Id: eject.py.in,v 1.2 2008/05/01 16:55:04 karl Exp $  -*- Python -*-
+#!/usr/bin/env python
 """Program to Eject and close CD-ROM drive"""
 #
 #  Copyright (C) 2006, 2008 Rocky Bernstein <rocky@gnu.org>
@@ -18,7 +17,10 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
-sys.path.insert(0, '@PYCDIO_LIBDIR@')
+libdir = os.path.join(os.path.dirname(__file__), '..')
+if libdir[-1] != os.path.sep:
+    libdir += os.path.sep
+sys.path.insert(0, libdir)
 import pycdio
 import cdio
 
