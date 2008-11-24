@@ -1,4 +1,4 @@
-#  $Id: Makefile.am,v 1.29 2008/11/24 00:10:21 rocky Exp $
+#  $Id: Makefile.am,v 1.30 2008/11/24 04:01:29 rocky Exp $
 #
 #  Copyright (C) 2006, 2007, 2008 Rocky Bernstein <rocky@gnu.org>
 #  
@@ -46,9 +46,9 @@ TEST_FILES = \
 	test/cdda.cue \
 	test/cdda.cue \
 	test/cdda.toc \
-	test/cdiotest.py \
-	test/isocopy.py  \
-	test/isotest.py
+	test/test-cdio.py \
+	test/test-isocopy.py  \
+	test/test-iso.py
 
 DATA_FILES = data/copying.iso data/isofs-m1.cue data/isofs-m1.bin
 
@@ -121,10 +121,10 @@ $(ISO_C): $(ISO_SRC)
 	$(SWIG) -o $(ISO_C) -outdir $(top_builddir) -python $(SWIG_FLAGS) $<
 
 check: test
-test: test/cdiotest.py _pycdio$(SO) _pyiso9660$(SO)
-	(cd test && python cdiotest.py --verbose)
-	(cd test && python isocopy.py --verbose)
-	(cd test && python isotest.py --verbose)
+test: test/test-cdio.py _pycdio$(SO) _pyiso9660$(SO)
+	(cd test && python test-cdio.py --verbose)
+	(cd test && python test-isocopy.py --verbose)
+	(cd test && python test-iso.py --verbose)
 
 clean-generic: 
 	-rm $(CDIO_C) $(CDIO_OBJ) \
