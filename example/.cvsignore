@@ -1,3 +1,4 @@
+*.pyc
 COPYING
 audio.py
 cd-read.py
