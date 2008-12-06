@@ -1,66 +1,82 @@
 #!/usr/bin/env python
-#
-# Copyright (C) 2006 Rocky Bernstein <rocky@panix.com>
-#
-# Permission to use, copy, modify, and distribute this software and its
-# documentation for any purpose with or without fee is hereby granted,
-# provided that the above copyright notice and this permission notice
-# appear in all copies.
-#
-# THE SOFTWARE IS PROVIDED "AS IS" AND NOMINUM DISCLAIMS ALL WARRANTIES
-# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
-# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL NOMINUM BE LIABLE FOR
-# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
-# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
-# OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+"""
+distutils setup (setup.py) for pycdio.
 
-from optparse import OptionParser
-import sys, os
+This gets a bit of package info from __pkginfo__.py file
+"""
 
-def do_cmd(cmd):
-    """Run a command and possibly print it out first.
-If the command fails, we die!"""
-    global opts
-    if opts.verbose: print cmd
-    exit_status = os.system(cmd)
-    if exit_status != 0: sys.exit(exit_status)
+# Get the required package information 
+from __pkginfo__ import modname, version, license, short_desc, \
+     web, author, author_email, classifiers
 
-print """Note: we don't do python-style install yet.
-But as a service we'll try to transfer your call, but don't expect too much."""
+from setuptools import setup
+from distutils.core import Extension
+from subprocess import *
 
-optparser = OptionParser()
-optparser.add_option("--prefix", "", dest="prefix", action="store", 
-                help="--prefix option to pass to configure", 
-                metavar='[prefix directory]')
+import os
+top_dir = os.path.dirname(__file__)
+README  = os.path.join(top_dir, 'README.txt')
 
-optparser.add_option("--install-scripts", "", dest="bindir",
-                     action="store",
-                     help="--bindir opton to pass to configure", 
-                     metavar='[executable directory in PATH]')
+# Description in package will come from the README file.
+long_description = open(README).read() + '\n\n'
 
-optparser.add_option("--verbose", "-v", dest="verbose",
-                     action="store_true", default=False,
-                     help="lame attempt at verbosity ")
+# We store swig sources in ./swig, but we want the generated python
+# module not to appear in that directory, but instead in the top-level
+# directory where we have the other modules. I'd move *all* of the modules
+# to their own directory if I knew how to do that in distutils.
+swig_opts        = ['-outdir', top_dir]
 
-(opts, args) = optparser.parse_args()
+# Find runtime library directories for libcdio and libiso9660 using
+# pkg-config. Then create the right Extension object lists which later
+# get fed into setup()'s list of ext_modules.
+modules = []
+for lib_name in ('libcdio', 'libiso9660'):
+    short_libname = lib_name[3:] # Strip off "lib" from name
 
-do_install = do_build = False
-for arg in args:
-    if arg=='install':
-        do_build=True
-        do_install=True
-    if arg=='build':
-        do_build=True
+    # FIXME: DRY this code.
+    p = Popen(['pkg-config', '--libs-only-L', lib_name], stdout=PIPE)
+    if p.returncode is None:
+        # Strip off blanks and initial '-L'
+        dirs = p.communicate()[0].split('-L')[1:]
+        runtime_lib_dirs = [d.strip() for d in dirs]
+    else:
+        print ("Didn't the normal return code running pkg-config," + 
+               "on %s. got:\n\t%s" % [lib_name, p.returncode])
+        print "Will try to add %s anyway." % short_libname
+        runtime_lib_dirs = None
+    library_dirs = runtime_lib_dirs
+    p = Popen(['pkg-config', '--cflags-only-I', lib_name], stdout=PIPE)
+    if p.returncode is None:
+	# String starts '-I' so the first entry is ''; Discard that,
+	# the others we want.
+        dirs = p.communicate()[0].split('-I')[1:]
+        include_dirs = [d.strip() for d in dirs]
+    p = Popen(['pkg-config', '--libs-only-l', lib_name], stdout=PIPE)
+    if p.returncode is None:
+	# String starts '-l' so the first entry is ''; Discard that,
+	# the others we want.
+        dirs = p.communicate()[0].split('-l')[1:]
+        libraries = [d.strip() for d in dirs]
+    py_shortname='py' + short_libname
+    modules.append(Extension('_' + py_shortname,
+                             libraries = libraries,
+                             swig_opts = swig_opts,
+                             include_dirs=include_dirs,
+                             library_dirs=library_dirs,
+                             runtime_library_dirs=runtime_lib_dirs,
+                             sources=['swig/%s.i' % py_shortname]))
 
-## Okay, now time to configure, make, make install
-configure_cmd='./configure '
-if opts.prefix != None: config_opts += "--prefix %s" % opts.prefix
-if opts.bindir != None: config_opts += "--bindir %s" % opts.bindir
-
-do_cmd(configure_cmd)
-
-if do_build: do_cmd("make")
-if do_install: do_cmd("make install")   
-
-sys.exit(0)
+setup (name = 'pycdio',
+       author             = author,
+       author_email       = author_email,
+       classifiers        = classifiers,
+       description        = short_desc,
+       ext_modules        = modules,
+       license            = license,
+       long_description   = long_description,
+       name               = modname, 
+       py_modules         = ['cdio', 'iso9660', 'pycdio', 'pyiso9660'],
+       test_suite         = 'nose.collector',
+       url                = web,
+       version            = version,
+       )

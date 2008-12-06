@@ -1,0 +1,11 @@
+include data/copying.iso
+include data/isofs-m1.bin
+include data/isofs-m1.cue
+include example/*.py
+include example/README
+include pycdio.py
+include pyiso9660.py
+include swig/*.swg
+include test/cdda.bin
+include test/cdda.cue
+include test/cdda.toc

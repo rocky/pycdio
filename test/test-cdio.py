@@ -27,6 +27,7 @@ class CdioTests(unittest.TestCase):
             # FIXME: Broken on Darwin? 
             # self.device.get_media_changed()
         self.assertEqual(True, True, "Test misc operations")
+        return
 
     def test_device_default(self):
         """Test getting default device"""
@@ -46,6 +47,7 @@ class CdioTests(unittest.TestCase):
                              "get_default_device using driver name")
             except:
               pass
+        return
 
     def test_exceptions(self):
         """Test that various routines raise proper exceptions"""
@@ -74,6 +76,7 @@ class CdioTests(unittest.TestCase):
         self.assertRaises(cdio.DriverUninitError,
                           self.device.get_media_changed)
         self.assertRaises(IOError, self.device.open, "***Invalid device***")
+        return
 
     def test_have_image_drivers(self):
         """Test that we have image drivers"""
@@ -89,6 +92,7 @@ class CdioTests(unittest.TestCase):
         self.assertEqual(True, result, "Have BIN/CUE driver via string")
         result = cdio.have_driver(pycdio.DRIVER_BINCUE)
         self.assertEqual(True, result, "Have BIN/CUE driver via driver_id")
+        return
 
     def test_tocfile(self):
         """Test functioning of cdrdao image routines"""
@@ -128,6 +132,7 @@ class CdioTests(unittest.TestCase):
                           device.set_speed, 5)
         device.close()
         os.chdir(olddir)
+        return
 
     def test_read(self):
         """Test functioning of read routines"""
@@ -139,6 +144,7 @@ class CdioTests(unittest.TestCase):
         self.assertEqual(blocks, 1)
         blocks, data=device.read_data_blocks(26)
         self.assertEqual(data[6:32], 'GNU GENERAL PUBLIC LICENSE')
+        return
 
     def test_bincue(self):
         """Test functioning of BIN/CUE image routines"""
@@ -179,6 +185,7 @@ class CdioTests(unittest.TestCase):
             self.assertRaises(cdio.DriverUnsupportedError,
                               device.set_speed, 5)
         device.close()
+        return
 
     def test_cdda(self):
         """Test functioning CD-DA"""
@@ -204,6 +211,7 @@ class CdioTests(unittest.TestCase):
         self.assertEqual(t.track, 1, 'get_first_track')
         self.assertEqual(t.get_format(), 'audio', 'get_track_format')
         device.close()
+        return
     
 if __name__ == "__main__":
     unittest.main()

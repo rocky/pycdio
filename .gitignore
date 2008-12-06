@@ -1,0 +1,15 @@
+/*.directive
+/*.directive.asc
+/*.dll
+/*.pyc
+/*.sig
+/*.tar.gz
+/*~
+/_pycdio.so
+/_pyiso9660.so
+/build
+/dist
+/pycdio.egg-info
+/pycdio.py
+/pyiso9660.py
+/pytracer.egg-info
