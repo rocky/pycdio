@@ -66,8 +66,7 @@ for lib_name in ('libcdio', 'libiso9660'):
                              runtime_library_dirs=runtime_lib_dirs,
                              sources=['swig/%s.i' % py_shortname]))
 
-setup (name = 'pycdio',
-       author             = author,
+setup (author             = author,
        author_email       = author_email,
        classifiers        = classifiers,
        description        = short_desc,
