@@ -58,8 +58,8 @@ drivers = {
     'device'   : pycdio.DRIVER_DEVICE
     }
 
-if pycdio.VERSION_NUM > 80:
-    drivers['netbsd'] = pycdio.DRIVER_NETBSD
+if pycdio.VERSION_NUM >= 82:
+    drivers['NetBSD'] = pycdio.DRIVER_NETBSD
 
 for name in drivers.keys():
     drivers[name.lower()] = drivers[name]

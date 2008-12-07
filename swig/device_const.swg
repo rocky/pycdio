@@ -17,6 +17,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 /* See <cdio/device.h> for more extensive documentation. */
+#include <cdio/version.h>
 
 /**** ALL OF THESE ARE CONSTANTS *** */
 %immutable;
@@ -89,8 +90,10 @@
 %constant long int DRIVER_LINUX   = DRIVER_LINUX;
 %constant long int DRIVER_SOLARIS = DRIVER_SOLARIS;
 %constant long int DRIVER_OSX     = DRIVER_OSX;
-#if LIBCDIO_VERSION_NUM >= 81
+#ifdef DRIVER_NETBSD
 %constant long int DRIVER_NETBSD  = DRIVER_NETBSD;
+#else
+%constant long int DRIVER_NETBSD  = 20;
 #endif
 %constant long int DRIVER_WIN32   = DRIVER_WIN32;
 %constant long int DRIVER_CDRDAO  = DRIVER_CDRDAO;
