@@ -30,12 +30,12 @@ sys.path.insert(0, libdir)
 import pycdio
 import cdio
 
-def print_drive_class(msg, bitmask, any):
-    cd_drives = cdio.get_devices_with_cap(bitmask, any)
+def print_drive_class(msg, bitmask, any_capability):
+    """ run and show output of cdio.get_devices_with_cap() """
+    drives = cdio.get_devices_with_cap(bitmask, any_capability)
 
     print "%s..." % msg
-    for drive in cd_drives:
-	print "Drive %s" % drive
+    for d in drives: print "Drive %s" % d
     print "-----"
 
 cd_drives = cdio.get_devices(pycdio.DRIVER_DEVICE)
@@ -44,14 +44,9 @@ for drive in cd_drives:
 
 print "-----"
 
-sys.exit(0)
-# FIXME: there's a bug in get_drive_with_cap that corrupts memory.
-print_drive_class("All CD-ROM drives (again)", pycdio.FS_MATCH_ALL, False);
-print_drive_class("All CD-DA drives...", pycdio.FS_AUDIO, False);
-print_drive_class("All drives with ISO 9660...", pycdio.FS_ISO_9660, False);
+print_drive_class("All CD-ROM drives (again)", pycdio.FS_MATCH_ALL, False)
+print_drive_class("All CD-DA drives...", pycdio.FS_AUDIO, False)
+print_drive_class("All drives with ISO 9660...", pycdio.FS_ISO_9660, False)
 print_drive_class("VCD drives...", 
                   (pycdio.FS_ANAL_SVCD|pycdio.FS_ANAL_CVD|
-                   pycdio.FS_ANAL_VIDEOCD|pycdio.FS_UNKNOWN), True);
-
-
-
+                   pycdio.FS_ANAL_VIDEOCD|pycdio.FS_UNKNOWN), True)

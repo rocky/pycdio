@@ -35,28 +35,28 @@
 %constant long int DRIVE_CAP_MISC_FILE = CDIO_DRIVE_CAP_MISC_FILE;
 
 /* Reading masks.. */
-%constant long int DRIVE_CAP_READ_AUDIO = CDIO_DRIVE_CAP_READ_AUDIO;
-%constant long int DRIVE_CAP_READ_CD_DA = CDIO_DRIVE_CAP_READ_CD_DA;
-%constant long int DRIVE_CAP_READ_CD_G = CDIO_DRIVE_CAP_READ_CD_G;
-%constant long int DRIVE_CAP_READ_CD_R = CDIO_DRIVE_CAP_READ_CD_R;
-%constant long int DRIVE_CAP_READ_CD_RW = CDIO_DRIVE_CAP_READ_CD_RW;
-%constant long int DRIVE_CAP_READ_DVD_R = CDIO_DRIVE_CAP_READ_DVD_R;
-%constant long int DRIVE_CAP_READ_DVD_PR = CDIO_DRIVE_CAP_READ_DVD_PR;
+%constant long int DRIVE_CAP_READ_AUDIO   = CDIO_DRIVE_CAP_READ_AUDIO;
+%constant long int DRIVE_CAP_READ_CD_DA   = CDIO_DRIVE_CAP_READ_CD_DA;
+%constant long int DRIVE_CAP_READ_CD_G    = CDIO_DRIVE_CAP_READ_CD_G;
+%constant long int DRIVE_CAP_READ_CD_R    = CDIO_DRIVE_CAP_READ_CD_R;
+%constant long int DRIVE_CAP_READ_CD_RW   = CDIO_DRIVE_CAP_READ_CD_RW;
+%constant long int DRIVE_CAP_READ_DVD_R   = CDIO_DRIVE_CAP_READ_DVD_R;
+%constant long int DRIVE_CAP_READ_DVD_PR  = CDIO_DRIVE_CAP_READ_DVD_PR;
 %constant long int DRIVE_CAP_READ_DVD_RAM = CDIO_DRIVE_CAP_READ_DVD_RAM;
 %constant long int DRIVE_CAP_READ_DVD_ROM = CDIO_DRIVE_CAP_READ_DVD_ROM;
-%constant long int DRIVE_CAP_READ_DVD_RW = CDIO_DRIVE_CAP_READ_DVD_RW;
+%constant long int DRIVE_CAP_READ_DVD_RW  = CDIO_DRIVE_CAP_READ_DVD_RW;
 %constant long int DRIVE_CAP_READ_DVD_RPW = CDIO_DRIVE_CAP_READ_DVD_RPW;
 %constant long int DRIVE_CAP_READ_C2_ERRS = CDIO_DRIVE_CAP_READ_C2_ERRS;
 %constant long int DRIVE_CAP_READ_MODE2_FORM1 = CDIO_DRIVE_CAP_READ_MODE2_FORM1;
 %constant long int DRIVE_CAP_READ_MODE2_FORM2 = CDIO_DRIVE_CAP_READ_MODE2_FORM2;
-%constant long int DRIVE_CAP_READ_MCN = CDIO_DRIVE_CAP_READ_MCN;
-%constant long int DRIVE_CAP_READ_ISRC = CDIO_DRIVE_CAP_READ_ISRC;
+%constant long int DRIVE_CAP_READ_MCN         = CDIO_DRIVE_CAP_READ_MCN;
+%constant long int DRIVE_CAP_READ_ISRC        = CDIO_DRIVE_CAP_READ_ISRC;
 
 /* Writing masks.. */
-%constant long int DRIVE_CAP_WRITE_CD_R = CDIO_DRIVE_CAP_WRITE_CD_R;
-%constant long int DRIVE_CAP_WRITE_CD_RW = CDIO_DRIVE_CAP_WRITE_CD_RW;
-%constant long int DRIVE_CAP_WRITE_DVD_R = CDIO_DRIVE_CAP_WRITE_DVD_R;
-%constant long int DRIVE_CAP_WRITE_DVD_PR = CDIO_DRIVE_CAP_WRITE_DVD_PR;
+%constant long int DRIVE_CAP_WRITE_CD_R    = CDIO_DRIVE_CAP_WRITE_CD_R;
+%constant long int DRIVE_CAP_WRITE_CD_RW   = CDIO_DRIVE_CAP_WRITE_CD_RW;
+%constant long int DRIVE_CAP_WRITE_DVD_R   = CDIO_DRIVE_CAP_WRITE_DVD_R;
+%constant long int DRIVE_CAP_WRITE_DVD_PR  = CDIO_DRIVE_CAP_WRITE_DVD_PR;
 %constant long int DRIVE_CAP_WRITE_DVD_RAM = CDIO_DRIVE_CAP_WRITE_DVD_RAM;
 %constant long int DRIVE_CAP_WRITE_DVD_RW  = CDIO_DRIVE_CAP_WRITE_DVD_RW ;
 %constant long int DRIVE_CAP_WRITE_DVD_RPW = CDIO_DRIVE_CAP_WRITE_DVD_RPW;
@@ -83,32 +83,35 @@
 
 /* driver_id_t enums. */
 %constant long int DRIVER_UNKNOWN = DRIVER_UNKNOWN;
-%constant long int DRIVER_AIX = DRIVER_AIX;
-%constant long int DRIVER_BSDI = DRIVER_BSDI;
+%constant long int DRIVER_AIX     = DRIVER_AIX;
+%constant long int DRIVER_BSDI    = DRIVER_BSDI;
 %constant long int DRIVER_FREEBSD = DRIVER_FREEBSD;
-%constant long int DRIVER_LINUX = DRIVER_LINUX;
+%constant long int DRIVER_LINUX   = DRIVER_LINUX;
 %constant long int DRIVER_SOLARIS = DRIVER_SOLARIS;
-%constant long int DRIVER_OSX = DRIVER_OSX;
-%constant long int DRIVER_WIN32 = DRIVER_WIN32;
-%constant long int DRIVER_CDRDAO = DRIVER_CDRDAO;
-%constant long int DRIVER_BINCUE = DRIVER_BINCUE;
-%constant long int DRIVER_NRG = DRIVER_NRG;
-%constant long int DRIVER_DEVICE = DRIVER_DEVICE;
+%constant long int DRIVER_OSX     = DRIVER_OSX;
+#if LIBCDIO_VERSION_NUM >= 81
+%constant long int DRIVER_NETBSD  = DRIVER_NETBSD;
+#endif
+%constant long int DRIVER_WIN32   = DRIVER_WIN32;
+%constant long int DRIVER_CDRDAO  = DRIVER_CDRDAO;
+%constant long int DRIVER_BINCUE  = DRIVER_BINCUE;
+%constant long int DRIVER_NRG     = DRIVER_NRG;
+%constant long int DRIVER_DEVICE  = DRIVER_DEVICE;
 
-%constant long int MIN_DRIVER = CDIO_MIN_DRIVER;
+%constant long int MIN_DRIVER        = CDIO_MIN_DRIVER;
 %constant long int MIN_DEVICE_DRIVER = CDIO_MIN_DEVICE_DRIVER;
-%constant long int MAX_DRIVER = CDIO_MAX_DRIVER;
+%constant long int MAX_DRIVER        = CDIO_MAX_DRIVER;
 %constant long int MAX_DEVICE_DRIVER = CDIO_MAX_DEVICE_DRIVER;
 
 
-%constant long int DRIVER_OP_SUCCESS = DRIVER_OP_SUCCESS;
-%constant long int DRIVER_OP_ERROR = DRIVER_OP_ERROR;
-%constant long int DRIVER_OP_UNSUPPORTED = DRIVER_OP_UNSUPPORTED;
-%constant long int DRIVER_OP_UNINIT = DRIVER_OP_UNINIT;
+%constant long int DRIVER_OP_SUCCESS       = DRIVER_OP_SUCCESS;
+%constant long int DRIVER_OP_ERROR         = DRIVER_OP_ERROR;
+%constant long int DRIVER_OP_UNSUPPORTED   = DRIVER_OP_UNSUPPORTED;
+%constant long int DRIVER_OP_UNINIT        = DRIVER_OP_UNINIT;
 %constant long int DRIVER_OP_NOT_PERMITTED = DRIVER_OP_NOT_PERMITTED;
 %constant long int DRIVER_OP_BAD_PARAMETER = DRIVER_OP_BAD_PARAMETER;
-%constant long int DRIVER_OP_BAD_POINTER = DRIVER_OP_BAD_POINTER;
-%constant long int DRIVER_OP_NO_DRIVER  = DRIVER_OP_NO_DRIVER;
+%constant long int DRIVER_OP_BAD_POINTER   = DRIVER_OP_BAD_POINTER;
+%constant long int DRIVER_OP_NO_DRIVER     = DRIVER_OP_NO_DRIVER;
 
 %constant unsigned int FS_AUDIO = CDIO_FS_AUDIO;
 %constant unsigned int FS_HIGH_SIERRA = CDIO_FS_HIGH_SIERRA;

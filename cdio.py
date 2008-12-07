@@ -43,23 +43,26 @@ class TrackError(DeviceException): pass
 drivers = {
     'Unknown'  : pycdio.DRIVER_UNKNOWN,
     'AIX'      : pycdio.DRIVER_AIX,
-    'aix'      : pycdio.DRIVER_AIX,
     'BSDI'     : pycdio.DRIVER_BSDI,
-    'bsdi'     : pycdio.DRIVER_BSDI,
     'FreeBSD'  : pycdio.DRIVER_FREEBSD,
-    'freebsd'  : pycdio.DRIVER_FREEBSD,
     'GNU/Linux': pycdio.DRIVER_LINUX,
+    'linux'    : pycdio.DRIVER_LINUX,
     'Solaris'  : pycdio.DRIVER_SOLARIS,
-    'solaris'  : pycdio.DRIVER_SOLARIS,
     'OS X'     : pycdio.DRIVER_OSX,
+    'osx'      : pycdio.DRIVER_OSX,
     'WIN32'    : pycdio.DRIVER_WIN32,
     'CDRDAO'   : pycdio.DRIVER_CDRDAO,
-    'cdrdao'   : pycdio.DRIVER_CDRDAO,
     'BIN/CUE'  : pycdio.DRIVER_BINCUE,
     'NRG'      : pycdio.DRIVER_NRG,
     'Nero'     : pycdio.DRIVER_NRG,
     'device'   : pycdio.DRIVER_DEVICE
     }
+
+if pycdio.VERSION_NUM > 80:
+    drivers['netbsd'] = pycdio.DRIVER_NETBSD
+
+for name in drivers.keys():
+    drivers[name.lower()] = drivers[name]
 
 read_mode2blocksize = {
     pycdio.READ_MODE_AUDIO: pycdio.CD_FRAMESIZE_RAW,

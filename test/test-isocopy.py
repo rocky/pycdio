@@ -17,7 +17,7 @@ def ceil(x):
 
 
 # The test CD image
-CD_IMAGE_PATH =os.path.join("..", "data")
+CD_IMAGE_PATH =os.path.join(libdir, "data")
 cd_image_fname=os.path.join(CD_IMAGE_PATH, "isofs-m1.cue")
 local_filename="COPYING"
 

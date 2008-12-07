@@ -58,7 +58,7 @@ print "Drive Capabilities for %s..." % drive_name
 print "\n".join(cap for cap in sort_dict_keys(read_cap) +
                 sort_dict_keys(write_cap) + sort_dict_keys(misc_cap))
 
-print "\nDriver Availabiliity..."
+print "\nDriver Availability..."
 for driver_name in sort_dict_keys(cdio.drivers):
     try: 
         if cdio.have_driver(driver_name):

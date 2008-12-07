@@ -14,6 +14,8 @@ DISTCLEAN_FILES = build dist *.egg-info *.pyc *.so py*.py \
                   example/*.pyc example/COPYING swig/py*_wrap.c test/*.pyc 
 distclean: clean
 	-rm -fr $(DISTCLEAN_FILES) || true
+install: 
+	python ./setup.py install
 test: check
 
 ChangeLog:

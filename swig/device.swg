@@ -32,14 +32,16 @@ typedef char ** DeviceList_t;
 %typemap(newfree) DeviceList_t "cdio_free_device_list($1);";
 %typemap(out,fragment="t_output_helper") DeviceList_t {   
     // result is of type DeviceList_t
-    char **p   = result;
-    if (!result) goto fail;
-
-    /* For each element in the array of strings, push that
-     * onto the result object. */
-    for (p = result; *p; p++) {
-      PyObject *o = PyString_FromString(*p);
-      resultobj = t_output_helper(resultobj,o);
+    char **p = result;
+    if (!result || !*result) {
+      resultobj = PyList_New(0);
+    } else {
+      /* For each element in the array of strings, push that
+       * onto the result object. */
+      for (p = result; *p; p++) {
+	PyObject *o = PyString_FromString(*p);
+	resultobj = t_output_helper(resultobj,o);
+      }
     }
 }
 
@@ -204,7 +206,7 @@ as well. This is because often one wants to search for kind of drive
 and then *open* it afterwards. Giving the driver back facilitates this,
   and speeds things up for libcdio as well.");
 DeviceList_t get_devices_with_cap_ret (unsigned int capabilities, bool b_any,
-				  driver_id_t *p_out_driver_id);
+				       driver_id_t *p_out_driver_id);
 %inline %{
 DeviceList_t
 get_devices_with_cap_ret (unsigned int capabilities, bool b_any,
