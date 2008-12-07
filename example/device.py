@@ -55,7 +55,8 @@ print "drive: %s, vendor: %s, model: %s, release: %s" \
 read_cap, write_cap, misc_cap = d.get_drive_cap()
 print "Drive Capabilities for %s..." % drive_name
 
-print "\n".join(cap for cap in sort_dict_keys(read_cap) +
+print "\t",
+print "\n\t".join(cap for cap in sort_dict_keys(read_cap) +
                 sort_dict_keys(write_cap) + sort_dict_keys(misc_cap))
 
 print "\nDriver Availability..."
@@ -64,7 +65,7 @@ for driver_name in sort_dict_keys(cdio.drivers):
     try: 
         driver_id = cdio.drivers[driver_name]
         if cdio.have_driver(driver_name) and not driver_id in seen:
-            print "Driver %s (%d) is installed." % (driver_name, driver_id,)
+            print "\tDriver %s (%d) is installed." % (driver_name, driver_id,)
             seen[driver_id] = True
     except ValueError:
         pass
