@@ -57,7 +57,7 @@ for lib_name in ('libcdio', 'libiso9660'):
 	# the others we want.
         dirs = p.communicate()[0].split('-l')[1:]
         libraries = [d.strip() for d in dirs]
-    py_shortname='py' + short_libname
+    py_shortname = 'py' + short_libname
     modules.append(Extension('_' + py_shortname,
                              libraries = libraries,
                              swig_opts = swig_opts,

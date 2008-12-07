@@ -19,7 +19,7 @@ modname = 'pycdio'
 numversion = (0, 14)
 version = '.'.join([str(num) for num in numversion])
 
-license = 'GPL'
+license   = 'GPL'
 copyright = '''Copyright (C) 2006, 2008 Rocky Bernstein <rocky@gnu.org>.'''
 
 short_desc = 'Python OO interface to libcdio (CD Input and Control library)'
