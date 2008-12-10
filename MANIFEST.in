@@ -1,3 +1,4 @@
+include __pkginfo__.py
 include data/copying.iso
 include data/isofs-m1.bin
 include data/isofs-m1.cue
