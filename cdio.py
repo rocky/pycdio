@@ -883,6 +883,29 @@ class Track:
         """
         self.track = track_num
 
+    def get_cdtext(self):
+        return CDText(pycdio.get_cdtext(self.device, self.track))
+
+class CDText:
+    def __init__(self, opaque):
+        self._cdtext = opaque
+
+    def get(self, key):
+        """
+        get(self, key)->string
+
+        Get the value associatied with key.
+        """
+        return pycdio.cdtext_get(key, self._cdtext)
+
+
+    def set(self, key, string):
+        """
+        set(self, key, string)->None
+
+        Set the value associatied with key.
+        """
+        return pycdio.cdtext_set(key, string, self._cdtext)
 
 #
 # Local variables:

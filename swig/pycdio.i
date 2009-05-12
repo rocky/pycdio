@@ -27,11 +27,13 @@ use this library."
 /* Includes the header in the wrapper code */
 #include <cdio/cdio.h>
 #include <cdio/audio.h>
+#include <cdio/cdtext.h>
 #include <cdio/cd_types.h>
 %}
 
 #include <cdio/cdio.h> 
 #include <cdio/audio.h>
+#include <cdio/cdtext.h>
 
 %include "compat.swg"
 
@@ -46,6 +48,7 @@ use this library."
 %include "audio.swg"
 %include "read.swg"
 %include "track.swg"
+%include "cdtext.swg"
 
 /* In the presence of the exception handling, the order is important. 
    The below use %exception.
