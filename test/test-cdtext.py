@@ -37,5 +37,8 @@ class CDTextTests(unittest.TestCase):
         self.assertEquals(track1text.get(pycdio.CDTEXT_PERFORMER), 'Performer')
         self.assertEquals(track1text.get(pycdio.CDTEXT_TITLE), 'Track Title')
 
+        track1text.set(pycdio.CDTEXT_PERFORMER, 'Someone')
+        self.assertEquals(track1text.get(pycdio.CDTEXT_PERFORMER), 'Someone')
+
 if __name__ == "__main__":
     unittest.main()

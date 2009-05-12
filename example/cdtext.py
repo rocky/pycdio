@@ -35,13 +35,6 @@ def print_cdtext_track_info(device, track, message):
         if value is not None:
             print "\t%s: %s" % (pycdio.cdtext_field2str(i), value)
 
-            value = value.lower()
-            cdt.set(i, value)
-            value = cdt.get(i)
-            print value
-            print pycdio.cdtext_is_keyword('PERFORMER')
-            print pycdio.cdtext_is_keyword('KAKPI')
-
 if sys.argv[1:]:
     try:
         drive_name = sys.argv[1]
