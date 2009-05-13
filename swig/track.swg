@@ -203,4 +203,12 @@ const char
 }
 %}
 
+%rename cdio_get_cdtext get_cdtext;
+%feature("autodoc",
+"cdio_get_cdtext(track)->cdtext
+    Get the CDText object for the given track number.
+    Use track 0 for the disc's CDText object.");
+
+cdtext_t *cdio_get_cdtext (CdIo_t *p_cdio, track_t i_track);
+
  
