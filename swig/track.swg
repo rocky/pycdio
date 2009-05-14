@@ -1,7 +1,5 @@
 /* -*- c -*-
-  $Id: track.swg,v 1.4 2008/05/01 16:55:05 karl Exp $
-
-  Copyright (C) 2006, 2008 Rocky Bernstein <rocky@gnu.org>
+  Copyright (C) 2006, 2008, 2009 Rocky Bernstein <rocky@gnu.org>
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -49,6 +47,14 @@
 
 typedef int track_flag_t;
 
+
+%rename cdio_get_cdtext get_cdtext;
+%feature("autodoc",
+"cdio_get_cdtext(track)->cdtext
+    Get the CDText object for the given track number.
+    Use track 0 for the disc's CDText object.");
+
+cdtext_t *cdio_get_cdtext (CdIo_t *p_cdio, track_t i_track);
 %rename cdio_get_first_track_num get_first_track_num;
 %feature("autodoc",
 "get_first_track_num(p_cdio) -> int
@@ -202,13 +208,3 @@ const char
   return track_format2str[track_format];
 }
 %}
-
-%rename cdio_get_cdtext get_cdtext;
-%feature("autodoc",
-"cdio_get_cdtext(track)->cdtext
-    Get the CDText object for the given track number.
-    Use track 0 for the disc's CDText object.");
-
-cdtext_t *cdio_get_cdtext (CdIo_t *p_cdio, track_t i_track);
-
- 
