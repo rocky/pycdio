@@ -14,10 +14,10 @@ depending on various factors: e.g. interest, whether others help
 out.
 
 Sections of libcdio that are currently missing are the (SCSI) MMC
-commands, the cdparanoia library, CD-Text handling. Of the audio
-controls, I put in those things that didn't require any thought. The
-ISO 9660 library is pretty complete, except file "stat" information
-which is at present is pretty minimal.
+commands, and the cdparanoia library. Of the audio controls, I put in
+those things that didn't require any thought. The ISO 9660 library is
+pretty complete, except file "stat" information which is at present is
+pretty minimal.
 
 That said, what's in there is very usable (It contains probably more
 access capabilities than what most media players that don't use

@@ -9,6 +9,9 @@ audio.py      show mostly audio (analog) controls. Can be used to play
 cdchange.py:  A program to test if a CD has been changed since the last
 	      change test.
 
+cdtext.py:    Program to show using cdtext. Similar to examples/cdtext.c
+	      from libcdio.
+
 device.py     A program to show drive capabilities..
 	      Various drives on various OS/s may or may not report
               information correctly. (Perhaps someday libcdio will figure
