@@ -1,3 +1,43 @@
+2009-05-17  R. Bernstein <rocky@gnu.org>
+
+	* NEWS, __pkginfo__.py: What's up
+
+2009-05-17  R. Bernstein <rocky@gnu.org>
+
+	* README.txt, example/README, example/cdtext.py: Doc update
+
+2009-05-14  R. Bernstein <rocky@gnu.org>
+
+	* swig/track.swg: Small cosmetic change
+
+2009-05-13  R. Bernstein <rocky@gnu.org>
+
+	* AUTHORS: Add Thomas
+
+2009-05-13  R. Bernstein <rocky@gnu.org>
+
+	Merge branch 'cdtext' of
+	http://thomas.apestaart.org/git/libcdio/pycdio
+
+2009-05-12  Thomas Vander Stichele <thomas@level.fluendo.lan>
+
+	* example/cdtext.py, test/test-cdtext.py: clean up example; add
+	setter to test
+
+2009-05-12  Thomas Vander Stichele <thomas (at) apestaart (dot) org>
+
+	* swig/cdtext.swg: add cdtext.swg
+
+2009-05-12  Thomas Vander Stichele <thomas (at) apestaart (dot) org>
+
+	* cdio.py, example/cdtext.py, swig/pycdio.i, swig/track.swg,
+	test/cdtext.toc, test/test-cdtext.py: add CDText support, an
+	example, and unittests
+
+2009-05-11  rocky <rocky@sanchez.(none)>
+
+	* ChangeLog: Administrivia
+
 2008-12-10  R. Bernstein <rocky@gnu.org>
 
 	* MANIFEST.in: Forgot to add __pkginfo__
