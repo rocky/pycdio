@@ -1,3 +1,12 @@
+0.15
+2009-05-18
+- Add Access to CDText thanks to Thomas Vander Stichele
+
+0.14
+2008-12-10
+
+- Make more setuptools and distutils friendly. Small cleanups.
+
 0.13
 2007-10-27
 
