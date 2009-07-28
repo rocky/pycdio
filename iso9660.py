@@ -1,5 +1,3 @@
-#!/usr/bin/python
-#
 #  $Id: iso9660.py,v 1.12 2008/05/01 16:55:03 karl Exp $
 #
 #  Copyright (C) 2006, 2008 Rocky Bernstein <rocky@gnu.org>
