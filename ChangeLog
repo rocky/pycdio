@@ -1,3 +1,13 @@
+2009-07-28  R. Bernstein <rocky@gnu.org>
+
+	* cdio.py, iso9660.py: Remove shbang from cdio.py and ios9660.py.
+	Bug report/fix from Jay Greguske of Redhat who relates that this
+	helps Fedora packaging.
+
+2009-05-18  R. Bernstein <rocky@gnu.org>
+
+	* ChangeLog, ChangeLog.1: Update ChangeLog before release
+
 2009-05-17  R. Bernstein <rocky@gnu.org>
 
 	* NEWS, __pkginfo__.py: What's up

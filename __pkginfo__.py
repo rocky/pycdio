@@ -1,4 +1,4 @@
-# Copyright (C) 2006, 2008 Rocky Bernstein <rocky@gnu.org>
+# Copyright (C) 2006, 2008, 2009 Rocky Bernstein <rocky@gnu.org>
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
 
 modname = 'pycdio'
 
-numversion = (0, 15)
-version = '.'.join([str(num) for num in numversion])
+numversion = (0, 16)
+version = '.'.join([str(num) for num in numversion])+"git"
 
 license   = 'GPL'
 copyright = '''Copyright (C) 2006, 2008, 2009 Rocky Bernstein <rocky@gnu.org>.'''
@@ -27,7 +27,7 @@ short_desc = 'Python OO interface to libcdio (CD Input and Control library)'
 author = "Rocky Bernstein"
 author_email = "rocky@gnu.org"
 
-web = 'http://freshmeat.net/projects/libcdio/?branch_id=62870'
+web = 'http://www.gnu.org/software/libcdio'
 ftp = "ftp://ftp.gnu.org/pub/gnu/libcdio/%s-%s.tar.gz" % (modname, version)
 mailinglist = "mailto:libcdio-pycdio-devel@gnu.org"
 

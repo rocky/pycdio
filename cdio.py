@@ -1,6 +1,4 @@
-#  $Id: cdio.py,v 1.6 2008/05/01 16:55:03 karl Exp $
-#
-#  Copyright (C) 2006, 2008 Rocky Bernstein <rocky@gnu.org>
+#  Copyright (C) 2006, 2008, 2009 Rocky Bernstein <rocky@gnu.org>
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -138,9 +136,7 @@ def get_devices_ret(driver_id=pycdio.DRIVER_UNKNOWN):
     afterwards. Giving the driver back facilitates this, and speeds things
     up for libcdio as well.
     """
-    # FIXME: SWIG code is not removing a parameter properly, hence the [1:]
-    # at the end
-    return pycdio.get_devices_ret(driver_id)[1:]
+    return pycdio.get_devices_ret(driver_id)
 
 def get_devices_with_cap(capabilities, any=False):
     """
@@ -160,9 +156,7 @@ def get_devices_with_cap(capabilities, any=False):
     dereferencing the the value is NULL. This also means nothing was
     found.
     """
-    # FIXME: SWIG code is not removing a parameter properly, hence the [1:]
-    # at the end
-    return pycdio.get_devices_with_cap(capabilities, any)[1:]
+    return pycdio.get_devices_with_cap(capabilities, any)
 
 def get_devices_with_cap_ret(capabilities, any=False):
     """
@@ -174,9 +168,7 @@ def get_devices_with_cap_ret(capabilities, any=False):
     and then *open* it afterwards. Giving the driver back facilitates this,
       and speeds things up for libcdio as well.
     """
-    # FIXME: SWIG code is not removing a parameter properly, hence the [1:]
-    # at the end
-    return pycdio.get_devices_with_cap_ret(capabilities, any)[1:]
+    return pycdio.get_devices_with_cap_ret(capabilities, any)
 
 def have_driver(driver_id):
     """
