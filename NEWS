@@ -1,3 +1,8 @@
+0.16
+2009-10-27
+- Remove shbang from cdio.py and ios9660.py which helps Fedora packaging
+- Off-by-one compensation in get_devices_* not needed anymore
+
 0.15
 2009-05-18
 - Add Access to CDText thanks to Thomas Vander Stichele
