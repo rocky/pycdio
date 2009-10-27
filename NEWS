@@ -1,5 +1,5 @@
 0.16
-2009-10-27
+2009-10-27 Halala ngosuku lokuzalwa
 - Remove shbang from cdio.py and ios9660.py which helps Fedora packaging
 - Off-by-one compensation in get_devices_* not needed anymore
 
