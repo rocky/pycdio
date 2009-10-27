@@ -17,7 +17,7 @@
 modname = 'pycdio'
 
 numversion = (0, 16)
-version = '.'.join([str(num) for num in numversion])+"git"
+version = '.'.join([str(num) for num in numversion])
 
 license   = 'GPL'
 copyright = '''Copyright (C) 2006, 2008, 2009 Rocky Bernstein <rocky@gnu.org>.'''
