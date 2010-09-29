@@ -6,6 +6,25 @@ The pycdio (and libcdio) libraries encapsulate CD-ROM reading and
 control. Python programs wishing to be oblivious of the OS- and
 device-dependent properties of a CD-ROM can use this library.
 
+- - - 
+Requirements: 
+   You'll need a C compiler so the extension can be compiled when it is
+installed. 
+
+   You'll also need libcdio
+(http://www.gnu.org/software/libcdio) and it's header files installed.
+
+   You'll also need SWIG (http://www.swig.org).
+
+   Finally you'll need pkg-config (http://pkg-config.freedesktop.org)
+
+To build on Debian (e.g. Ubuntu);   
+   apt-get install libcdio7 libcdio-utils libcdio-dev
+   apt-get install libiso9660-5 libiso9660-dev
+   apt-get install swig pkg-config
+
+- - - 
+
 libcdio is rather large and yet may still grow a bit. (UDF support in
 libcdio may be on the horizon.)
 
