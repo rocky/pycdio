@@ -34,15 +34,22 @@ for lib_name in ('libcdio', 'libiso9660'):
     short_libname = lib_name[3:] # Strip off "lib" from name
 
     # FIXME: DRY this code.
-    p = Popen(['pkg-config', '--libs-only-L', lib_name], stdout=PIPE)
+    try:
+        p = Popen(['pkg-config', '--libs-only-L', lib_name], stdout=PIPE)
+    except:
+        print "** Error trying to run pkg-config. Is it installed?"
+        print "** If not, see http://pkg-config.freedesktop.org"
+        raise 
+        pass
+
     if p.returncode is None:
         # Strip off blanks and initial '-L'
         dirs = p.communicate()[0].split('-L')[1:]
         runtime_lib_dirs = [d.strip() for d in dirs]
     else:
-        print ("Didn't the normal return code running pkg-config," + 
+        print ("** Didn't the normal return code running pkg-config," + 
                "on %s. got:\n\t%s" % [lib_name, p.returncode])
-        print "Will try to add %s anyway." % short_libname
+        print "** Will try to add %s anyway." % short_libname
         runtime_lib_dirs = None
     library_dirs = runtime_lib_dirs
     p = Popen(['pkg-config', '--cflags-only-I', lib_name], stdout=PIPE)
