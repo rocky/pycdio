@@ -20,8 +20,8 @@ installed.
 
 To build on Debian (e.g. Ubuntu);   
    apt-get install python-dev
-   apt-get install libcdio7 libcdio-utils libcdio-dev
-   apt-get install libiso9660-5 libiso9660-dev
+   apt-get install libcdio-dev
+   apt-get install libiso9660-dev
    apt-get install swig pkg-config
 
 - - - 
