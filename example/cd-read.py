@@ -3,7 +3,7 @@
 for a more complete program.
 """
 #
-#  Copyright (C) 2006, 2008 Rocky Bernstein <rocky@gnu.org>
+#  Copyright (C) 2006, 2008, 2010 Rocky Bernstein <rocky@gnu.org>
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ def process_options():
                          help="Number of blocks")
     (opts, argv) = optparser.parse_args()
     if opts.mode is None:
-        print "Mode option must given " + \
+        print "Mode option must given via --mode" + \
               "(and one of audio, m1f1, m1f2, m1f2 or m1f2)."
         sys.exit(1)
     try:
