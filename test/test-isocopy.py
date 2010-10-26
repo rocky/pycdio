@@ -52,6 +52,11 @@ class ISO9660Tests(unittest.TestCase):
         global file_contents
         self.assertEqual(test_file_contents,
                          file_contents, 'File contents comparison')
+
+        statbuf = cd.stat("/notthere")
+
+        self.assertEqual(None, statbuf, 'stat() for non-existent file')
+    
         cd.close()
 
 file_contents="""		    GNU GENERAL PUBLIC LICENSE
