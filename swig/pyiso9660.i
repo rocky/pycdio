@@ -1,7 +1,5 @@
 /* -*- c -*-
-  $Id: pyiso9660.swg,v 1.14 2008/05/01 16:55:05 karl Exp $
-
-  Copyright (C) 2006, 2008 Rocky Bernstein <rocky@gnu.org>
+  Copyright (C) 2006, 2008, 2010 Rocky Bernstein <rocky@gnu.org>
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -117,25 +115,28 @@ typedef iso9660_stat_t IsoStat_t;
     CdioListNode_t *p_entnode;
 
     if (result) {
-      resultobj = PyList_New(0);
-      _CDIO_LIST_FOREACH (p_entnode, p_entlist) {
-	PyObject *py_list = PyList_New(5);
-	iso9660_stat_t *p_statbuf = 
-	  (iso9660_stat_t *) _cdio_list_node_data (p_entnode);
-	PyObject *o;
-	o = PyString_FromString(p_statbuf->filename);
-	PyList_SetItem(py_list, 0, o);
-	o = SWIG_From_long((long)(p_statbuf->lsn)); 
-	PyList_SetItem(py_list, 1, o);
-	o = SWIG_From_long((long)(p_statbuf->size)); 
-	PyList_SetItem(py_list, 2, o);
-	o = SWIG_From_long((long)(p_statbuf->secsize)); 
-	PyList_SetItem(py_list, 3, o);
-	o = SWIG_From_long((long)(p_statbuf->type)); 
-	PyList_SetItem(py_list, 4, o);
-	PyList_Append(resultobj, py_list);
-      }
+	resultobj = PyList_New(0);
+	_CDIO_LIST_FOREACH (p_entnode, p_entlist) {
+	    PyObject *py_list = PyList_New(5);
+	    iso9660_stat_t *p_statbuf = 
+		(iso9660_stat_t *) _cdio_list_node_data (p_entnode);
+	    PyObject *o;
+	    o = PyString_FromString(p_statbuf->filename);
+	    PyList_SetItem(py_list, 0, o);
+	    o = SWIG_From_long((long)(p_statbuf->lsn)); 
+	    PyList_SetItem(py_list, 1, o);
+	    o = SWIG_From_long((long)(p_statbuf->size)); 
+	    PyList_SetItem(py_list, 2, o);
+	    o = SWIG_From_long((long)(p_statbuf->secsize)); 
+	    PyList_SetItem(py_list, 3, o);
+	    o = SWIG_From_long((long)(p_statbuf->type)); 
+	    PyList_SetItem(py_list, 4, o);
+	    PyList_Append(resultobj, py_list);
+	}
+    } else {
+	resultobj = Py_None;
     }
+	
 }
 %typemap(out) IsoStat_t *{   
     iso9660_stat_t *p_statbuf = result;
@@ -154,7 +155,10 @@ typedef iso9660_stat_t IsoStat_t;
       o = SWIG_From_long((long)(p_statbuf->type)); 
       PyList_Append(resultobj, o);
       free (p_statbuf);
+    } else {
+	resultobj = Py_None;
     }
+
 }
 
 %typemap(out) struct tm *{   
