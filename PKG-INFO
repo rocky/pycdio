@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: pycdio
-Version: 0.16
+Version: 0.17
 Summary: Python OO interface to libcdio (CD Input and Control library)
 Home-page: http://freshmeat.net/projects/libcdio/?branch_id=62870
 Author: Rocky Bernstein
