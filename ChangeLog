@@ -1,3 +1,43 @@
+2010-10-27  R. Bernstein <rocky@gnu.org>
+
+	* test/test-isocopy.py: Make it work on both new and old libcdio.
+
+2010-10-11  r <rocky@gnu.org>
+
+	* example/cd-read.py: example/cd-read.py: Better --mode error
+	message
+
+2010-09-30  R. Bernstein <rocky@gnu.org>
+
+	* PKG-INFO, README.txt: Revise dependencies - don't put in dependent
+	library numbers; they are likely to be wrong.
+
+2010-09-30  R. Bernstein <rocky@gnu.org>
+
+	* setup.py: Give a better error message if pkg-config is not
+	available.
+
+2010-09-29  R. Bernstein <rocky@gnu.org>
+
+	* PKG-INFO, README.txt: Need to have "apt-get install python-dev" as
+	well. Thanks to Peter Carlsson.
+
+2010-09-29  R. Bernstein <rocky@gnu.org>
+
+	* PKG-INFO, README.txt: Add requirements.
+
+2009-10-27  R. Bernstein <rocky@gnu.org>
+
+	* __pkginfo__.py: version update -- this time, for sure!
+
+2009-10-27  R. Bernstein <rocky@gnu.org>
+
+	* NEWS: Last before rlease.
+
+2009-10-21  R. Bernstein <rocky@gnu.org>
+
+	* ChangeLog, NEWS: Update before 0.16 release.
+
 2009-09-27  R. Bernstein <rocky@gnu.org>
 
 	* ChangeLog, __pkginfo__.py, cdio.py: Off-by-one compensation in
