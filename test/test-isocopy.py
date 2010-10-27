@@ -19,7 +19,6 @@ def ceil(x):
 # The test CD image
 CD_IMAGE_PATH =os.path.join(libdir, "data")
 cd_image_fname=os.path.join(CD_IMAGE_PATH, "isofs-m1.cue")
-local_filename="COPYING"
 
 class ISO9660Tests(unittest.TestCase):
 
@@ -28,12 +27,20 @@ class ISO9660Tests(unittest.TestCase):
         cd = iso9660.ISO9660.FS(source=cd_image_fname)
         self.assertEqual(True, cd is not None, 
 	                "Open CD image %s" % cd_image_fname)
-        statbuf = cd.stat (os.path.join("/", local_filename))
+
+        statbuf = cd.stat (os.path.join('/copying'))
         
-        good_stat = { 'LSN': 26, 'filename': 'COPYING', 'is_dir': False, 
+        if None == statbuf:
+            statbuf = cd.stat('/COPYING') 
+            expected_fn = 'COPYING'
+        else:
+            expected_fn = 'COPYING.;1'
+            pass
+
+        good_stat = { 'LSN': 26, 'filename': expected_fn, 'is_dir': False, 
                       'sec_size': 9, 'size' :17992 }
         
-        self.assertEqual(statbuf, good_stat, 'CD 9660 file stats')
+        self.assertEqual(good_stat, statbuf, 'CD 9660 file stats')
     
         # Get file
         buf_all =[]
