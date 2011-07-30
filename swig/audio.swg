@@ -52,6 +52,23 @@ Resume playing an audio CD.");
 driver_return_code_t cdio_audio_resume (CdIo_t *p_cdio);
 
 
+int audio_set_volume_levels(CdIo_t *p_cdio, int vol1, int vol2, int vol3, int vol3);
+
+%inline %{
+
+int audio_set_volume_levels(CdIo_t *p_cdio, int vol1, int vol2, int vol3, int vol4)
+{
+    static cdio_audio_volume_t audio_volume;
+
+    audio_volume.level[0] = vol1 & 255;
+    audio_volume.level[1] = vol2 & 255;
+    audio_volume.level[2] = vol3 & 255;
+    audio_volume.level[3] = vol4 & 255;
+
+    return cdio_audio_set_volume(p_cdio, &audio_volume);
+}
+%}
+    
 %rename cdio_audio_stop audio_stop;
 %feature("autodoc", 
 "audio_stop(cdio)->status
@@ -107,23 +124,6 @@ driver_return_code_t cdio_audio_stop (CdIo_t *p_cdio);
 /* } */
 /* %} */
 
-int audio_set_volume_levels(CdIo_t *p_cdio, int vol1, int vol2, int vol3, int vol3);
-
-%inline %{
-
-int audio_set_volume_levels(CdIo_t *p_cdio, int vol1, int vol2, int vol3, int vol4)
-{
-    static cdio_audio_volume_t audio_volume;
-
-    audio_volume.level[0] = vol1 & 255;
-    audio_volume.level[1] = vol2 & 255;
-    audio_volume.level[2] = vol3 & 255;
-    audio_volume.level[3] = vol4 & 255;
-
-    return cdio_audio_set_volume(p_cdio, &audio_volume);
-}
-%}
-    
 /* %inline %{ */
 /*     typedef struct { */
 /*         uint8_t format; */
