@@ -2,7 +2,7 @@
 PHONY=check clean dist distclean test
 all: check
 check: 
-	python ./setup.py nosetests
+	nosetests
 clean: 
 	python ./setup.py $@
 dist: 
