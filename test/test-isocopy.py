@@ -17,9 +17,8 @@ def ceil(x):
 
 
 # The test CD image
-CD_IMAGE_PATH =os.path.join(libdir, "data")
+CD_IMAGE_PATH =os.path.join(libdir, 'data')
 cd_image_fname=os.path.join(CD_IMAGE_PATH, "isofs-m1.cue")
-
 class ISO9660Tests(unittest.TestCase):
 
     def test_fs(self):
@@ -27,7 +26,6 @@ class ISO9660Tests(unittest.TestCase):
         cd = iso9660.ISO9660.FS(source=cd_image_fname)
         self.assertEqual(True, cd is not None, 
 	                "Open CD image %s" % cd_image_fname)
-
         statbuf = cd.stat (os.path.join('/copying'))
         
         if None == statbuf:
@@ -41,7 +39,6 @@ class ISO9660Tests(unittest.TestCase):
                       'sec_size': 9, 'size' :17992 }
         
         self.assertEqual(good_stat, statbuf, 'CD 9660 file stats')
-    
         # Get file
         buf_all =[]
         blocks = ceil(statbuf['size'] / pycdio.ISO_BLOCKSIZE)
@@ -58,6 +55,11 @@ class ISO9660Tests(unittest.TestCase):
         global file_contents
         self.assertEqual(test_file_contents,
                          file_contents, 'File contents comparison')
+
+        statbuf = cd.stat("/notthere")
+
+        self.assertEqual(None, statbuf, 'stat() for non-existent file')
+    
         cd.close()
 
 file_contents="""		    GNU GENERAL PUBLIC LICENSE

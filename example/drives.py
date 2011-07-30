@@ -1,10 +1,9 @@
 #!/usr/bin/python
-#  $Id: drives.py,v 1.2 2008/11/24 00:53:59 rocky Exp $
 """Program to read CD blocks. See read-cd from the libcdio distribution
 for a more complete program."""
 
 #
-#    Copyright (C) 2006, 2008 Rocky Bernstein <rocky@gnu.org>
+#    Copyright (C) 2006, 2008, 2011 Rocky Bernstein <rocky@gnu.org>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by

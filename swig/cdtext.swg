@@ -1,6 +1,4 @@
 /* -*- c -*-
-  $Id: cdtext.swg,v 1.4 2008/05/01 16:55:05 karl Exp $
-
   Copyright (C) 2009, Thomas Vander Stichele <thomas at apestaart dot org>
 
   This program is free software: you can redistribute it and/or modify
