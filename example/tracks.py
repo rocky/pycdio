@@ -72,4 +72,13 @@ while (i <= last_track):
 
 print "%3X: %06lu  leadout" \
       % (pycdio.CDROM_LEADOUT_TRACK, d.get_disc_last_lsn())
+
+# check first track LSN
+t = d.get_track(1)
+lsn = t.get_lsn()
+if lsn > 100:
+    # cd-info simple heuristic, ideally use cdio_guess_cd_type
+    print '\nHidden Track'  # see http://en.wikipedia.org/wiki/Hidden_Track
+
+
 d.close()
