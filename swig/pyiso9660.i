@@ -28,13 +28,8 @@ equivalant standard is called ECMA-119."
 #include <cdio/version.h>
 %}
 
-#include <time.h>
-#include <cdio/iso9660.h>
-#include <cdio/version.h>
-
 /* Various libcdio constants and typedefs */
 %include "types.swg"
-%include "compat.swg"
 
 %include "typemaps.i"
 %include "cstring.i"
@@ -60,12 +55,7 @@ typedef unsigned int uint16_t;
 %constant long int ASSOCIATED           = ISO_ASSOCIATED;
 %constant long int RECORD               = ISO_RECORD;
 
-#include <cdio/version.h>
-#if LIBCDIO_VERSION_NUM <= 76
-%constant long int PROTECTION           = ISO_PROTECTION;
-#else 
 %constant long int PROTECTION           = 16;
-#endif
 
 %constant long int DRESERVED1           = ISO_DRESERVED1;
 %constant long int DRESERVED2           = ISO_DRESERVED2;

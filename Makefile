@@ -1,14 +1,14 @@
 # Compatibility for us old-timers.
 PHONY=check clean dist distclean test
-all: check
+all: build
 
 #: Run all tests
-check:  build
+check:  build install
 	nosetests
 
 #: Remove OS- and platform-specific derived files. 
 clean: 
-	python ./setup.py $@
+	python ./setup.py clean --all
 
 #: Create source and binary distribution
 dist: 

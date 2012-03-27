@@ -403,6 +403,10 @@ class Device:
         Get the value associatied with key."""
         return pycdio.get_arg(self.cd, key)
 
+    if pycdio.VERSION_NUM > 83:
+        def get_cdtext(self):
+            return CDText(pycdio.get_cdtext(self.cd))
+
     def get_device(self):
         """get_device(self)->str
         Get the default CD device.
@@ -874,29 +878,39 @@ class Track:
         """
         self.track = track_num
 
-    def get_cdtext(self):
-        return CDText(pycdio.get_cdtext(self.device, self.track))
+    if pycdio.VERSION_NUM <= 83:
+        def get_cdtext(self):
+            return CDText(pycdio.get_cdtext(self.device, self.track))
 
 class CDText:
     def __init__(self, opaque):
         self._cdtext = opaque
 
-    def get(self, key):
-        """
-        get(self, key)->string
+    if pycdio.VERSION_NUM <= 83:
+        def get(self, key):
+            """
+            get(self, key)->string
 
-        Get the value associatied with key.
-        """
-        return pycdio.cdtext_get(key, self._cdtext)
+            Get the value associatied with key.
+            """
+            return pycdio.cdtext_get(key, self._cdtext)
 
 
-    def set(self, key, string):
-        """
-        set(self, key, string)->None
+        def set(self, key, string):
+            """
+            set(self, key, string)->None
 
-        Set the value associatied with key.
-        """
-        return pycdio.cdtext_set(key, string, self._cdtext)
+            Set the value associatied with key.
+            """
+            return pycdio.cdtext_set(key, string, self._cdtext)
+    else:
+        def get(self, key, track):
+            """
+            get(self, key, track)->string
+
+            Get the value associatied with key.
+            """
+            return pycdio.cdtext_get(self._cdtext, key, track)
 
 #
 # Local variables:

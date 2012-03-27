@@ -14,6 +14,8 @@ from distutils.core import Extension
 from subprocess import *
 
 import os
+import shutil
+
 top_dir = os.path.dirname(__file__)
 README  = os.path.join(top_dir, 'README.txt')
 
@@ -25,6 +27,16 @@ long_description = open(README).read() + '\n\n'
 # directory where we have the other modules. I'd move *all* of the modules
 # to their own directory if I knew how to do that in distutils.
 swig_opts        = ['-outdir', top_dir]
+
+# Account for API change after 0.83
+ge_84 = call(['pkg-config','--atleast-version=0.84','libcdio'])
+if ge_84 is 0:
+  print "libcdio version > 0.83"
+  shutil.copy('swig/cdtext_new.swg','swig/cdtext.swg')  
+else:
+  print "libcdio version <= 0.83"
+  shutil.copy('swig/cdtext_old.swg','swig/cdtext.swg')
+
 
 # Find runtime library directories for libcdio and libiso9660 using
 # pkg-config. Then create the right Extension object lists which later

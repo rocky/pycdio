@@ -25,15 +25,8 @@ use this library."
 /* Includes the header in the wrapper code */
 #include <cdio/cdio.h>
 #include <cdio/audio.h>
-#include <cdio/cdtext.h>
 #include <cdio/cd_types.h>
 %}
-
-#include <cdio/cdio.h> 
-#include <cdio/audio.h>
-#include <cdio/cdtext.h>
-
-%include "compat.swg"
 
 %include "typemaps.i"
 %include "cstring.i"
