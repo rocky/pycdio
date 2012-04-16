@@ -165,7 +165,7 @@
 %constant int CDTEXT_LANGUAGE_ARABIC       = CDTEXT_LANGUAGE_ARABIC;
 %constant int CDTEXT_LANGUAGE_AMHARIC      = CDTEXT_LANGUAGE_AMHARIC;
 
-%constant int MIN_CDTEXT_FIELDS            = 0;
+%constant int MIN_CDTEXT_FIELD             = MIN_CDTEXT_FIELD;
 %constant int MAX_CDTEXT_FIELDS            = MAX_CDTEXT_FIELDS;
 
 typedef int cdtext_field_t;
