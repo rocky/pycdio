@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Program to show cdtext, similar to examples/cdtext.c"""
 #
-#  Copyright (C) 2006, 2008, 2009 Rocky Bernstein <rocky@gnu.org>
+#  Copyright (C) 2006, 2008, 2009, 2012 Rocky Bernstein <rocky@gnu.org>
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ def print_cdtext_track_info(device, track, message):
     t = device.get_track(track)
     cdt = t.get_cdtext()
 
-    for i in range(0, pycdio.MAX_CDTEXT_FIELDS):
+    for i in range(pycdio.MIN_CDTEXT_FIELDS, pycdio.MAX_CDTEXT_FIELDS):
         value = cdt.get(i)
         # value can be empty but exist, compared to NULL values
         if value is not None:

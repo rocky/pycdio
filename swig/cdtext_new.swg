@@ -1,6 +1,4 @@
 /* -*- c -*-
-  $Id: cdtext.swg,v 1.4 2008/05/01 16:55:05 karl Exp $
-
   Copyright (C) 2009, Thomas Vander Stichele <thomas at apestaart dot org>
 
   This program is free software: you can redistribute it and/or modify
@@ -166,6 +164,9 @@
 %constant int CDTEXT_LANGUAGE_ARMENIAN     = CDTEXT_LANGUAGE_ARMENIAN;
 %constant int CDTEXT_LANGUAGE_ARABIC       = CDTEXT_LANGUAGE_ARABIC;
 %constant int CDTEXT_LANGUAGE_AMHARIC      = CDTEXT_LANGUAGE_AMHARIC;
+
+%constant int MIN_CDTEXT_FIELDS            = 0;
+%constant int MAX_CDTEXT_FIELDS            = MAX_CDTEXT_FIELDS;
 
 typedef int cdtext_field_t;
 typedef int cdtext_lang_t;
