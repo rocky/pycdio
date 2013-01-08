@@ -3,7 +3,7 @@ PHONY=check clean dist distclean test
 all: build
 
 #: Run all tests
-check:  build install
+check:  build
 	nosetests
 
 #: Remove OS- and platform-specific derived files. 

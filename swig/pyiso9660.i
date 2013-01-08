@@ -37,8 +37,6 @@ equivalant standard is called ECMA-119."
 %feature("autodoc", 1);
 
 typedef unsigned int iso_extension_mask_t;
-typedef unsigned int uint8_t;
-typedef unsigned int uint16_t;
 
 %constant long int ISO_BLOCKSIZE        = CDIO_CD_FRAMESIZE;
 %constant long int PVD_SECTOR 	        = ISO_PVD_SECTOR ;

@@ -99,12 +99,6 @@
 %constant long int DRIVER_NRG     = DRIVER_NRG;
 %constant long int DRIVER_DEVICE  = DRIVER_DEVICE;
 
-%constant long int MIN_DRIVER        = CDIO_MIN_DRIVER;
-%constant long int MIN_DEVICE_DRIVER = CDIO_MIN_DEVICE_DRIVER;
-%constant long int MAX_DRIVER        = CDIO_MAX_DRIVER;
-%constant long int MAX_DEVICE_DRIVER = CDIO_MAX_DEVICE_DRIVER;
-
-
 %constant long int DRIVER_OP_SUCCESS       = DRIVER_OP_SUCCESS;
 %constant long int DRIVER_OP_ERROR         = DRIVER_OP_ERROR;
 %constant long int DRIVER_OP_UNSUPPORTED   = DRIVER_OP_UNSUPPORTED;

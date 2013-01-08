@@ -1,6 +1,70 @@
+2012-04-16  r <rocky@gnu.org>
+
+	* swig/.gitignore, swig/cdtext_new.swg: use MIN_CDTEXT_FIELD from
+	libcdio. Add another ignored file.
+
+2012-04-15  R. Bernstein <rocky@gnu.org>
+
+	* example/cdtext.py, swig/cdtext_new.swg: Add
+	pycdio.MIN_CDTEXT_FIELDS and remove CVS $Id line.
+
+2012-03-27  Leon Merten Lohse <leon@green-side.de>
+
+	* Makefile, cdio.py, setup.py, swig/cdtext.swg,
+	swig/cdtext_new.swg, swig/cdtext_old.swg, swig/compat.swg,
+	swig/pycdio.i, swig/pyiso9660.i, swig/track.swg, swig/types.swg,
+	test/test-cdtext.py: removed compatibility with pre 0.80 libcdio.
+	made compatible with recent CD-Text api changes.
+
+2012-03-13  r <rocky@gnu.org>
+
+	* Makefile: Add "build" target and remake-style comments
+
+2011-09-25  R. Bernstein <rocky@gnu.org>
+
+	* example/tracks.py: From chris clark: patch to use one of the
+	heuristics in showing a hidden track.
+
+2011-07-30  R. Bernstein <rocky@gnu.org>
+
+	* : commit faaff5c28865e0995c0e1ca6df4aeecb90fa0928 Author: r
+	<rocky@gnu.org> Date:   Sat Jul 30 11:48:21 2011 -0400
+
+2011-07-30  r <rocky@gnu.org>
+
+	* NEWS, example/Makefile, example/drives.py, swig/Makefile,
+	swig/audio.swg, swig/cdtext.swg, swig/compat.swg, swig/device.swg,
+	swig/device_const.swg, swig/disc.swg, swig/pycdio.i,
+	swig/types.swg, test/Makefile, test/cdda.toc: Add
+	audio_set_volume_levels from Jerry G Geiger's patch for Perl
+	Device::Cdio.  Remove CVS $Id lines. Update copyright.
+
+2011-07-30  r <rocky@gnu.org>
+
+	* Makefile: Looks like nosetests is now a standalone command
+
+2011-07-30  r <rocky@gnu.org>
+
+	* : libcdio results may have changed
+
+2010-10-27  R. Bernstein <rocky@gnu.org>
+
+	* ChangeLog, NEWS, __pkginfo__.py: Update for release.
+
 2010-10-27  R. Bernstein <rocky@gnu.org>
 
 	* test/test-isocopy.py: Make it work on both new and old libcdio.
+
+2010-10-26  r <rocky@gnu.org>
+
+	* test/test-isocopy.py: Add test when file is not found
+
+2010-10-26  r <rocky@gnu.org>
+
+	* example/.gitignore, iso9660.py, swig/pyiso9660.i, swig/read.swg,
+	test/test-isocopy.py: Make sure we return None on error as we say we
+	do. COPYING->copying because we translate filenames. May need
+	further investigation.
 
 2010-10-11  r <rocky@gnu.org>
 
@@ -72,13 +136,9 @@
 
 2009-05-13  R. Bernstein <rocky@gnu.org>
 
-	Merge branch 'cdtext' of
-	http://thomas.apestaart.org/git/libcdio/pycdio
-
-2009-05-12  Thomas Vander Stichele <thomas@level.fluendo.lan>
-
-	* example/cdtext.py, test/test-cdtext.py: clean up example; add
-	setter to test
+	* : commit f77b2a764a69fb68725aea3776aeb84e03484009 Author: Thomas
+	Vander Stichele <thomas@level.fluendo.lan> Date:   Tue May 12
+	11:30:29 2009 +0200
 
 2009-05-12  Thomas Vander Stichele <thomas (at) apestaart (dot) org>
 
@@ -126,9 +186,9 @@
 	swig/device.swg, swig/device_const.swg, test/test-isocopy.py: 
 	device.swg: Remove bug in returning null device list.
 	device_const.swg, cdio.py: Add NetBSD driver id.
-	test/test-isocopyFix.py:  bug in test path. cdio.py: DRY code a
-	little. Makefile: add install target. example/drives.py: Reinstate
-	code removed because of device.swg bug  Makefeli: Add install
+	test/test-isocopyFix.py:  bug in test path.  cdio.py: DRY code a
+	little.  Makefile: add install target.  example/drives.py: Reinstate
+	code removed because of device.swg bug Makefeli: Add install
 
 2008-12-06  R. Bernstein <rocky@gnu.org>
 
@@ -212,7 +272,7 @@
 2007-10-14  rocky <rocky>
 
 	* Makefile.am, swig/device.swg: device.swg: typemap and
-	t_output_helper usage seems to have changed in SWIG. Makefile.am:
+	t_output_helper usage seems to have changed in SWIG.  Makefile.am:
 	replace := with = since the latter is more portable.
 
 2007-10-14  rocky <rocky>
@@ -228,8 +288,7 @@
 
 	* ChangeLog, swig/pyiso9660.swg: Memory allocation was off by one in
 	the name_translate function. This could lead to a buffer overflow
-	when the translated name is as long as the original.  Patch by
-	Martin Ferrari on the Perl code.
+	when the translated name is as long as the original.  Patch by Martin Ferrari on the Perl code.
 
 2006-12-16  rocky <rocky>
 
@@ -246,9 +305,7 @@
 2006-12-10  rocky <rocky>
 
 	* ChangeLog, cdio.py, configure.ac: configure.ac: get ready for 0.12
-	release cdio.py: A couple of bug fixes: - if we get a string back
-	from get_device turn it into a list - set default values on input
-	parameters correctly.
+	release cdio.py: A couple of bug fixes: - if we get a string back from get_device turn it into a list - set default values on input parameters correctly.
 
 2006-12-10  rocky <rocky>
 
@@ -285,13 +342,12 @@
 
 	* example/README: Replace Perl module names with Python equivalents
 
-
 2006-11-27  rocky <rocky>
 
 	* example/README, example/audio.py.in, example/cdchange.py.in,
 	iso9660.py, swig/pyiso9660.swg, test/cdiotest.py.in,
-	test/isofs-m1.bin, test/isofs-m1.cue: Mostly email address changes.
-	Some typos. Use data from data directory.
+	test/isofs-m1.cue: Mostly email address changes. Some typos. Use
+	data from data directory.
 
 2006-11-13  rocky <rocky>
 
@@ -331,7 +387,7 @@
 2006-03-31  rocky <rocky>
 
 	* ChangeLog, Makefile.am, NEWS: Makefile.am: Add SWIG-derived C file
-	to distribution so folks don't need SWIG to create this. *: last
+	to distribution so folks don't need SWIG to create this.  *: last
 	change before release 0.11. Really!
 
 2006-03-31  rocky <rocky>
@@ -343,7 +399,7 @@
 
 	* .cvsignore, Makefile.am, configure.ac, get-cygwin-python-libs,
 	test/.cvsignore, test/cdiotest.py.in, test/isoread.py.in: Changes to
-	get cygwin working. isoread.py.in -> isocopy.py.in
+	get cygwin working.  isoread.py.in -> isocopy.py.in
 
 2006-03-30  rocky <rocky>
 
@@ -352,9 +408,8 @@
 2006-03-30  rocky <rocky>
 
 	* cdio.py, swig/pyiso9660.swg, test/cdiotest.py.in: pyiso9660.swg:
-	wasn't allocating enough for strnpad_cpy. cdio.py: Note IOError can
+	wasn't allocating enough for strnpad_cpy.  cdio.py: Note IOError can
 	be returned sometimes cdiotest.py.in: Allow for IOError exceptions.
-
 
 2006-03-30  rocky <rocky>
 
@@ -377,8 +432,8 @@
 
 2006-03-27  rocky <rocky>
 
-	* ChangeLog, Makefile.am, configure.ac, data/copying.iso,
-	test/isotest.py.in: Add iso image reading regression test.
+	* ChangeLog, Makefile.am, configure.ac, test/isotest.py.in: Add iso
+	image reading regression test.
 
 2006-03-27  rocky <rocky>
 
@@ -392,7 +447,6 @@
 
 	* Makefile.am, configure.ac: Get isocopy.py run in regression tests.
 
-
 2006-03-27  rocky <rocky>
 
 	* example/.cvsignore, test/.cvsignore: [no log message]
@@ -401,17 +455,15 @@
 
 	* test/isocopy.py.in, test/isotest.py.in: Add file extraction test.
 
-
 2006-03-24  rocky <rocky>
 
-	* Makefile.am, configure.ac, data/isofs-m1.bin, data/isofs-m1.cue,
-	example/iso2.py.in, example/iso3.py.in, iso9660.py,
-	test/isotest.py.in: iso9660.py: Add CD Image fileystems routines
-	example/iso2.py.in: Example ISO 9660 file extraction from CD image
-	data/*: Sample CD image for ISO 9660 Makefile.am, configure.ac:
-	boilerplate configuration to make above work. test/isotest.py.in:
-	test of ISO 9660 image info (I'm a little behind in regression
-	testing)
+	* Makefile.am, configure.ac, data/isofs-m1.cue, example/iso2.py.in,
+	example/iso3.py.in, iso9660.py, test/isotest.py.in: iso9660.py: Add
+	CD Image fileystems routines example/iso2.py.in: Example ISO 9660
+	file extraction from CD image data/*: Sample CD image for ISO 9660
+	Makefile.am, configure.ac: boilerplate configuration to make above
+	work.  test/isotest.py.in: test of ISO 9660 image info (I'm a little
+	behind in regression testing)
 
 2006-03-24  rocky <rocky>
 
@@ -430,16 +482,15 @@
 
 2006-03-24  rocky <rocky>
 
-	* Makefile.am, configure.ac, data/copying.iso, example/iso1.py.in,
-	iso9660.py, swig/pyiso9660.swg: Fixed up iso9660.py enough to get
-	the first example ISO9660 program working (albeit in a little bit of
-	a hacky way.)
+	* Makefile.am, configure.ac, example/iso1.py.in, iso9660.py,
+	swig/pyiso9660.swg: Fixed up iso9660.py enough to get the first
+	example ISO9660 program working (albeit in a little bit of a hacky
+	way.)
 
 2006-03-23  rocky <rocky>
 
 	* iso9660.py, test/isotest.py.in: isotest.py.in: reinstate test_
 	prefix had messed up test names iso9660.py: start ISO9660.IFS class.
-
 
 2006-03-23  rocky <rocky>
 
@@ -536,18 +587,17 @@
 	* Makefile.am, cdio.py.in, configure.ac, example/device.py.in,
 	swig/device.swg, swig/disc.swg, swig/read.swg, swig/types.swg,
 	test/cdiotest.py.in: Makefile.am, configure.ac: include
-	pycdio_wrap.c in distribution. So we merely warn about missing swig.
-	device.swg, device.py.in: start routines which return char **
-	(deviceLIst_t) add get_mcn.  cdio.py.in: Add get_mcn, get_devices.
-	Alphabetize routine names. Move some non-device routines out of the
-	device class and into package cdio.  cdiotest.py.in: add test of
-	get_mcn example/device.py.in: show hw_info. More like Perl.
+	pycdio_wrap.c in distribution. So we merely warn about missing swig.  device.swg, device.py.in: start routines which return char **
+	(deviceLIst_t) add get_mcn.  cdio.py.in: Add get_mcn, get_devices. Alphabetize routine names.
+	Move some non-device routines out of the device class and into
+	package cdio.  cdiotest.py.in: add test of get_mcn example/device.py.in: show
+	hw_info. More like Perl.
 
 2006-02-05  rocky <rocky>
 
 	* swig/device.swg, test/cdiotest.py.in: get_default_device now
-	returns two parameters as it does in libcdio. Add test for that too.
-
+	returns two parameters as it does in libcdio.  Add test for that
+	too.
 
 2006-02-03  rocky <rocky>
 

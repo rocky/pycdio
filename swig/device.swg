@@ -293,8 +293,6 @@ if driver id is out of range.");
 int
 have_driver (unsigned int driver_id)
 {
-  if (driver_id < CDIO_MIN_DRIVER || driver_id > CDIO_MAX_DRIVER)
-    return -1;
   if (cdio_have_driver(driver_id)) return 1;
   return 0;
 }
