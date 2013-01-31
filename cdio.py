@@ -18,6 +18,7 @@ reading and control. Applications wishing to be oblivious of the OS-
 and device-dependent properties of a CD-ROM can use this library."""
 
 import pycdio
+import _pycdio
 import types
 
 class DeviceException(Exception):
@@ -33,6 +34,12 @@ class NoDriverError(DeviceException): pass
 
 class TrackError(DeviceException): pass
 
+pycdio.CDTEXT_FIELD_ARRANGER  = _pycdio.CDTEXT_ARRANGER
+pycdio.CDTEXT_FIELD_COMPOSER  = _pycdio.CDTEXT_COMPOSER
+pycdio.CDTEXT_FIELD_DISCID    = _pycdio.CDTEXT_DISCID
+pycdio.CDTEXT_FIELD_MESSAGE   = _pycdio.CDTEXT_MESSAGE
+pycdio.CDTEXT_FIELD_PERFORMER = _pycdio.CDTEXT_PERFORMER
+pycdio.CDTEXT_FIELD_ISRC      = _pycdio.CDTEXT_PERFORMER
         
 # Note: the keys below match those the names returned by
 # cdio_get_driver_name()

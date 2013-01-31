@@ -19,16 +19,16 @@
 
 %feature("autodoc",1);
 
+%constant int CDTEXT_ARRANGER              = CDTEXT_FIELD_ARRANGER;
+%constant int CDTEXT_COMPOSER              = CDTEXT_FIELD_COMPOSER;
+%constant int CDTEXT_DISCID                = CDTEXT_FIELD_DISCID;
+%constant int CDTEXT_ISRC                  = CDTEXT_FIELD_ISRC;
+%constant int CDTEXT_MESSAGE               = CDTEXT_FIELD_MESSAGE;
+%constant int CDTEXT_PERFORMER             = CDTEXT_FIELD_PERFORMER;
 %constant int CDTEXT_FIELD_TITLE           = CDTEXT_FIELD_TITLE;
-%constant int CDTEXT_FIELD_PERFORMER       = CDTEXT_FIELD_PERFORMER;
 %constant int CDTEXT_FIELD_SONGWRITER      = CDTEXT_FIELD_SONGWRITER;
-%constant int CDTEXT_FIELD_COMPOSER        = CDTEXT_FIELD_COMPOSER;
-%constant int CDTEXT_FIELD_MESSAGE         = CDTEXT_FIELD_MESSAGE;
-%constant int CDTEXT_FIELD_ARRANGER        = CDTEXT_FIELD_ARRANGER;
-%constant int CDTEXT_FIELD_ISRC            = CDTEXT_FIELD_ISRC;
 %constant int CDTEXT_FIELD_UPC_EAN         = CDTEXT_FIELD_UPC_EAN;
-%constant int CDTEXT_FIELD_GENRE           = CDTEXT_FIELD_GENRE;
-%constant int CDTEXT_FIELD_DISCID          = CDTEXT_FIELD_DISCID;
+%constant int CDTEXT_GENRE                 = CDTEXT_FIELD_GENRE;
 %constant int CDTEXT_FIELD_INVALID         = CDTEXT_FIELD_INVALID;
 
 %constant int CDTEXT_GENRE_UNUSED          = CDTEXT_GENRE_UNUSED;
