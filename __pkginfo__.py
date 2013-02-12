@@ -20,7 +20,7 @@ numversion = (0, 18, 01)
 version = '.'.join([str(num) for num in numversion])
 
 license   = 'GPL'
-copyright = '''Copyright (C) 2006, 2008, 2009, 2010 Rocky Bernstein <rocky@gnu.org>.'''
+copyright = '''Copyright (C) 2006, 2008, 2009, 2010, 2013 Rocky Bernstein <rocky@gnu.org>.'''
 
 short_desc = 'Python OO interface to libcdio (CD Input and Control library)'
 
