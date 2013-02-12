@@ -1,4 +1,4 @@
-#  Copyright (C) 2006, 2008, 2010 Rocky Bernstein <rocky@gnu.org>
+#  Copyright (C) 2006, 2008, 2010, 2013 Rocky Bernstein <rocky@gnu.org>
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -126,7 +126,7 @@ filename."""
 # def stat_array_to_dict(*args):
 # Probably have a SWIG error.
 def stat_array_to_dict(filename, LSN, size, sec_size, is_dir):
-    """stat_array_to_href(filename, LSN, size, sec_size, is_dir)->stat
+    """stat_array_to_dict(filename, LSN, size, sec_size, is_dir)->stat
 
 Convert a ISO 9660 array to an hash reference of the values.
 
@@ -200,7 +200,7 @@ class ISO9660:
             
             filename, LSN, size, sec_size, is_dir = \
                       pyiso9660.ifs_find_lsn(self.iso9660, lsn)
-            return stat_array_to_href(filename, LSN, size, sec_size, is_dir)
+            return stat_array_to_dict(filename, LSN, size, sec_size, is_dir)
     
 
         def get_application_id(self):
@@ -428,7 +428,7 @@ class ISO9660:
 
             filename, LSN, size, sec_size, is_dir = \
                       pyiso9660.fs_find_lsn(self.cd, lsn)
-            return stat_array_to_href(filename, LSN, size, sec_size, is_dir)
+            return stat_array_to_dict(filename, LSN, size, sec_size, is_dir)
     
         
         def readdir(self, dirname): 

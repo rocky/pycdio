@@ -1,5 +1,5 @@
 /* -*- c -*-
-  Copyright (C) 2006, 2008, 2011 Rocky Bernstein <rocky@gnu.org>
+  Copyright (C) 2006, 2008, 2011, 2013 Rocky Bernstein <rocky@gnu.org>
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -31,14 +31,13 @@ typedef char ** DeviceList_t;
 %typemap(out,fragment="t_output_helper") DeviceList_t {   
     // result is of type DeviceList_t
     char **p = result;
-    if (!result || !*result) {
-      resultobj = PyList_New(0);
-    } else {
+    resultobj = PyList_New(0);
+    if (result && *result) {
       /* For each element in the array of strings, push that
        * onto the result object. */
-      for (p = result; *p; p++) {
-	PyObject *o = PyString_FromString(*p);
-	resultobj = t_output_helper(resultobj,o);
+      for ( ; *p; p++) {
+	PyObject *o = PyString_FromStringAndSize(*p, strlen(*p));
+	PyList_Append(resultobj, o);
       }
     }
 }

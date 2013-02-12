@@ -16,7 +16,7 @@ from subprocess import *
 import os
 import shutil
 
-top_dir = os.path.dirname(__file__)
+top_dir = os.path.dirname(os.path.abspath(__file__))
 README  = os.path.join(top_dir, 'README.txt')
 
 # Description in package will come from the README file.
