@@ -1,5 +1,5 @@
 #: Remove files created by example programs
-clean: clean
+clean: 
 	rm -f copying || true
 
 #=============================================================
