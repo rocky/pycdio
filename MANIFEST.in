@@ -1,4 +1,6 @@
 include COPYING
+include ChangeLog
+include Makefile
 include THANKS
 include __pkginfo__.py
 include data/copying.iso

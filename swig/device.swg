@@ -28,7 +28,7 @@ typedef char ** DeviceList_t;
 %}
 
 %typemap(newfree) DeviceList_t "cdio_free_device_list($1);";
-%typemap(out,fragment="t_output_helper") DeviceList_t {   
+%typemap(out) DeviceList_t {   
     // result is of type DeviceList_t
     char **p = result;
     resultobj = PyList_New(0);

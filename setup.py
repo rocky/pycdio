@@ -10,7 +10,7 @@ from __pkginfo__ import modname, version, license, short_desc, \
      web, author, author_email, classifiers
 
 from setuptools import setup
-from distutils.core import Extension
+from distutils.core import setup, Extension
 from subprocess import *
 
 import os
@@ -18,6 +18,15 @@ import shutil
 
 top_dir = os.path.dirname(os.path.abspath(__file__))
 README  = os.path.join(top_dir, 'README.txt')
+
+def rm_file(*paths):
+  global top_dir
+  toast = os.path.join(top_dir, *paths)
+  try:
+    os.remove(toast)
+  except:
+    pass
+  return
 
 # Description in package will come from the README file.
 long_description = open(README).read() + '\n\n'
@@ -36,7 +45,14 @@ if ge_84 is 0:
 else:
   print "libcdio version <= 0.83"
   shutil.copy('swig/cdtext_old.swg','swig/cdtext.swg')
-
+  print "Note: you should SWIG installed to build this package"
+  for filename in ('ctext.swg', 'pyiso9660.py', 'pycdio.py'):
+    rm_file(filename)
+    pass
+  for filename in ('pyiso9660_wrap.c', 'pycdio_wrap.c'):
+    rm_file('swig', filename)
+    pass
+  pass
 
 # Find runtime library directories for libcdio and libiso9660 using
 # pkg-config. Then create the right Extension object lists which later
