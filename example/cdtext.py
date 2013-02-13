@@ -24,7 +24,7 @@ sys.path.insert(0, libdir)
 import pycdio
 import cdio
 
-def print_cdtext_track_info(device, track, message):
+def print_cdtext_track_info_old(device, track, message):
     print message
     t = device.get_track(track)
     cdt = t.get_cdtext()
@@ -34,6 +34,26 @@ def print_cdtext_track_info(device, track, message):
         # value can be empty but exist, compared to NULL values
         if value is not None:
             print "\t%s: %s" % (pycdio.cdtext_field2str(i), value)
+            pass
+        pass
+    return
+
+def print_cdtext_info_new(device, message):
+    print message
+    cdt = device.get_cdtext()
+    i_tracks = device.get_num_tracks()
+    i_first_track = pycdio.get_first_track_num(device.cd)
+
+    for t in range(i_first_track, i_tracks + i_first_track):
+        for i in range(pycdio.MIN_CDTEXT_FIELD, pycdio.MAX_CDTEXT_FIELDS):
+            value = cdt.get(i, t)
+            # value can be empty but exist, compared to NULL values
+            if value is not None:
+                print "\t%s: %s" % (pycdio.cdtext_field2str(i), value)
+                pass
+            pass
+        pass
+    return
 
 if sys.argv[1:]:
     try:
@@ -50,9 +70,14 @@ else:
         print "Problem finding a CD-ROM"
         sys.exit(1)
 
-i_tracks = d.get_num_tracks()
-i_first_track = pycdio.get_first_track_num(d.cd)
-
-print_cdtext_track_info(d, 0, 'CD-Text for Disc:')
-for i in range(i_first_track, i_tracks + i_first_track):
-    print_cdtext_track_info(d, i, 'CD-Text for Track %d:' % i)
+if pycdio.VERSION_NUM < 83:
+    i_tracks = d.get_num_tracks()
+    i_first_track = pycdio.get_first_track_num(d.cd)
+    print_cdtext_track_info_old(d, 0, 'CD-Text for Disc:')
+    for i in range(i_first_track, i_tracks + i_first_track):
+        print_cdtext_track_info_old(d, i, 'CD-Text for Track %d:' % i)
+        pass
+    pass
+else:
+    print_cdtext_info_new(d, 'CD-Text for disk')
+    pass

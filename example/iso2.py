@@ -41,7 +41,7 @@ cd_image_fname=os.path.join(cd_image_path, "isofs-m1.cue")
 
 # File to extract if none given.
 iso9660_path="/"
-local_filename="COPYING"
+local_filename="copying"
 
 if len(sys.argv) > 1:
     cd_image_fname = sys.argv[1]

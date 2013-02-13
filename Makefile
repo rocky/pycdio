@@ -22,7 +22,7 @@ build:
 # to do the following. I'm sure distutils will someday get there.
 DISTCLEAN_FILES = build dist *.egg-info *.pyc *.so *.dll py*.py \
 		  swig/cdtext.swg pycdio.py pyiso9660.py \
-                  example/*.pyc example/COPYING swig/py*_wrap.c test/*.pyc 
+                  example/*.pyc example/copying swig/py*_wrap.c test/*.pyc 
 
 #: Remove all derived files. Like "clean" on steroids.
 distclean: clean
