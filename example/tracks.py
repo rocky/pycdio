@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """A program to show CD information."""
 #
-#  Copyright (C) 2006, 2008 Rocky Bernstein <rocky@gnu.org>
+#  Copyright (C) 2006, 2008, 2013 Rocky Bernstein <rocky@gnu.org>
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -28,18 +28,18 @@ if sys.argv[1:]:
     try:
         d = cdio.Device(sys.argv[1])
     except IOError:
-        print "Problem opening CD-ROM: %s" % sys.argv[1]
+        print("Problem opening CD-ROM: %s" % sys.argv[1])
         sys.exit(1)
 else:
     try:
         d = cdio.Device(driver_id=pycdio.DRIVER_UNKNOWN)
     except IOError:
-        print "Problem finding a CD-ROM"
+        print("Problem finding a CD-ROM")
         sys.exit(1)
 
 t = d.get_first_track()
 if t is None: 
-    print "Problem getting first track"
+    print("Problem getting first track")
     sys.exit(2)
 
 first_track = t.track
@@ -48,37 +48,37 @@ last_track  = first_track+num_tracks-1
 
 try:
     last_session = d.get_last_session()
-    print "CD-ROM %s has %d track(s) and %d session(s)." % \
-          (d.get_device(), d.get_num_tracks(), last_session)
+    print("CD-ROM %s has %d track(s) and %d session(s)." % \
+          (d.get_device(), d.get_num_tracks(), last_session))
 except cdio.DriverUnsupportedError:
-    print "CD-ROM %s has %d track(s). " % (d.get_device(), d.get_num_tracks())
+    print("CD-ROM %s has %d track(s). " % (d.get_device(), d.get_num_tracks()))
 
-print "Track format is %s." %  d.get_disc_mode()
+print("Track format is %s." %  d.get_disc_mode())
 
 mcn = d.get_mcn()
 if mcn:
-    print "Media Catalog Number: %s" % mcn 
+    print("Media Catalog Number: %s" % mcn) 
     
-print "%3s: %-6s  %s" % ("#", "LSN", "Format")
+print("%3s: %-6s  %s" % ("#", "LSN", "Format"))
 i=first_track
 while (i <= last_track):
     try: 
         t = d.get_track(i)
-        print "%3d: %06lu  %-6s %s"  % (t.track, t.get_lsn(),
-                                        t.get_msf(), t.get_format())
+        print("%3d: %06lu  %-6s %s"  % (t.track, t.get_lsn(),
+                                        t.get_msf(), t.get_format()))
     except cdio.TrackError:
         pass
     i += 1
 
-print "%3X: %06lu  leadout" \
-      % (pycdio.CDROM_LEADOUT_TRACK, d.get_disc_last_lsn())
+print("%3X: %06lu  leadout" \
+      % (pycdio.CDROM_LEADOUT_TRACK, d.get_disc_last_lsn()))
 
 # check first track LSN
 t = d.get_track(1)
 lsn = t.get_lsn()
 if lsn > 100:
     # cd-info simple heuristic, ideally use cdio_guess_cd_type
-    print '\nHidden Track'  # see http://en.wikipedia.org/wiki/Hidden_Track
+    print('\nHidden Track')  # see http://en.wikipedia.org/wiki/Hidden_Track
 
 
 d.close()

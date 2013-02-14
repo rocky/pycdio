@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Program to Eject and close CD-ROM drive"""
 #
-#  Copyright (C) 2006, 2008 Rocky Bernstein <rocky@gnu.org>
+#  Copyright (C) 2006, 2008, 2013 Rocky Bernstein <rocky@gnu.org>
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -29,30 +29,30 @@ if sys.argv[1:]:
         drive_name=sys.argv[1]
         d = cdio.Device(drive_name)
     except IOError:
-        print "Problem opening CD-ROM: %s" % drive_name
+        print("Problem opening CD-ROM: %s" % drive_name)
         sys.exit(1)
 else:
     try:
         d = cdio.Device(driver_id=pycdio.DRIVER_UNKNOWN)
         drive_name = d.get_device()
     except IOError:
-        print "Problem finding a CD-ROM"
+        print("Problem finding a CD-ROM")
         sys.exit(1)
 
 try:
     
-    print "Ejecting CD in drive %s" % drive_name
+    print("Ejecting CD in drive %s" % drive_name)
     d.eject_media()
     try:
         cdio.close_tray(drive_name)
-        print "Closed tray of CD-ROM drive %s" % drive_name
+        print("Closed tray of CD-ROM drive %s" % drive_name)
     except cdio.DeviceException:
-        print "Closing tray of CD-ROM drive %s failed" % drive_name
+        print("Closing tray of CD-ROM drive %s failed" % drive_name)
 
 except cdio.DriverUnsupportedError:
-    print "Eject not supported for %s" % drive_name
+    print("Eject not supported for %s" % drive_name)
 except cdio.DeviceException:
-    print "Eject of CD-ROM drive %s failed" % drive_name
+    print("Eject of CD-ROM drive %s failed" % drive_name)
 
     
 

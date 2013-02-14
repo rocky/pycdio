@@ -25,7 +25,7 @@ import pycdio
 import cdio
 
 def print_cdtext_track_info_old(device, track, message):
-    print message
+    print(message)
     t = device.get_track(track)
     cdt = t.get_cdtext()
 
@@ -33,13 +33,13 @@ def print_cdtext_track_info_old(device, track, message):
         value = cdt.get(i)
         # value can be empty but exist, compared to NULL values
         if value is not None:
-            print "\t%s: %s" % (pycdio.cdtext_field2str(i), value)
+            print("\t%s: %s" % (pycdio.cdtext_field2str(i), value))
             pass
         pass
     return
 
 def print_cdtext_info_new(device, message):
-    print message
+    print(message)
     cdt = device.get_cdtext()
     i_tracks = device.get_num_tracks()
     i_first_track = pycdio.get_first_track_num(device.cd)
@@ -49,7 +49,7 @@ def print_cdtext_info_new(device, message):
             value = cdt.get(i, t)
             # value can be empty but exist, compared to NULL values
             if value is not None:
-                print "\t%s: %s" % (pycdio.cdtext_field2str(i), value)
+                print("\t%s: %s" % (pycdio.cdtext_field2str(i), value))
                 pass
             pass
         pass
@@ -60,14 +60,14 @@ if sys.argv[1:]:
         drive_name = sys.argv[1]
         d = cdio.Device(sys.argv[1])
     except IOError:
-        print "Problem opening CD-ROM: %s" % drive_name
+        print("Problem opening CD-ROM: %s" % drive_name)
         sys.exit(1)
 else:
     try:
         d = cdio.Device(driver_id=pycdio.DRIVER_UNKNOWN)
         drive_name = d.get_device()
     except IOError:
-        print "Problem finding a CD-ROM"
+        print("Problem finding a CD-ROM")
         sys.exit(1)
 
 if pycdio.VERSION_NUM < 83:

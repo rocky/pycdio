@@ -7,7 +7,7 @@ in the extraction. Otherwise a compiled in default ISO 9660 image name
 (that comes with the libcdio distribution) will be used.  A program to
 show using iso9660 to extract a file from an ISO-9660 image."""
 #
-#  Copyright (C) 2006, 2008 Rocky Bernstein <rocky@gnu.org>
+#  Copyright (C) 2006, 2008, 2013 Rocky Bernstein <rocky@gnu.org>
 #  
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -48,30 +48,30 @@ if len(sys.argv) > 1:
     if len(sys.argv) > 2:
         local_filename = sys.argv[1]
         if len(sys.argv) > 3:
-            print """
+            print(("""
 usage: %s [CD-ROM-or-image [filename]]
 Extracts filename from CD-ROM-or-image.
-""" % sys.argv[0]
+""" % sys.argv[0]))
             sys.exit(1)
 
 try: 
     cd = iso9660.ISO9660.FS(source=cd_image_fname)
 except:
-    print "Sorry, couldn't open %s as a CD image." % cd_image_fname
+    print(("Sorry, couldn't open %s as a CD image." % cd_image_fname))
     sys.exit(1)
 
 statbuf = cd.stat (local_filename, False)
 
 if statbuf is None:
-    print "Could not get ISO-9660 file information for file %s in %s" \
-          % (local_filename, cd_image_fname)
+    print(("Could not get ISO-9660 file information for file %s in %s" \
+          % (local_filename, cd_image_fname)))
     cd.close()
     sys.exit(2)
 
 try:
-    OUTPUT=os.open(local_filename, os.O_CREAT|os.O_WRONLY, 0664)
+    OUTPUT=os.open(local_filename, os.O_CREAT|os.O_WRONLY, 0o664)
 except:    
-    print "Can't open %s for writing" % local_filename
+    print(("Can't open %s for writing" % local_filename))
 
 # Copy the blocks from the ISO-9660 filesystem to the local filesystem. 
 blocks = ceil(statbuf['size'] / pycdio.ISO_BLOCKSIZE)
@@ -80,8 +80,8 @@ for i in range(blocks):
     size, buf = cd.read_data_blocks(lsn)
 
     if size < 0:
-        print "Error reading ISO 9660 file %s at LSN %d" % (
-            local_filename, lsn)
+        print(("Error reading ISO 9660 file %s at LSN %d" % (
+            local_filename, lsn)))
         sys.exit(4)
     
     os.write(OUTPUT, buf)
@@ -92,8 +92,8 @@ for i in range(blocks):
 
 os.ftruncate(OUTPUT, statbuf['size'])
 
-print "Extraction of file '%s' from %s successful." % (
-    local_filename,  cd_image_fname)
+print(("Extraction of file '%s' from %s successful." % (
+    local_filename,  cd_image_fname)))
 
 os.close(OUTPUT)
 cd.close()

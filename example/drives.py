@@ -3,7 +3,7 @@
 for a more complete program."""
 
 #
-#    Copyright (C) 2006, 2008, 2011 Rocky Bernstein <rocky@gnu.org>
+#    Copyright (C) 2006, 2008, 2011, 2013 Rocky Bernstein <rocky@gnu.org>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -33,15 +33,15 @@ def print_drive_class(msg, bitmask, any_capability):
     """ run and show output of cdio.get_devices_with_cap() """
     drives = cdio.get_devices_with_cap(bitmask, any_capability)
 
-    print "%s..." % msg
-    for d in drives: print "Drive %s" % d
-    print "-----"
+    print("%s..." % msg)
+    for d in drives: print("Drive %s" % d)
+    print("-----")
 
 cd_drives = cdio.get_devices(pycdio.DRIVER_DEVICE)
 for drive in cd_drives: 
-    print "Drive %s" % drive
+    print("Drive %s" % drive)
 
-print "-----"
+print("-----")
 
 print_drive_class("All CD-ROM drives (again)", pycdio.FS_MATCH_ALL, False)
 print_drive_class("All CD-DA drives...", pycdio.FS_AUDIO, False)

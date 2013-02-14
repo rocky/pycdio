@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Program to show CD-ROM device information"""
 #
-#  Copyright (C) 2006, 2008 Rocky Bernstein <rocky@gnu.org>
+#  Copyright (C) 2006, 2008, 2013 Rocky Bernstein <rocky@gnu.org>
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ import cdio
 def sort_dict_keys(dict):
     """Return sorted keys of a dictionary.
     There's probably an easier way to do this that I'm not aware of."""
-    keys=dict.keys()
+    keys=list(dict.keys())
     keys.sort()
     return keys
 
@@ -36,36 +36,36 @@ if sys.argv[1:]:
         drive_name = sys.argv[1]
         d = cdio.Device(sys.argv[1])
     except IOError:
-        print "Problem opening CD-ROM: %s" % drive_name
+        print("Problem opening CD-ROM: %s" % drive_name)
         sys.exit(1)
 else:
     try:
         d = cdio.Device(driver_id=pycdio.DRIVER_UNKNOWN)
         drive_name = d.get_device()
     except IOError:
-        print "Problem finding a CD-ROM"
+        print("Problem finding a CD-ROM")
         sys.exit(1)
 
 # Should there should be no "ok"?
 ok, vendor, model, release = d.get_hwinfo()
 
-print "drive: %s, vendor: %s, model: %s, release: %s" \
-      % (drive_name, vendor, model, release)
+print("drive: %s, vendor: %s, model: %s, release: %s" \
+      % (drive_name, vendor, model, release))
 
 read_cap, write_cap, misc_cap = d.get_drive_cap()
-print "Drive Capabilities for %s..." % drive_name
+print("Drive Capabilities for %s..." % drive_name)
 
-print "\t",
-print "\n\t".join(cap for cap in sort_dict_keys(read_cap) +
+s = "\n\t".join(cap for cap in sort_dict_keys(read_cap) +
                 sort_dict_keys(write_cap) + sort_dict_keys(misc_cap))
+print "\t%s" % s
 
-print "\nDriver Availability..."
+print("\nDriver Availability...")
 seen = {}
 for driver_name in sort_dict_keys(cdio.drivers):
     try: 
         driver_id = cdio.drivers[driver_name]
         if cdio.have_driver(driver_name) and not driver_id in seen:
-            print "\tDriver %s (%d) is installed." % (driver_name, driver_id,)
+            print("\tDriver %s (%d) is installed." % (driver_name, driver_id,))
             seen[driver_id] = True
     except ValueError:
         pass

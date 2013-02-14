@@ -3,7 +3,7 @@
 for a more complete program.
 """
 #
-#  Copyright (C) 2006, 2008, 2010 Rocky Bernstein <rocky@gnu.org>
+#  Copyright (C) 2006, 2008, 2010, 2013 Rocky Bernstein <rocky@gnu.org>
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -56,14 +56,14 @@ def process_options():
                          help="Number of blocks")
     (opts, argv) = optparser.parse_args()
     if opts.mode is None:
-        print "Mode option must given via --mode" + \
-              "(and one of audio, m1f1, m1f2, m1f2 or m1f2)."
+        print("Mode option must given via --mode " + \
+              "and one of: audio, m1f1, m1f2, m1f2 or m1f2.")
         sys.exit(1)
     try:
         read_mode = read_modes[opts.mode]
     except KeyError:
-        print "Need to use the --mode option with one of" + \
-              "audio, m1f1, m1f2, m1f2 or m1f2"
+        print("Need to use the --mode option with one of" + \
+              "audio, m1f1, m1f2, m1f2 or m1f2")
         sys.exit(2)
         
     return opts, argv, read_mode
@@ -77,22 +77,27 @@ def isprint(c):
 
 def hexdump (buffer, just_hex=False):
     i = 0
+    s = ''
     while i < len(buffer):
         if (i % 16) == 0:
-            print ("0x%04x: " % i),
-        print "%02x%02x" % (ord(buffer[i]), ord(buffer[i+1])),
+            s += ("0x%04x: " % i)
+            pass
+        s += ("%02x%02x " % (ord(buffer[i]), ord(buffer[i+1])))
         if (i % 16) == 14:
             if not just_hex:
-                s = "  "
+                s += "  "
                 for j in range(i-14, i+2):
                     if isprint(buffer[j]):
                         s += buffer[j]
                     else:
                         s += '.'
-                print s,
-            print
+                        pass
+                pass
+            print(s)
+            s = ''
         i += 2
-    print
+        pass
+    print('')
     return
 
 opts, argv, read_mode = process_options()
@@ -103,13 +108,13 @@ if argv[0:]:
     try:
         d = cdio.Device(argv[0])
     except IOError:
-        print "Problem opening CD-ROM: %s" % argv[0]
+        print("Problem opening CD-ROM: %s" % argv[0])
         sys.exit(1)
 else:
     try:
         d = cdio.Device(driver_id=pycdio.DRIVER_UNKNOWN)
     except IOError:
-        print "Problem finding a CD-ROM"
+        print("Problem finding a CD-ROM")
         sys.exit(1)
 
 ## All this setup just to issue this one of these commands.

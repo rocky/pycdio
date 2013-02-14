@@ -40,12 +40,12 @@ swig_opts        = ['-outdir', top_dir]
 # Account for API change after 0.83
 ge_84 = call(['pkg-config','--atleast-version=0.84','libcdio'])
 if ge_84 is 0:
-  print "libcdio version > 0.83"
+  print("libcdio version > 0.83")
   shutil.copy('swig/cdtext_new.swg','swig/cdtext.swg')  
 else:
-  print "libcdio version <= 0.83"
+  print("libcdio version <= 0.83")
   shutil.copy('swig/cdtext_old.swg','swig/cdtext.swg')
-  print "Note: you should SWIG installed to build this package"
+  print("Note: you should SWIG installed to build this package")
   for filename in ('ctext.swg', 'pyiso9660.py', 'pycdio.py'):
     rm_file(filename)
     pass
@@ -65,8 +65,8 @@ for lib_name in ('libcdio', 'libiso9660'):
     try:
         p = Popen(['pkg-config', '--libs-only-L', lib_name], stdout=PIPE)
     except:
-        print "** Error trying to run pkg-config. Is it installed?"
-        print "** If not, see http://pkg-config.freedesktop.org"
+        print("** Error trying to run pkg-config. Is it installed?")
+        print("** If not, see http://pkg-config.freedesktop.org")
         raise 
         pass
 
@@ -75,9 +75,9 @@ for lib_name in ('libcdio', 'libiso9660'):
         dirs = p.communicate()[0].split('-L')[1:]
         runtime_lib_dirs = [d.strip() for d in dirs]
     else:
-        print ("** Didn't the normal return code running pkg-config," + 
-               "on %s. got:\n\t%s" % [lib_name, p.returncode])
-        print "** Will try to add %s anyway." % short_libname
+        print(("** Didn't the normal return code running pkg-config," + 
+               "on %s. got:\n\t%s" % [lib_name, p.returncode]))
+        print("** Will try to add %s anyway." % short_libname)
         runtime_lib_dirs = None
     library_dirs = runtime_lib_dirs
     p = Popen(['pkg-config', '--cflags-only-I', lib_name], stdout=PIPE)
