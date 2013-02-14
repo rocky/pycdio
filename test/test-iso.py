@@ -18,7 +18,7 @@ def is_eq(a, b):
     
     for i in range(len(a)):
         if a[i] != b[i]:
-            print "position %d: %d != %d\n" % (i, a[i], b[i])
+            print("position %d: %d != %d\n" % (i, a[i], b[i]))
             return False
     return True
     
@@ -33,10 +33,10 @@ class ISO9660Tests(unittest.TestCase):
         c=ord('A')
         while c<=ord('Z'):
             if not pyiso9660.is_dchar(c):
-                print "Failed iso9660_is_achar test on %c" % c
+                print("Failed iso9660_is_achar test on %c" % c)
                 bad += 1
             if not pyiso9660.is_achar(c):
-                print "Failed iso9660_is_achar test on %c" % c
+                print("Failed iso9660_is_achar test on %c" % c)
                 bad += 1
             c += 1
 
@@ -46,10 +46,10 @@ class ISO9660Tests(unittest.TestCase):
         c=ord('0')
         while c<=ord('9'):
             if not pyiso9660.is_dchar(c):
-                print "Failed iso9660_is_dchar test on %c" % c
+                print("Failed iso9660_is_dchar test on %c" % c)
                 bad += 1
             if not pyiso9660.is_achar(c):
-                print "Failed iso9660_is_achar test on %c" % c
+                print("Failed iso9660_is_achar test on %c" % c)
                 bad += 1
             c += 1
         self.assertEqual(True, bad==0, 'is_dchar & is_achar 0..9')
@@ -59,10 +59,10 @@ class ISO9660Tests(unittest.TestCase):
         while i<=13:
             c=ord(achars[i])
             if pyiso9660.is_dchar(c):
-                print "Should not pass is_dchar test on %c" % c
+                print("Should not pass is_dchar test on %c" % c)
                 bad += 1
             if not pyiso9660.is_achar(c):
-                print "Failed is_achar test on symbol %c" % c
+                print("Failed is_achar test on symbol %c" % c)
                 bad += 1
             i += 1
 

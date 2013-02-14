@@ -65,7 +65,7 @@ drivers = {
 if pycdio.VERSION_NUM >= 82:
     drivers['NetBSD'] = pycdio.DRIVER_NETBSD
 
-for name in drivers.keys():
+for name in list(drivers.keys()):
     drivers[name.lower()] = drivers[name]
 
 read_mode2blocksize = {
@@ -127,7 +127,7 @@ def get_devices(driver_id=pycdio.DRIVER_UNKNOWN):
     Get an list of device names.
     """
     result = pycdio.get_devices(driver_id)
-    if type(result) == types.StringType:
+    if type(result) == bytes:
         return [result]
     else:
         return result
@@ -183,9 +183,9 @@ def have_driver(driver_id):
     
     Return True if we have driver driver_id.
     """
-    if type(driver_id)==types.IntType:
+    if type(driver_id)==int:
         return pycdio.have_driver(driver_id)
-    elif type(driver_id)==types.StringType and driver_id in drivers:
+    elif type(driver_id)==bytes and driver_id in drivers:
         ret = pycdio.have_driver(drivers[driver_id])
         if ret == 0: return False
         if ret == 1: return True
@@ -385,7 +385,7 @@ class Device:
         if self.cd is not None:
             pycdio.close(self.cd)
         else:
-            print "***No object to close"
+            print("***No object to close")
         self.cd=None
 
     def eject_media(self):
@@ -733,13 +733,13 @@ class Track:
 
     def __init__(self, device, track_num):
 
-        if type(track_num) != types.IntType:
+        if type(track_num) != int:
             raise TrackError('track number parameter is not an integer')
         self.track = track_num
 
         # See if the device parameter is a string or
         # a device object.
-        if type(device) == types.StringType:
+        if type(device) == bytes:
             self.device = Device(device)
         else:
             test_device=Device()

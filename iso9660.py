@@ -47,7 +47,7 @@ length one or the ord() of a string of length 1.
 
 These are the DCHAR's plus some ASCII symbols including the space 
 symbol."""   
-    if type(achar) != types.IntType:
+    if type(achar) != int:
 	# Not integer. Should be a string of length one then.
         # We'll turn it into an integer.
         try:
@@ -70,7 +70,7 @@ letters A-Z, the digits 0-9 and an underscore.
 dchar should either be a string of length one or the ord() of a string
 of length 1."""
 
-    if type(dchar) != types.IntType:
+    if type(dchar) != int:
 	# Not integer. Should be a string of length one then.
         # We'll turn it into an integer.
         try:
@@ -153,8 +153,8 @@ or 7-bit ASCII chars, and this is specified via the 'check' parameter.
 If the I<check> parameter is given it must be one of the 'nocheck',
 '7bit', 'achars' or 'dchars'. Case is not significant."""
     if check not in check_types:
-        print "*** A CHECK parameter must be one of %s\n" % \
-              ', '.join(check_types.keys())
+        print("*** A CHECK parameter must be one of %s\n" % \
+              ', '.join(list(check_types.keys())))
         return None
     return pyiso9660.strncpy_pad(name, len, check_types[check])
 
@@ -185,7 +185,7 @@ class ISO9660:
             if self.iso9660 is not None:
                 pyiso9660.close(self.iso9660)
             else:
-                print "***No object to close"
+                print("***No object to close")
             self.iso9660 = None
 
         def find_lsn(self, lsn):
@@ -196,7 +196,7 @@ class ISO9660:
             error."""
 
             if pycdio.VERSION_NUM <= 76:
-                print "*** Routine available only in libcdio versions >= 0.76"
+                print("*** Routine available only in libcdio versions >= 0.76")
                 return None
             
             filename, LSN, size, sec_size, is_dir = \
@@ -305,8 +305,8 @@ class ISO9660:
 
             if self.iso9660 is not None: self.close() 
             
-            if type(fuzz) != types.IntType:
-                print "*** Expecting fuzz to be an integer; got 'fuzz'"
+            if type(fuzz) != int:
+                print("*** Expecting fuzz to be an integer; got 'fuzz'")
                 return False
             
             self.iso9660 = pyiso9660.open_fuzzy_ext(source, iso_mask, fuzz)
@@ -322,8 +322,8 @@ class ISO9660:
             offset. Generally here we are not reading an ISO 9660 image
             but a CD-Image which contains an ISO 9660 filesystem."""
             
-            if type(fuzz) != types.IntType:
-                print "*** Expecting fuzz to be an integer; got 'fuzz'"
+            if type(fuzz) != int:
+                print("*** Expecting fuzz to be an integer; got 'fuzz'")
                 return False
             
             return pyiso9660.ifs_fuzzy_read_superblock(self.iso9660, iso_mask,
