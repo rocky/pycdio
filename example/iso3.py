@@ -28,6 +28,8 @@ sys.path.insert(0, libdir)
 import pycdio
 import iso9660
 
+PY3 = sys.version_info[0] == 3
+
 # Python has rounding (round) and truncation (int), but what about an integer
 # ceiling function? Until I learn what it is...
 def ceil(x):
@@ -84,8 +86,11 @@ for i in range(blocks):
             local_filename, lsn))
         sys.exit(4)
     
-    os.write(OUTPUT, buf)
-
+    if PY3:
+        os.write(OUTPUT, bytes(buf, 'UTF-8'))
+    else:
+        os.write(OUTPUT, buf)
+        pass
 
 # Make sure the file size has the exact same byte size. Without the
 # truncate below, the file will a multiple of ISO_BLOCKSIZE.

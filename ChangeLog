@@ -1,3 +1,72 @@
+2013-02-16  R. Bernstein <rocky@gnu.org>
+
+	* .gitignore, Makefile, setup.py, swig/device.swg: Last of the
+	changes to get this to work on Python3
+
+2013-02-13  R. Bernstein <rocky@gnu.org>
+
+	* __pkginfo__.py, cdio.py, iso9660.py, setup.py, test/test-iso.py: 
+	Closer to having Python3 but not quite there yet.
+
+2013-02-13  R. Bernstein <rocky@gnu.org>
+
+	* example/cd-read.py, example/cdtext.py, example/device.py,
+	example/drives.py, example/eject.py, example/iso1.py,
+	example/iso2.py, example/iso3.py, example/tracks.py, setup.py: Start
+	python3k compatibility
+
+2013-02-13  R. Bernstein <rocky@gnu.org>
+
+	* example/Makefile: Remove circular dependency
+
+2013-02-13  R. Bernstein <rocky@gnu.org>
+
+	* Makefile, example/Makefile, example/cdtext.py, example/iso2.py: 
+	Fix up CD-Text example program
+
+2013-02-13  R. Bernstein <rocky@gnu.org>
+
+	* THANKS: Add Adrian
+
+2013-02-13  R. Bernstein <rocky@gnu.org>
+
+	* MANIFEST.in, Makefile, swig/Makefile: swig/Makefile: Put more code
+	in swig/Makefile as a backup to setup.py MANIFEST.in: Add
+	swig/makefile Makefile: correct a distclean filename
+
+2013-02-12  R. Bernstein <rocky@gnu.org>
+
+	* MANIFEST.in, Makefile, iso9660.py, setup.py, swig/device.swg: 
+	MANIFEST.in: Add ChangeLog and Makefile Makefile: remove more
+	derived files iso9660.py: add missing import pycdio - thanks to
+	Benjamin Eitzner setup.py: remove more files is usin libcdio 0.83
+	devices.swg: Think I got it this time.
+
+2013-02-11  R. Bernstein <rocky@gnu.org>
+
+	* MANIFEST.in, THANKS: Start a THANKS page
+
+2013-02-11  R. Bernstein <rocky@gnu.org>
+
+	* MANIFEST.in, __pkginfo__.py: Add COPYING
+
+2013-02-11  R. Bernstein <rocky@gnu.org>
+
+	* cdio.py, iso9660.py, setup.py, swig/device.swg: cdio.py Python
+	indentation. Typo in return variable. iso9660.py: more typos.
+	setup.py allegedly helps to use abspath.  Patches from Benjamin
+	Eitzner. swig/devicd.swg: fix bug in returning lists of strings.
+
+2013-01-30  R. Bernstein <rocky@gnu.org>
+
+	* Makefile, __pkginfo__.py, cdio.py, swig/cdtext_new.swg: Deal with
+	compatibilty of CD-Text field name pre 0.90. Savannah #38185.
+
+2013-01-07  R. Bernstein <rocky@gnu.org>
+
+	* ChangeLog, Makefile, NEWS, setup.cfg, swig/device.swg,
+	swig/device_const.swg, swig/pyiso9660.i: Get ready for release 0.18
+
 2012-04-16  r <rocky@gnu.org>
 
 	* swig/.gitignore, swig/cdtext_new.swg: use MIN_CDTEXT_FIELD from

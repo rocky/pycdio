@@ -1,5 +1,13 @@
 # Compatibility for us old-timers.
+
+# Note: This makefile include remake-style target comments. 
+# These comments before the targets start with #:
+# remake --tasks to shows the targets and the comments
+
 PHONY=check clean dist distclean test
+GIT2CL ?= git2cl
+PYTHON ?= python
+
 all: build
 
 #: Run all tests
@@ -8,15 +16,15 @@ check:  build
 
 #: Remove OS- and platform-specific derived files. 
 clean: 
-	python ./setup.py clean --all
+	$(PYTHON) ./setup.py clean --all
 
 #: Create source and binary distribution
 dist: 
-	python ./setup.py sdist bdist
+	$(PYTHON) ./setup.py sdist bdist
 
 #: Do what it takes to build software locally
 build: 
-	python ./setup.py build
+	$(PYTHON) ./setup.py build
 
 # It is too much work to figure out how to add a new command to distutils
 # to do the following. I'm sure distutils will someday get there.
@@ -30,13 +38,13 @@ distclean: clean
 
 #: Install package
 install: 
-	python ./setup.py install
+	$(PYTHON) ./setup.py install
 
 #: Same as check
 test: check
 
 #: create ChangeLog fom git log via git2cl
 ChangeLog:
-	git log --pretty --numstat --summary | git2cl > $@
+	git log --pretty --numstat --summary | $(GIT2CL) >$@
 
 .PHONY: $(PHONY)

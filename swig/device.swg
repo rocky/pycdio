@@ -36,7 +36,7 @@ typedef char ** DeviceList_t;
       /* For each element in the array of strings, push that
        * onto the result object. */
       for ( ; *p; p++) {
-	PyObject *o = PyString_FromStringAndSize(*p, strlen(*p));
+	PyObject *o = PyUnicode_FromStringAndSize(*p, strlen(*p));
 	PyList_Append(resultobj, o);
       }
     }
