@@ -91,7 +91,8 @@ for lib_name in ('libcdio', 'libiso9660'):
 	# String starts '-l' so the first entry is ''; Discard that,
 	# the others we want.
         dirs = p.communicate()[0].split(b'-l')[1:]
-        libraries = [d.strip() for d in dirs]
+        libraries = [d.strip().decode("utf-8") for d in dirs]
+        pass
     py_shortname = 'py' + short_libname
     modules.append(Extension('_' + py_shortname,
                              libraries = libraries,
