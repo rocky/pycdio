@@ -16,7 +16,7 @@
 
 modname = 'pycdio'
 
-version = '0.19'
+version = '0.19.1'
 
 license   = 'GPL'
 copyright = '''Copyright (C) 2006, 2008, 2009, 2010, 2013 Rocky Bernstein <rocky@gnu.org>.'''
