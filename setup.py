@@ -11,6 +11,7 @@ from __pkginfo__ import modname, version, license, short_desc, \
 
 from setuptools import setup
 from distutils.core import setup, Extension
+from distutils.command.build import build
 from subprocess import *
 
 import os
@@ -45,14 +46,17 @@ if ge_84 is 0:
 else:
   print("libcdio version <= 0.83")
   shutil.copy('swig/cdtext_old.swg','swig/cdtext.swg')
-  print("Note: you should SWIG installed to build this package")
-  for filename in ('ctext.swg', 'pyiso9660.py', 'pycdio.py'):
-    rm_file(filename)
-    pass
+  print("Note: you should have SWIG installed to build this package")
   for filename in ('pyiso9660_wrap.c', 'pycdio_wrap.c'):
     rm_file('swig', filename)
     pass
   pass
+
+# Reorder build commands such that swig generated files are also copied.
+build.sub_commands = [('build_ext', build.has_ext_modules),
+	('build_py', build.has_pure_modules),
+	('build_clib', build.has_c_libraries),
+	('build_scripts', build.has_scripts)]
 
 # Find runtime library directories for libcdio and libiso9660 using
 # pkg-config. Then create the right Extension object lists which later
