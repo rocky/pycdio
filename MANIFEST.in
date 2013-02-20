@@ -12,6 +12,7 @@ include pycdio.py
 include pyiso9660.py
 include swig/*.swg
 include swig/Makefile
+include test/Makefile
 include test/cdda.bin
 include test/cdda.cue
 include test/cdda.toc
