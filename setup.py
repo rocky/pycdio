@@ -5,7 +5,7 @@ distutils setup (setup.py) for pycdio.
 This gets a bit of package info from __pkginfo__.py file
 """
 
-# Get the required package information 
+# Get the required package information
 from __pkginfo__ import modname, version, license, short_desc, \
      web, author, author_email, classifiers
 
@@ -42,7 +42,7 @@ swig_opts        = ['-outdir', top_dir]
 ge_84 = call(['pkg-config','--atleast-version=0.84','libcdio'])
 if ge_84 is 0:
   print("libcdio version > 0.83")
-  shutil.copy('swig/cdtext_new.swg','swig/cdtext.swg')  
+  shutil.copy('swig/cdtext_new.swg','swig/cdtext.swg')
 else:
   print("libcdio version <= 0.83")
   shutil.copy('swig/cdtext_old.swg','swig/cdtext.swg')
@@ -71,7 +71,7 @@ for lib_name in ('libcdio', 'libiso9660'):
     except:
         print("** Error trying to run pkg-config. Is it installed?")
         print("** If not, see http://pkg-config.freedesktop.org")
-        raise 
+        raise
         pass
 
     if p.returncode is None:
@@ -79,7 +79,7 @@ for lib_name in ('libcdio', 'libiso9660'):
         dirs = p.communicate()[0].split(b'-L')[1:]
         runtime_lib_dirs = [d.strip() for d in dirs]
     else:
-        print(("** Didn't the normal return code running pkg-config," + 
+        print(("** Didn't the normal return code running pkg-config," +
                "on %s. got:\n\t%s" % [lib_name, p.returncode]))
         print("** Will try to add %s anyway." % short_libname)
         runtime_lib_dirs = None
@@ -113,7 +113,7 @@ setup (author             = author,
        ext_modules        = modules,
        license            = license,
        long_description   = long_description,
-       name               = modname, 
+       name               = modname,
        py_modules         = ['cdio', 'iso9660', 'pycdio', 'pyiso9660'],
        test_suite         = 'nose.collector',
        url                = web,
