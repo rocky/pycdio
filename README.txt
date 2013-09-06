@@ -1,7 +1,7 @@
 Introduction
 ============
 
-pycdio is a Python interface to the *libcdio*, the [CD Input and Control library](http://www.gnu.org/software/libcdio)
+pycdio is a Python interface to the *libcdio*, the CD Input and Control library http://www.gnu.org/software/libcdio
 
 
 You can get the source at the same place as libcdio:
@@ -12,16 +12,59 @@ control. Python programs wishing to be oblivious of the OS- and
 device-dependent properties of a CD-ROM can use this library.
 
 
-Requirements
-===========
+Sample Usage
+============
 
-* A C compiler so the extension can be compiled when it is installed. 
+Getting CD-ROM Drive Information
+--------------------------------
+
+.. code-block:: python
+
+    import sys
+    import cdio, pycdio
+
+    try:
+        d = cdio.Device(driver_id=pycdio.DRIVER_UNKNOWN)
+        drive_name = d.get_device()
+    except IOError:
+        print("Problem finding a CD-ROM")
+        sys.exit(1)
+
+    ok, vendor, model, release = d.get_hwinfo()
+    print("drive: %s, vendor: %s, model: %s, release: %s" \
+      % (drive_name, vendor, model, release))
+
+    # Show CD-Text for an audio CD
+    cdt = d.get_cdtext()
+    i_tracks = d.get_num_tracks()
+    i_first_track = pycdio.get_first_track_num(d.cd)
+
+    for t in range(i_first_track, i_tracks + i_first_track):
+        for i in range(pycdio.MIN_CDTEXT_FIELD, pycdio.MAX_CDTEXT_FIELDS):
+            value = cdt.get(i, t)
+            # value can be empty but exist, compared to NULL values
+            if value is not None:
+                print("\t%s: %s" % (pycdio.cdtext_field2str(i), value))
+                pass
+            pass
+        pass
+    return
+    d.close()
+
+Other sample code can be found in the *example* directory of the distribution.
+
+Requirements
+============
+
+* A C compiler so the extension can be compiled when it is installed.
 * libcdio (http://www.gnu.org/software/libcdio) and it's header files installed.
-* SWIG (http://www.swig.org).
-* [pkg-config](http://pkg-config.freedesktop.org)
+* SWIG http://www.swig.org
+* pkg-config http://pkg-config.freedesktop.org
 
 To build on Debian (e.g. Ubuntu):
---------------------------------
+---------------------------------
+
+::
 
     apt-get install python-dev
     apt-get install libcdio-dev

@@ -15,13 +15,13 @@ import iso9660
 
 def is_eq(a, b):
     if len(a) != len(b): return False
-    
+
     for i in range(len(a)):
         if a[i] != b[i]:
             print("position %d: %d != %d\n" % (i, a[i], b[i]))
             return False
     return True
-    
+
 achars = ('!', '"', '%', '&', '(', ')', '*', '+', ',', '-', '.',
            '/', '?', '<', '=', '>')
 
@@ -73,17 +73,17 @@ class ISO9660Tests(unittest.TestCase):
 
         dst = pyiso9660.strncpy_pad("1_3", 5, pyiso9660.DCHARS)
         self.assertEqual(dst, "1_3  ", "strncpy_pad DCHARS")
-    
+
         dst = pyiso9660.strncpy_pad("ABC!123", 2, pyiso9660.ACHARS)
         self.assertEqual(dst, "AB", "strncpy_pad ACHARS truncation")
 
     def test_dirname(self):
         """Test pyiso9660.dirname_valid_p"""
-        
+
         self.assertEqual(False, pyiso9660.dirname_valid_p("/NOGOOD"),
                          "dirname_valid_p - /NOGOOD is no good.")
 
-        self.assertEqual(False, 
+        self.assertEqual(False,
                          pyiso9660.dirname_valid_p("LONGDIRECTORY/NOGOOD"),
                          "pyiso9660.dirname_valid_p - too long directory")
 
@@ -95,7 +95,7 @@ class ISO9660Tests(unittest.TestCase):
 
     def test_image_info(self):
         """Test retrieving image information"""
-        
+
         # The test ISO 9660 image
         image_path="../data"
         image_fname=os.path.join(image_path, "copying.iso")
@@ -125,11 +125,11 @@ class ISO9660Tests(unittest.TestCase):
 
         self.assertEqual(True, pyiso9660.pathname_valid_p("OKAY/FILE.EXT"),
                         "pyiso9660.dirname_valid_p - OKAY/FILE.EXT ")
-        self.assertEqual(False, 
+        self.assertEqual(False,
                          pyiso9660.pathname_valid_p("OKAY/FILENAMELONG.EXT"),
                         'invalid pathname, long basename')
 
-        self.assertEqual(False, 
+        self.assertEqual(False,
                          pyiso9660.pathname_valid_p("OKAY/FILE.LONGEXT"),
                          "pathname_valid_p - long extension" )
 
@@ -151,7 +151,7 @@ class ISO9660Tests(unittest.TestCase):
             # if pyiso9660.VERSION_NUM < 77: new_tm[3] = tm[3]
             new_tm[3] = tm[3]
             self.assertEqual(True, is_eq(new_tm, tm), 'get_dtime(set_dtime())')
-        else: 
+        else:
             self.assertEqual(True, False, 'get_dtime is None')
 
 #        if pyiso9660.VERSION_NUM >= 77:
@@ -159,9 +159,9 @@ class ISO9660Tests(unittest.TestCase):
 #            ltime = pyiso9660.set_ltime(tm[0], tm[1], tm[2], tm[3], tm[4],
 #                                        tm[5])
 #            new_tm =  pyiso9660.get_ltime(ltime)
-#            self.assertEqual(True, is_eq(new_tm, tm), 
+#            self.assertEqual(True, is_eq(new_tm, tm),
 #                             'get_ltime(set_ltime())')
         return
-    
+
 if __name__ == "__main__":
     unittest.main()

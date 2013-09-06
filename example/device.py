@@ -34,7 +34,7 @@ def sort_dict_keys(dict):
 if sys.argv[1:]:
     try:
         drive_name = sys.argv[1]
-        d = cdio.Device(sys.argv[1])
+        d = cdio.Device(drive_name)
     except IOError:
         print("Problem opening CD-ROM: %s" % drive_name)
         sys.exit(1)
@@ -62,7 +62,7 @@ print "\t%s" % s
 print("\nDriver Availability...")
 seen = {}
 for driver_name in sort_dict_keys(cdio.drivers):
-    try: 
+    try:
         driver_id = cdio.drivers[driver_name]
         if cdio.have_driver(driver_name) and not driver_id in seen:
             print("\tDriver %s (%d) is installed." % (driver_name, driver_id,))

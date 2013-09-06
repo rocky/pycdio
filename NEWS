@@ -1,14 +1,18 @@
+0.20
+2013-09-6
+- Bug fixes and update README.txt
+
 0.19
 2013-02-16
 - Bug fixes for libcdio =< 0.82 versus libcdio >= 0.90
-- Make this work on Python3 
+- Make this work on Python3
 
 0.18
-2013-01-07 
+2013-01-07
 - Adjust for libcdio 0.90
 
 0.17
-2010-10-27 
+2010-10-27
 - Minor instruction and bug fixes
 
 0.16
@@ -28,12 +32,12 @@
 0.13
 2007-10-27
 
-- Small bugfix 
+- Small bugfix
 
 0.12
 2006-12-10
 
-- Add get_msg() 
+- Add get_msg()
 
 - Add pathname_isofy() in iso9660.py
 
@@ -44,8 +48,8 @@
 0.11
 2006-03-27
 
-- Add ISO 9660 library 
-  * add example programs to extract a file from an ISO fileystem 
+- Add ISO 9660 library
+  * add example programs to extract a file from an ISO fileystem
   * add regression tsets
 
 - Changes to make building outside of source tree (e.g. "make
@@ -64,4 +68,3 @@
 2006-01-30
 
 Initial Python wrapper
-
