@@ -49,10 +49,6 @@ Getting CD-ROM Drive Information
             pass
         pass
     return
-
-    print("Ejecting CD in drive %s" % drive_name)
-    d.eject_media()
-
     d.close()
 
 Other sample code can be found in the *example* directory of the distribution.
