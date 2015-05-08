@@ -19,6 +19,7 @@ import shutil
 
 top_dir = os.path.dirname(os.path.abspath(__file__))
 README  = os.path.join(top_dir, 'README.txt')
+pkg_config = os.getenv('PKG_CONFIG') or 'pkg-config'
 
 def rm_file(*paths):
   global top_dir
@@ -39,7 +40,7 @@ long_description = open(README).read() + '\n\n'
 swig_opts        = ['-outdir', top_dir]
 
 # Account for API change after 0.83
-ge_84 = call(['pkg-config','--atleast-version=0.84','libcdio'])
+ge_84 = call([pkg_config,'--atleast-version=0.84','libcdio'])
 if ge_84 is 0:
   print("libcdio version > 0.83")
   shutil.copy('swig/cdtext_new.swg','swig/cdtext.swg')
@@ -67,7 +68,7 @@ for lib_name in ('libcdio', 'libiso9660'):
 
     # FIXME: DRY this code.
     try:
-        p = Popen(['pkg-config', '--libs-only-L', lib_name], stdout=PIPE)
+        p = Popen([pkg_config, '--libs-only-L', lib_name], stdout=PIPE)
     except:
         print("** Error trying to run pkg-config. Is it installed?")
         print("** If not, see http://pkg-config.freedesktop.org")
@@ -84,13 +85,13 @@ for lib_name in ('libcdio', 'libiso9660'):
         print("** Will try to add %s anyway." % short_libname)
         runtime_lib_dirs = None
     library_dirs = runtime_lib_dirs
-    p = Popen(['pkg-config', '--cflags-only-I', lib_name], stdout=PIPE)
+    p = Popen([pkg_config, '--cflags-only-I', lib_name], stdout=PIPE)
     if p.returncode is None:
 	# String starts '-I' so the first entry is ''; Discard that,
 	# the others we want.
         dirs = p.communicate()[0].split(b'-I')[1:]
         include_dirs = [d.strip() for d in dirs]
-    p = Popen(['pkg-config', '--libs-only-l', lib_name], stdout=PIPE)
+    p = Popen([pkg_config, '--libs-only-l', lib_name], stdout=PIPE)
     if p.returncode is None:
 	# String starts '-l' so the first entry is ''; Discard that,
 	# the others we want.
