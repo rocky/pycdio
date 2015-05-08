@@ -6,6 +6,7 @@ or assertFalse."""
 import unittest, sys, os
 
 libdir = os.path.join(os.path.dirname(__file__), '..')
+testdir = os.path.dirname(os.path.abspath(__file__))
 if libdir[-1] != os.path.sep:
     libdir += os.path.sep
 sys.path.insert(0, libdir)
@@ -21,10 +22,10 @@ class CdioTests(unittest.TestCase):
         don't crash."""
         self.device = cdio.Device()
         if pycdio.VERSION_NUM >= 76:
-            # FIXME: Broken on Darwin? 
+            # FIXME: Broken on Darwin?
             # self.device.open()
             self.device.have_ATAPI()
-            # FIXME: Broken on Darwin? 
+            # FIXME: Broken on Darwin?
             # self.device.get_media_changed()
         self.assertEqual(True, True, "Test misc operations")
         return
@@ -40,7 +41,7 @@ class CdioTests(unittest.TestCase):
         if result1 is not None:
             self.assertEqual(result1[0], result2)
             # Now try getting device using driver that we got back
-            try: 
+            try:
               device=cdio.Device(driver_id=result1[1])
               result1 = device.get_device()
               self.assertEqual(result1, result2,
@@ -53,7 +54,7 @@ class CdioTests(unittest.TestCase):
         """Test that various routines raise proper exceptions"""
         self.device = cdio.Device()
         # No CD or or CD image has been set yet. So these fail
-        try: 
+        try:
           lsn = self.device.get_disc_last_lsn()
         except IOError:
           self.assertEqual(True, True, "get_last_lsn() IO Error")
@@ -98,9 +99,10 @@ class CdioTests(unittest.TestCase):
         """Test functioning of cdrdao image routines"""
         ## TOC reading needs to be done in the directory where the
         ## TOC/BIN files reside.
+        global testdir
         olddir=os.getcwd()
-        os.chdir('.')
-        tocfile="cdda.toc"
+        os.chdir(testdir)
+        tocfile=os.path.join(testdir, "cdda.toc")
         device = cdio.Device(tocfile, pycdio.DRIVER_CDRDAO)
         ok, vendor, model, revision  = device.get_hwinfo()
         self.assertEqual(True, ok, "get_hwinfo ok")
@@ -136,7 +138,8 @@ class CdioTests(unittest.TestCase):
 
     def test_read(self):
         """Test functioning of read routines"""
-        cuefile="./../data/isofs-m1.cue"
+        global testdir
+        cuefile=os.path.join(testdir, "isofs-m1.cue")
         device = cdio.Device(source=cuefile)
         # Read the ISO Primary Volume descriptor
         blocks, data=device.read_sectors(16, pycdio.READ_MODE_M1F1)
@@ -148,7 +151,7 @@ class CdioTests(unittest.TestCase):
 
     def test_bincue(self):
         """Test functioning of BIN/CUE image routines"""
-        cuefile="./cdda.cue"
+        cuefile=os.path.join(testdir, "cdda.cue")
         device = cdio.Device(source=cuefile)
         # Test known values of various access parameters:
         # access mode, driver name via string and via driver_id
@@ -165,7 +168,7 @@ class CdioTests(unittest.TestCase):
         binfile = cdio.is_cuefile(cuefile)
         self.assertEqual(True, binfile != None, "is_cuefile(cuefile)")
         cuefile2 = cdio.is_binfile(binfile)
-        # Could check that cuefile2 == cuefile, but some OS's may 
+        # Could check that cuefile2 == cuefile, but some OS's may
         # change the case of files
         self.assertEqual(True, cuefile2 != None, "is_cuefile(binfile)")
         result = cdio.is_tocfile(cuefile)
@@ -189,8 +192,9 @@ class CdioTests(unittest.TestCase):
 
     def test_cdda(self):
         """Test functioning CD-DA"""
+        global testdir
         device = cdio.Device()
-        cuefile="./cdda.cue"
+        cuefile=os.path.join(testdir, "cdda.cue")
         device.open(cuefile)
         result = device.get_disc_mode()
         self.assertEqual(result, 'CD-DA', 'get_disc_mode')
@@ -212,6 +216,6 @@ class CdioTests(unittest.TestCase):
         self.assertEqual(t.get_format(), 'audio', 'get_track_format')
         device.close()
         return
-    
+
 if __name__ == "__main__":
     unittest.main()

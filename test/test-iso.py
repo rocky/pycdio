@@ -9,6 +9,7 @@ import unittest, sys, os
 libdir = os.path.join(os.path.dirname(__file__), '..')
 if libdir[-1] != os.path.sep:
     libdir += os.path.sep
+testdir = os.path.dirname(__file__)
 sys.path.insert(0, libdir)
 import pyiso9660
 import iso9660
@@ -97,8 +98,7 @@ class ISO9660Tests(unittest.TestCase):
         """Test retrieving image information"""
 
         # The test ISO 9660 image
-        image_path="../data"
-        image_fname=os.path.join(image_path, "copying.iso")
+        image_fname=os.path.join(testdir, "copying.iso")
         iso = iso9660.ISO9660.IFS(source=image_fname)
         self.assertNotEqual(iso, None, "Opening %s" % image_fname)
 
