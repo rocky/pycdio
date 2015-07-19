@@ -39,25 +39,26 @@ long_description = open(README).read() + '\n\n'
 # to their own directory if I knew how to do that in distutils.
 swig_opts        = ['-outdir', top_dir]
 
-# Account for API change after 0.83
-ge_84 = call([pkg_config,'--atleast-version=0.84','libcdio'])
-if ge_84 is 0:
-  print("libcdio version > 0.83")
-  shutil.copy('swig/cdtext_new.swg','swig/cdtext.swg')
-else:
-  print("libcdio version <= 0.83")
-  shutil.copy('swig/cdtext_old.swg','swig/cdtext.swg')
-  print("Note: you should have SWIG installed to build this package")
-  for filename in ('pyiso9660_wrap.c', 'pycdio_wrap.c'):
-    rm_file('swig', filename)
-    pass
-  pass
+class custom_build(build):
+    # Reorder build commands such that swig generated files are also copied.
+    sub_commands = [('build_ext', build.has_ext_modules),
+                    ('build_py', build.has_pure_modules),
+                    ('build_clib', build.has_c_libraries),
+                    ('build_scripts', build.has_scripts)]
 
-# Reorder build commands such that swig generated files are also copied.
-build.sub_commands = [('build_ext', build.has_ext_modules),
-	('build_py', build.has_pure_modules),
-	('build_clib', build.has_c_libraries),
-	('build_scripts', build.has_scripts)]
+    def run(self):
+        # Account for API change after 0.83
+        ge_84 = call([pkg_config,'--atleast-version=0.84','libcdio'])
+        if ge_84 is 0:
+            print("libcdio version > 0.83")
+            shutil.copy('swig/cdtext_new.swg','swig/cdtext.swg')
+        else:
+            print("libcdio version <= 0.83")
+            shutil.copy('swig/cdtext_old.swg','swig/cdtext.swg')
+            print("Note: you should have SWIG installed to build this package")
+            for filename in ('pyiso9660_wrap.c', 'pycdio_wrap.c'):
+                rm_file('swig', filename)
+        build.run(self)
 
 # Find runtime library directories for libcdio and libiso9660 using
 # pkg-config. Then create the right Extension object lists which later
@@ -110,6 +111,7 @@ for lib_name in ('libcdio', 'libiso9660'):
 setup (author             = author,
        author_email       = author_email,
        classifiers        = classifiers,
+       cmdclass           = {'build': custom_build},
        description        = short_desc,
        ext_modules        = modules,
        license            = license,
