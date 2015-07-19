@@ -10,7 +10,7 @@ from __pkginfo__ import modname, version, license, short_desc, \
      web, author, author_email, classifiers
 
 from setuptools import setup
-from distutils.core import setup, Extension
+from distutils.core import Extension
 from distutils.command.build import build
 from subprocess import *
 
