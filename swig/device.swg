@@ -1,5 +1,5 @@
 /* -*- c -*-
-  Copyright (C) 2006, 2008, 2011, 2013 Rocky Bernstein <rocky@gnu.org>
+  Copyright (C) 2006, 2008, 2011, 2013, 2017 Rocky Bernstein <rocky@gnu.org>
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ typedef char ** DeviceList_t;
 %}
 
 %typemap(newfree) DeviceList_t "cdio_free_device_list($1);";
-%typemap(out) DeviceList_t {   
+%typemap(out) DeviceList_t {
     // result is of type DeviceList_t
     char **p = result;
     resultobj = PyList_New(0);
@@ -36,30 +36,30 @@ typedef char ** DeviceList_t;
       /* For each element in the array of strings, push that
        * onto the result object. */
       for ( ; *p; p++) {
-#if PY_VERSION_HEX >= 0x03000000
+%#if PY_VERSION_HEX >= 0x03000000
 	PyObject *o = PyUnicode_FromStringAndSize(*p, strlen(*p));
-#else
+%#else
 	PyObject *o = PyString_FromStringAndSize(*p, strlen(*p));
-#endif
+%#endif
 	PyList_Append(resultobj, o);
       }
     }
 }
 
 %rename cdio_close_tray close_tray;
-%feature("autodoc", 
+%feature("autodoc",
 "close_tray(drive=None, driver_id=None) -> [status, driver_id]
 
-close media tray in CD drive if there is a routine to do so. 
+close media tray in CD drive if there is a routine to do so.
 The driver id is returned. An exception is thrown on error.");
 %apply driver_id_t *OUTPUT { driver_id_t *p_out_driver_id };
 driver_return_code_t close_tray(const char *psz_drive,
-				driver_id_t p_driver_id=DRIVER_UNKNOWN, 
+				driver_id_t p_driver_id=DRIVER_UNKNOWN,
 				driver_id_t *p_out_driver_id);
 %inline %{
-driver_return_code_t 
+driver_return_code_t
 close_tray(const char *psz_drive, driver_id_t p_driver_id,
-	     driver_id_t *p_out_driver_id)  
+	     driver_id_t *p_out_driver_id)
 {
   *p_out_driver_id = p_driver_id;
   return cdio_close_tray(psz_drive, p_out_driver_id);
@@ -77,12 +77,12 @@ void cdio_destroy(CdIo_t *p_cdio);
 %feature("autodoc",
 "eject_media(cdio)->return_code
 
-Eject media in CD drive if there is a routine to do so. 
+Eject media in CD drive if there is a routine to do so.
 ");
 driver_return_code_t eject_media (CdIo_t *p_cdio);
 %inline %{
-driver_return_code_t 
-eject_media (CdIo_t *p_cdio) 
+driver_return_code_t
+eject_media (CdIo_t *p_cdio)
 {
   /* libcdio routines uses a Cdio_t **p_cdio, so we have to pass in
      something it can clobber.
@@ -94,11 +94,11 @@ eject_media (CdIo_t *p_cdio)
 
 
 %rename cdio_eject_media_drive eject_media_drive;
-%feature("autodoc", 
+%feature("autodoc",
 "eject_media_drive(drive=None)->return_code
-Eject media in CD drive if there is a routine to do so. 
-  
-psz_drive: the name of the device to be acted upon. 
+Eject media in CD drive if there is a routine to do so.
+
+psz_drive: the name of the device to be acted upon.
 The operation status is returned.");
 driver_return_code_t cdio_eject_media_drive (const char *psz_drive=NULL);
 
@@ -110,14 +110,14 @@ Get the value associatied with key.");
 const char *cdio_get_arg (const CdIo_t *p_cdio, const char key[]);
 
 %newobject cdio_get_default_device; // free malloc'd return value
-%rename cdio_get_default_device get_device; 
+%rename cdio_get_default_device get_device;
 %feature("autodoc",
 "get_device(cdio)->str
 
 Get the CD device associated with cdio.
-If cdio is NULL (we haven't initialized a specific device driver), 
+If cdio is NULL (we haven't initialized a specific device driver),
 then find a suitable one and return the default device for that.
-    
+
 In some situations of drivers or OS's we can't find a CD device if
 there is no media in it and it is possible for this routine to return
 None even though there may be a hardware CD-ROM.");
@@ -129,7 +129,7 @@ char *cdio_get_default_device (const CdIo_t *p_cdio=NULL);
 Return a string containing the default CD device if none is specified.
 if p_driver_id is DRIVER_UNKNOWN or DRIVER_DEVICE then find a suitable
 one set the default device for that.
-    
+
 None is returned as the device if we couldn't get a default device.");
 %apply driver_id_t *OUTPUT { driver_id_t *p_out_driver_id };
 char *get_default_device_driver (driver_id_t p_driver_id,
@@ -143,7 +143,7 @@ get_default_device_driver(driver_id_t driver_id, driver_id_t *p_out_driver_id)
 }
 %}
 
-%rename cdio_get_devices get_devices; 
+%rename cdio_get_devices get_devices;
 %newobject cdio_get_devices;
 %feature("autodoc",
 "get_devices(driver_id)->[device1, device2, ...]
@@ -152,7 +152,7 @@ Get an list of device names.");
 DeviceList_t cdio_get_devices (driver_id_t driver_id);
 
 %newobject get_devices_ret;
-%feature("autodoc", 
+%feature("autodoc",
 "get_devices_ret(driver_id)->[device1, device2, ... driver_id]
 
 Like get_devices, but return the p_driver_id which may be different
@@ -161,11 +161,11 @@ pycdio.DRIVER_UNKNOWN. The return driver_id may be useful because
 often one wants to get a drive name and then *open* it
 afterwards. Giving the driver back facilitates this, and speeds things
 up for libcdio as well.");
-    
-DeviceList_t get_devices_ret (driver_id_t driver_id, 
+
+DeviceList_t get_devices_ret (driver_id_t driver_id,
 			      driver_id_t *p_out_driver_id);
 %inline %{
-DeviceList_t get_devices_ret (driver_id_t driver_id, 
+DeviceList_t get_devices_ret (driver_id_t driver_id,
 			      driver_id_t *p_out_driver_id) {
   *p_out_driver_id = driver_id;
   return cdio_get_devices_ret (p_out_driver_id);
@@ -175,8 +175,8 @@ DeviceList_t get_devices_ret (driver_id_t driver_id,
 %feature("autodoc",
 "get_devices_with_cap(capabilities, any)->[device1, device2...]
 Get an array of device names in search_devices that have at least
-the capabilities listed by the capabities parameter.  
-    
+the capabilities listed by the capabities parameter.
+
 If any is False then every capability listed in the
 extended portion of capabilities (i.e. not the basic filesystem)
 must be satisified. If any is True, then if any of the
@@ -190,7 +190,7 @@ dereferencing the the value is NULL. This also means nothing was
 found.");
 DeviceList_t get_devices_with_cap (unsigned int capabilities, bool b_any);
 %inline %{
-DeviceList_t 
+DeviceList_t
 get_devices_with_cap (unsigned int capabilities, bool b_any) {
   /* FIXME: ? libcdio allows one to specify a list (char **) of devices
      to search. Don't know how to do that via SWIG though. */
@@ -214,8 +214,8 @@ get_devices_with_cap_ret (unsigned int capabilities, bool b_any,
 			  driver_id_t *p_out_driver_id) {
   /* FIXME: ? libcdio allows one to specify a list (char **) of devices
      to search. Don't know how to do that via SWIG though. */
-  return cdio_get_devices_with_cap_ret (NULL, 
-					(cdio_fs_anal_t) capabilities, b_any, 
+  return cdio_get_devices_with_cap_ret (NULL,
+					(cdio_fs_anal_t) capabilities, b_any,
 					p_out_driver_id);
  }
 %}
@@ -227,16 +227,16 @@ get_devices_with_cap_ret (unsigned int capabilities, bool b_any,
 Get drive capabilities of device.
 
 In some situations of drivers or OS's we can't find a CD device if
-there is no media in it. In this situation capabilities will show up as 
+there is no media in it. In this situation capabilities will show up as
 empty even though there is a hardware CD-ROM.");
-%apply uint32_t *OUTPUT { uint32_t *p_read_cap, 
-			  uint32_t *p_write_cap, 
+%apply uint32_t *OUTPUT { uint32_t *p_read_cap,
+			  uint32_t *p_write_cap,
 			  uint32_t *p_misc_cap };
-void cdio_get_drive_cap (const CdIo_t *p_cdio, 
-			 uint32_t *p_read_cap, 
-			 uint32_t *p_write_cap, 
+void cdio_get_drive_cap (const CdIo_t *p_cdio,
+			 uint32_t *p_read_cap,
+			 uint32_t *p_write_cap,
 			 uint32_t *p_misc_cap);
-  
+
 %rename cdio_get_drive_cap_dev get_drive_cap;
 %feature("autodoc",
 "get_drive_cap_dev()->(read_cap, write_cap, misc_cap)
@@ -244,14 +244,14 @@ void cdio_get_drive_cap (const CdIo_t *p_cdio,
 Get drive capabilities of device.
 
 In some situations of drivers or OS's we can't find a CD device if
-there is no media in it. In this situation capabilities will show up as 
+there is no media in it. In this situation capabilities will show up as
 empty even though there is a hardware CD-ROM.");
 
-void cdio_get_drive_cap_dev(const char *device=NULL, 
-			    uint32_t *p_read_cap, 
-			    uint32_t *p_write_cap, 
+void cdio_get_drive_cap_dev(const char *device=NULL,
+			    uint32_t *p_read_cap,
+			    uint32_t *p_write_cap,
 			    uint32_t *p_misc_cap);
-  
+
 %rename cdio_get_driver_name get_driver_name;
 %feature("autodoc",
 "get_driver_name(cdio)-> string
@@ -274,7 +274,7 @@ const char *cdio_get_driver_name (const CdIo_t *p_cdio);
 "get_driver_id(cdio)-> int
 
 Return the driver id of the driver in use.
-if cdio has not been initialized or is None, 
+if cdio has not been initialized or is None,
 return pycdio.DRIVER_UNKNOWN.");
 driver_id_t cdio_get_driver_id (const CdIo_t *p_cdio);
 
@@ -284,13 +284,13 @@ driver_id_t cdio_get_driver_id (const CdIo_t *p_cdio);
 Get the LSN of the first track of the last session of on the CD.
 An exception is thrown on error.");
 %apply int *OUTPUT { lsn_t *i_last_session };
-driver_return_code_t cdio_get_last_session (CdIo_t *p_cdio, 
+driver_return_code_t cdio_get_last_session (CdIo_t *p_cdio,
 					    lsn_t *i_last_session);
 
 %feature("autodoc",
 "have_driver(driver_id) -> int
 
-Return 1 if we have driver driver_id, 0 if not and -1 
+Return 1 if we have driver driver_id, 0 if not and -1
 if driver id is out of range.");
 %inline %{
 int
@@ -300,13 +300,13 @@ have_driver (unsigned int driver_id)
   return 0;
 }
 %}
-  
-%feature("autodoc", 
+
+%feature("autodoc",
 "have_ATAPI(CdIo_t *p_cdio)->bool
 return True if CD-ROM understand ATAPI commands.");
 %inline %{
 /*! True if CD-ROM understand ATAPI commands. */
-bool 
+bool
 have_ATAPI (CdIo_t *p_cdio)
 {
   return cdio_have_atapi(p_cdio) == yep;
@@ -341,24 +341,24 @@ char *cdio_is_cuefile(const char *cue_name);
 /* There is a bug in the 0.76 code when driver_id==DRIVER_UNKNOWN
    or DRIVER_DEVICE, so here we'll use code from compat.swg.
 */
-bool is_device(const char *psz_source, 
+bool is_device(const char *psz_source,
 	       driver_id_t driver_id=DRIVER_UNKNOWN);
 
 %inline %{
-bool 
+bool
 is_device(const char *psz_source, driver_id_t driver_id)
 {
   if (DRIVER_UNKNOWN == driver_id || DRIVER_DEVICE == driver_id) {
     char *psz_drive = cdio_get_default_device_driver(&driver_id);
     /* We don't need the psz_drive, just the driver_id */
-    free(psz_drive); 
+    free(psz_drive);
   }
   return cdio_is_device(psz_source, driver_id);
 }
 %}
-#else 
+#else
 %rename cdio_is_device is_device;
-bool cdio_is_device(const char *psz_source, 
+bool cdio_is_device(const char *psz_source,
 		    driver_id_t driver_id=DRIVER_UNKNOWN);
 #endif /* LIBCDIO_VERSION_NUM */
 
@@ -392,11 +392,11 @@ Get the CD-ROM hardware info via a SCSI MMC INQUIRY command.");
 %cstring_bounded_output(char *vendor, CDIO_MMC_HW_VENDOR_LEN);
 %cstring_bounded_output(char *model, CDIO_MMC_HW_MODEL_LEN);
 %cstring_bounded_output(char *revision, CDIO_MMC_HW_REVISION_LEN);
-int get_hwinfo ( const CdIo_t *p_cdio, 
+int get_hwinfo ( const CdIo_t *p_cdio,
 		 char *vendor, char *model, char *revision );
 %inline %{
-int get_hwinfo ( const CdIo_t *p_cdio, 
-		 char *vendor, char *model, char *revision ) 
+int get_hwinfo ( const CdIo_t *p_cdio,
+		 char *vendor, char *model, char *revision )
 {
   /** There's a bug somewhere here. If we take off the static,
       we clobber our parameters. So get_hwinfo sizes must not
@@ -416,21 +416,21 @@ int get_hwinfo ( const CdIo_t *p_cdio,
 %}
 
 %rename cdio_set_blocksize set_blocksize;
-%feature("autodoc", 
+%feature("autodoc",
 "set_blocksize(cdio, blocksize)->return_status
 
 Set the blocksize for subsequent reads.");
-driver_return_code_t cdio_set_blocksize ( const CdIo_t *p_cdio, 
+driver_return_code_t cdio_set_blocksize ( const CdIo_t *p_cdio,
 					  int i_blocksize );
 
 %rename cdio_set_speed set_speed;
-%feature("autodoc", 
+%feature("autodoc",
 "cdio_set_speed(cdio, speed)->return_status
 Set the drive speed.");
 driver_return_code_t cdio_set_speed ( const CdIo_t *p_cdio, int i_speed );
 
 
-/** FIXME: the below works, but is clunky. 
+/** FIXME: the below works, but is clunky.
 
     In the next release of libcdio (or CVS right now) we have a way to
     get the strings from the exception code so we don't need the switch
@@ -446,7 +446,7 @@ driver_return_code_t cdio_set_speed ( const CdIo_t *p_cdio, int i_speed );
 
 
 /*=================================================================*
-  NOTE: ALL ROUTINES DEFINED BELOW CAN GIVE A DRIVER_RETURN_CODE_T 
+  NOTE: ALL ROUTINES DEFINED BELOW CAN GIVE A DRIVER_RETURN_CODE_T
   EXCEPTION.
 *=================================================================*/
 
@@ -458,15 +458,15 @@ driver_return_code_t cdio_set_speed ( const CdIo_t *p_cdio, int i_speed );
 
 Sets up to read from place specified by source, driver_id and
 access mode. This should be called before using any other routine
-except those that act on a CD-ROM drive by name. 
+except those that act on a CD-ROM drive by name.
 
 If None is given as the source, we'll use the default driver device.
 If None is given as the driver_id, we'll find a suitable device driver.
 
-Return the a pointer than can be used in subsequent operations or 
+Return the a pointer than can be used in subsequent operations or
 None on error or no device.");
-CdIo_t *open_cd(const char *psz_source=NULL, 
-		driver_id_t driver_id=DRIVER_UNKNOWN, 
+CdIo_t *open_cd(const char *psz_source=NULL,
+		driver_id_t driver_id=DRIVER_UNKNOWN,
 		const char *psz_access_mode=NULL);
 
 %inline %{
@@ -484,11 +484,11 @@ CdIo_t *open_cd(const char *psz_source=NULL,
 */
 static driver_return_code_t drc = DRIVER_OP_SUCCESS;
 
-static void 
-set_python_errstring(driver_return_code_t drc) 
+static void
+set_python_errstring(driver_return_code_t drc)
 {
   switch(drc) {
-    case DRIVER_OP_SUCCESS: 
+    case DRIVER_OP_SUCCESS:
       break;
     case DRIVER_OP_ERROR:
       PyErr_SetString(PyExc_IOError, "driver I/O error.");
@@ -516,8 +516,8 @@ set_python_errstring(driver_return_code_t drc)
       break;
   }
  }
- 
-CdIo_t *open_cd(const char *psz_source, driver_id_t driver_id, 
+
+CdIo_t *open_cd(const char *psz_source, driver_id_t driver_id,
 		const char *psz_access_mode) {
   /* FIXME: On error we return a funny "NULL" Object.
    */
