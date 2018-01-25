@@ -1,5 +1,5 @@
 /* -*- c -*-
-  Copyright (C) 2006, 2008, 2011, 2013 Rocky Bernstein <rocky@gnu.org>
+  Copyright (C) 2006, 2008, 2011, 2013, 2017, 2018 Rocky Bernstein <rocky@gnu.org>
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -36,11 +36,11 @@ typedef char ** DeviceList_t;
       /* For each element in the array of strings, push that
        * onto the result object. */
       for ( ; *p; p++) {
-#if PY_VERSION_HEX >= 0x03000000
+%#if PY_VERSION_HEX >= 0x03000000
 	PyObject *o = PyUnicode_FromStringAndSize(*p, strlen(*p));
-#else
+%#else
 	PyObject *o = PyString_FromStringAndSize(*p, strlen(*p));
-#endif
+%#endif
 	PyList_Append(resultobj, o);
       }
     }

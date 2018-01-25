@@ -1,4 +1,18 @@
 #!/usr/bin/env python
+#  Copyright (C) 2015 Rocky Bernstein <rocky@gnu.org>
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """Unit test of iso9660 file extraction."""
 
 import unittest, sys, os
@@ -24,20 +38,20 @@ class ISO9660Tests(unittest.TestCase):
     def test_fs(self):
 
         cd = iso9660.ISO9660.FS(source=cd_image_fname)
-        self.assertEqual(True, cd is not None, 
+        self.assertEqual(True, cd is not None,
 	                "Open CD image %s" % cd_image_fname)
         statbuf = cd.stat (os.path.join('/copying'))
-        
+
         if None == statbuf:
-            statbuf = cd.stat('/COPYING') 
+            statbuf = cd.stat('/COPYING')
             expected_fn = 'COPYING'
         else:
             expected_fn = 'COPYING.;1'
             pass
 
-        good_stat = { 'LSN': 26, 'filename': expected_fn, 'is_dir': False, 
+        good_stat = { 'LSN': 26, 'filename': expected_fn, 'is_dir': False,
                       'sec_size': 9, 'size' :17992 }
-        
+
         self.assertEqual(good_stat, statbuf, 'CD 9660 file stats')
         # Get file
         buf_all =[]
@@ -45,7 +59,7 @@ class ISO9660Tests(unittest.TestCase):
         for i in range(blocks):
             lsn = statbuf['LSN'] + i
             size, buf = cd.read_data_blocks(lsn)
-            
+
             self.assertEqual( True, size >= 0,
                              "Error reading ISO 9660 file %d" % lsn )
             buf_all.append(buf)
@@ -59,7 +73,7 @@ class ISO9660Tests(unittest.TestCase):
         statbuf = cd.stat("/notthere")
 
         self.assertEqual(None, statbuf, 'stat() for non-existent file')
-    
+
         cd.close()
 
 file_contents="""		    GNU GENERAL PUBLIC LICENSE
@@ -405,4 +419,3 @@ Public License instead of this License."""
 
 if __name__ == "__main__":
     unittest.main()
-

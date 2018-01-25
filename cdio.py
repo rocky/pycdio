@@ -182,7 +182,7 @@ def have_driver(driver_id):
 
     Return True if we have driver driver_id.
     """
-    if type(driver_id)==int:
+    if isinstance(driver_id, long) or isinstance(driver_id, int):
         return pycdio.have_driver(driver_id)
     elif type(driver_id)==bytes and driver_id in drivers:
         ret = pycdio.have_driver(drivers[driver_id])

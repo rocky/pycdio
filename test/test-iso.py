@@ -1,4 +1,18 @@
 #!/usr/bin/env python
+#  Copyright (C) 2015 Rocky Bernstein <rocky@gnu.org>
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """Unit test for iso9660
 
 Test some low-level ISO9660 routines
@@ -9,6 +23,7 @@ import unittest, sys, os
 libdir = os.path.join(os.path.dirname(__file__), '..')
 if libdir[-1] != os.path.sep:
     libdir += os.path.sep
+testdir = os.path.dirname(__file__)
 sys.path.insert(0, libdir)
 import pyiso9660
 import iso9660
@@ -97,8 +112,7 @@ class ISO9660Tests(unittest.TestCase):
         """Test retrieving image information"""
 
         # The test ISO 9660 image
-        image_path="../data"
-        image_fname=os.path.join(image_path, "copying.iso")
+        image_fname=os.path.join(testdir, "copying.iso")
         iso = iso9660.ISO9660.IFS(source=image_fname)
         self.assertNotEqual(iso, None, "Opening %s" % image_fname)
 

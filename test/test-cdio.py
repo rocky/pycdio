@@ -1,4 +1,18 @@
 #!/usr/bin/env python
+#  Copyright (C) 2015, 2018 Rocky Bernstein <rocky@gnu.org>
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """Unit test for cdio
 
 Note: for compatibility with old unittest 1.46 we won't use assertTrue
@@ -101,9 +115,10 @@ class CdioTests(unittest.TestCase):
         """Test functioning of cdrdao image routines"""
         ## TOC reading needs to be done in the directory where the
         ## TOC/BIN files reside.
+        global testdir
         olddir=os.getcwd()
-        os.chdir('.')
-        tocfile="cdda.toc"
+        os.chdir(testdir)
+        tocfile=os.path.join(testdir, "cdda.toc")
         device = cdio.Device(tocfile, pycdio.DRIVER_CDRDAO)
         ok, vendor, model, revision  = device.get_hwinfo()
         self.assertEqual(True, ok, "get_hwinfo ok")
@@ -139,7 +154,8 @@ class CdioTests(unittest.TestCase):
 
     def test_read(self):
         """Test functioning of read routines"""
-        cuefile="./../data/isofs-m1.cue"
+        global testdir
+        cuefile=os.path.join(testdir, "isofs-m1.cue")
         device = cdio.Device(source=cuefile)
         # Read the ISO Primary Volume descriptor
         blocks, data=device.read_sectors(16, pycdio.READ_MODE_M1F1)
@@ -151,7 +167,7 @@ class CdioTests(unittest.TestCase):
 
     def test_bincue(self):
         """Test functioning of BIN/CUE image routines"""
-        cuefile="./cdda.cue"
+        cuefile=os.path.join(testdir, "cdda.cue")
         device = cdio.Device(source=cuefile)
         # Test known values of various access parameters:
         # access mode, driver name via string and via driver_id
@@ -191,8 +207,9 @@ class CdioTests(unittest.TestCase):
 
     def test_cdda(self):
         """Test functioning CD-DA"""
+        global testdir
         device = cdio.Device()
-        cuefile="./cdda.cue"
+        cuefile=os.path.join(testdir, "cdda.cue")
         device.open(cuefile)
         result = device.get_disc_mode()
         self.assertEqual(result, 'CD-DA', 'get_disc_mode')

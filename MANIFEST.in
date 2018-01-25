@@ -1,4 +1,6 @@
+include AUTHORS
 include COPYING
+include NEWS
 include ChangeLog
 include Makefile
 include THANKS
@@ -11,8 +13,13 @@ include example/README
 include pycdio.py
 include pyiso9660.py
 include swig/*.swg
+exclude swig/cdtext.swg
 include swig/Makefile
 include test/Makefile
 include test/cdda.bin
 include test/cdda.cue
 include test/cdda.toc
+include test/cdtext.toc
+include test/copying.iso
+include test/isofs-m1.bin
+include test/isofs-m1.cue
