@@ -16,7 +16,11 @@
 
 modname = 'pycdio'
 
-version = '2.0.0'
+# VERSION.py sets variable VERSION.
+import os.path
+exec(compile(open(os.path.join(os.path.dirname(__file__),
+                               'VERSION.py')).read(),
+             os.path.join(os.path.dirname(__file__), 'VERSION.py'), 'exec'))
 
 license   = 'GPL'
 copyright = '''Copyright (C) 2006, 2008-2010, 2013, 2018 Rocky Bernstein <rocky@gnu.org>.'''
@@ -27,7 +31,7 @@ author = "Rocky Bernstein"
 author_email = "rocky@gnu.org"
 
 web = 'http://www.gnu.org/software/libcdio'
-ftp = "ftp://ftp.gnu.org/pub/gnu/libcdio/%s-%s.tar.gz" % (modname, version)
+ftp = "ftp://ftp.gnu.org/pub/gnu/libcdio/%s-%s.tar.gz" % (modname, VERSION)
 mailinglist = "mailto:libcdio-pycdio-devel@gnu.org"
 
 classifiers =  ['Development Status :: 5 - Production/Stable',

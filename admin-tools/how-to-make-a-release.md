@@ -4,11 +4,11 @@ Let people know of a pending release, e.g. mailto://libcdio-devel@gnu.org; no
 major changes before release, please
 
 
-# Change version in uncompyle6/version.py.
+# Change version in VERSION.py
 
-    $ emacs __pkginfo__.py
-	export PYCDIO_VERSION=..
-	git commit -m'Get ready for release $PYCDIO_VERSION" .
+    $ emacs VERSION.py
+	source VERSION.py
+	git commit -m'Get ready for release $VERSION" .
 
 # test on lots of platforms (Solaris, cygwin, Darwin GNU/Linux)
 
@@ -47,9 +47,9 @@ Test all python versions:
 look in __pkginfo__.py for version =
 (also look at .git/refs/tags to see existing release numbers)
 
-    PYCDIO_VERSION='2.0.00'
-    echo git tag release-$PYCDIO_VERSION
-     git tag release-$PYCDIO_VERSION
+    VERSION='2.0.00'
+    echo git tag release-$VERSION
+     git tag release-$VERSION
      git push
      git push --tags
 
@@ -57,18 +57,18 @@ look in __pkginfo__.py for version =
 
 # Upload single package and look at Rst Formating
 
-    $ twine upload dist/pycdio-${PYCDIO_VERSION}-py3.3.egg
+    $ twine upload dist/pycdio-${VERSION}-py3.3.egg
 
 # Upload rest of versions
 
-    $ twine upload dist/pycdio-${PYCDIO_VERSION}*
+    $ twine upload dist/pycdio-${VERSION}*
 
 
 # Get onto ftp.gnu.org. I use my perl program
 
     gnupload from the automake distribution.
     locate gnupload
-    /src/external-vcs/coreutils/build-aux/gnupload --to ftp.gnu.org:libcdio pycdio-${PYCDIO_VERSION}.tar.*  # (Use "is" password)
+    /src/external-vcs/coreutils/build-aux/gnupload --to ftp.gnu.org:libcdio pycdio-${VERSION}.tar.*  # (Use "is" password)
 
 #  Bump version in __pkginfo__.py.
 
