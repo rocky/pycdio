@@ -4,13 +4,17 @@
 Note: for compatibility with old unittest 1.46 we won't use assertTrue
 or assertFalse."""
 import unittest, sys, os
+import os.path as osp
 
-libdir = os.path.join(os.path.dirname(__file__), '..')
+my_dir = osp.realpath(osp.dirname(__file__))
+libdir = osp.realpath(osp.join(my_dir, '..'))
 if libdir[-1] != os.path.sep:
     libdir += os.path.sep
 sys.path.insert(0, libdir)
 import pycdio
 import cdio
+
+os.chdir(my_dir)
 
 class CdioTests(unittest.TestCase):
 
@@ -20,12 +24,11 @@ class CdioTests(unittest.TestCase):
         we're just going to run operations and see that they
         don't crash."""
         self.device = cdio.Device()
-        if pycdio.VERSION_NUM >= 76:
-            # FIXME: Broken on Darwin? 
-            # self.device.open()
-            self.device.have_ATAPI()
-            # FIXME: Broken on Darwin? 
-            # self.device.get_media_changed()
+        # FIXME: Broken on Darwin?
+        # self.device.open()
+        self.device.have_ATAPI()
+        # FIXME: Broken on Darwin?
+        # self.device.get_media_changed()
         self.assertEqual(True, True, "Test misc operations")
         return
 
@@ -40,7 +43,7 @@ class CdioTests(unittest.TestCase):
         if result1 is not None:
             self.assertEqual(result1[0], result2)
             # Now try getting device using driver that we got back
-            try: 
+            try:
               device=cdio.Device(driver_id=result1[1])
               result1 = device.get_device()
               self.assertEqual(result1, result2,
@@ -53,7 +56,7 @@ class CdioTests(unittest.TestCase):
         """Test that various routines raise proper exceptions"""
         self.device = cdio.Device()
         # No CD or or CD image has been set yet. So these fail
-        try: 
+        try:
           lsn = self.device.get_disc_last_lsn()
         except IOError:
           self.assertEqual(True, True, "get_last_lsn() IO Error")
@@ -165,7 +168,7 @@ class CdioTests(unittest.TestCase):
         binfile = cdio.is_cuefile(cuefile)
         self.assertEqual(True, binfile != None, "is_cuefile(cuefile)")
         cuefile2 = cdio.is_binfile(binfile)
-        # Could check that cuefile2 == cuefile, but some OS's may 
+        # Could check that cuefile2 == cuefile, but some OS's may
         # change the case of files
         self.assertEqual(True, cuefile2 != None, "is_cuefile(binfile)")
         result = cdio.is_tocfile(cuefile)
@@ -178,12 +181,11 @@ class CdioTests(unittest.TestCase):
         self.assertEqual(False, result, "is_device(tocfile)")
         result = device.get_media_changed()
         self.assertEqual(False, result, "binfile: get_media_changed")
-        if pycdio.VERSION_NUM >= 77:
-            # There's a bug in libcdio 0.76 that causes these to crash
-            self.assertRaises(cdio.DriverUnsupportedError,
-                              device.set_blocksize, 2048)
-            self.assertRaises(cdio.DriverUnsupportedError,
-                              device.set_speed, 5)
+        # There's a bug in libcdio 0.76 that causes these to crash
+        self.assertRaises(cdio.DriverUnsupportedError,
+                          device.set_blocksize, 2048)
+        self.assertRaises(cdio.DriverUnsupportedError,
+                          device.set_speed, 5)
         device.close()
         return
 
@@ -212,6 +214,6 @@ class CdioTests(unittest.TestCase):
         self.assertEqual(t.get_format(), 'audio', 'get_track_format')
         device.close()
         return
-    
+
 if __name__ == "__main__":
     unittest.main()

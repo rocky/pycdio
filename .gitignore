@@ -5,6 +5,7 @@
 /*.pyc
 /*.sig
 /*.tar.gz
+/.python-version
 /_py*.so
 /build
 /dist

@@ -1,5 +1,5 @@
 /* -*- c -*-
-  Copyright (C) 2006, 2008, 2010 Rocky Bernstein <rocky@gnu.org>
+  Copyright (C) 2006, 2008, 2010, 2016, 2018 Rocky Bernstein <rocky@gnu.org>
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-%define DOCSTRING 
+%define DOCSTRING
 "This is a wrapper for The CD Input and Control library's ISO-9660 library
 See also the ISO-9660 specification. The freely available European
 equivalant standard is called ECMA-119."
@@ -87,7 +87,7 @@ typedef unsigned int iso_extension_mask_t;
 %constant long int EXTENSION_JOLIET        = ISO_EXTENSION_JOLIET;
 
 /* Set up to allow functions to return stat lists of type "stat
-   *". We'll use a typedef so we can make sure to isolate this. 
+   *". We'll use a typedef so we can make sure to isolate this.
 */
 %inline %{
 typedef CdioList_t IsoStatList_t;
@@ -98,7 +98,7 @@ typedef iso9660_stat_t IsoStat_t;
 
 %typemap(newfree) IsoStatList_t "_cdio_list_free($1, 1);";
 
-%typemap(out) IsoStatList_t *{   
+%typemap(out) IsoStatList_t *{
     CdioList_t *p_entlist   = result;
     CdioListNode_t *p_entnode;
 
@@ -106,27 +106,27 @@ typedef iso9660_stat_t IsoStat_t;
 	resultobj = PyList_New(0);
 	_CDIO_LIST_FOREACH (p_entnode, p_entlist) {
 	    PyObject *py_list = PyList_New(5);
-	    iso9660_stat_t *p_statbuf = 
+	    iso9660_stat_t *p_statbuf =
 		(iso9660_stat_t *) _cdio_list_node_data (p_entnode);
 	    PyObject *o;
 	    o = PyString_FromString(p_statbuf->filename);
 	    PyList_SetItem(py_list, 0, o);
-	    o = SWIG_From_long((long)(p_statbuf->lsn)); 
+	    o = SWIG_From_long((long)(p_statbuf->lsn));
 	    PyList_SetItem(py_list, 1, o);
-	    o = SWIG_From_long((long)(p_statbuf->size)); 
+	    o = SWIG_From_long((long)(p_statbuf->size));
 	    PyList_SetItem(py_list, 2, o);
-	    o = SWIG_From_long((long)(p_statbuf->secsize)); 
+	    o = SWIG_From_long((long)(p_statbuf->secsize));
 	    PyList_SetItem(py_list, 3, o);
-	    o = SWIG_From_long((long)(p_statbuf->type)); 
+	    o = SWIG_From_long((long)(p_statbuf->type));
 	    PyList_SetItem(py_list, 4, o);
 	    PyList_Append(resultobj, py_list);
 	}
     } else {
 	resultobj = Py_None;
     }
-	
+
 }
-%typemap(out) IsoStat_t *{   
+%typemap(out) IsoStat_t *{
     iso9660_stat_t *p_statbuf = result;
 
     if (result) {
@@ -134,13 +134,13 @@ typedef iso9660_stat_t IsoStat_t;
       resultobj = PyList_New(0);
       o = PyString_FromString(p_statbuf->filename);
       PyList_Append(resultobj, o);
-      o = SWIG_From_long((long)(p_statbuf->lsn)); 
+      o = SWIG_From_long((long)(p_statbuf->lsn));
       PyList_Append(resultobj, o);
-      o = SWIG_From_long((long)(p_statbuf->size)); 
+      o = SWIG_From_long((long)(p_statbuf->size));
       PyList_Append(resultobj, o);
-      o = SWIG_From_long((long)(p_statbuf->secsize)); 
+      o = SWIG_From_long((long)(p_statbuf->secsize));
       PyList_Append(resultobj, o);
-      o = SWIG_From_long((long)(p_statbuf->type)); 
+      o = SWIG_From_long((long)(p_statbuf->type));
       PyList_Append(resultobj, o);
       free (p_statbuf);
     } else {
@@ -149,7 +149,7 @@ typedef iso9660_stat_t IsoStat_t;
 
 }
 
-%typemap(out) struct tm *{   
+%typemap(out) struct tm *{
     struct tm *p_tm = result;
 
     if (result) {
@@ -178,7 +178,7 @@ typedef iso9660_stat_t IsoStat_t;
 }
 
 #ifdef FINISHED
-%typemap(out) IsoStatList_t *{   
+%typemap(out) IsoStatList_t *{
     // $1 is of type IsoStatList_t
     CdioList_t *p_entlist   = result;
     CdioListNode_t *p_entnode;
@@ -195,7 +195,7 @@ typedef iso9660_stat_t IsoStat_t;
     /* For each element in the array of strings, create a new
      * mortalscalar, and stuff it into the above array. */
     _CDIO_LIST_FOREACH (p_entnode, p_entlist) {
-      iso9660_stat_t *p_statbuf = 
+      iso9660_stat_t *p_statbuf =
 	(iso9660_stat_t *) _cdio_list_node_data (p_entnode);
       /* Have perl compute the length of the string using strlen() */
       XPUSHs(sv_2mortal(newSVpv(p_statbuf->filename, 0)));
@@ -223,7 +223,7 @@ iso9660_t *iso9660_open (const char *psz_path /*flags, mode */);
  extensions.  Maybe in the future we will have a mode. None is
  returned on error.");
 %rename iso9660_open_ext open_ext;
-iso9660_t *iso9660_open_ext (const char *psz_path, 
+iso9660_t *iso9660_open_ext (const char *psz_path,
 			     iso_extension_mask_t iso_extension_mask);
 
 %feature("autodoc",
@@ -259,7 +259,7 @@ not reading an ISO 9660 image but a CD-Image which contains an ISO 9660
 filesystem.
 ");
 %rename iso9660_ifs_fuzzy_read_superblock ifs_fuzzy_read_superblock;
-bool iso9660_ifs_fuzzy_read_superblock (iso9660_t *p_iso, 
+bool iso9660_ifs_fuzzy_read_superblock (iso9660_t *p_iso,
 					iso_extension_mask_t iso_extension_mask,
 					uint16_t i_fuzz);
 %feature("autodoc",
@@ -273,14 +273,14 @@ bool iso9660_close (iso9660_t * p_iso);
 "Seek to a position and then read n bytes. (buffer, size) are
  returned.");
 %cstring_output_withsize(char *p_buf, ssize_t *pi_size);
-ssize_t seek_read (const iso9660_t *p_iso, 
+ssize_t seek_read (const iso9660_t *p_iso,
 		   lsn_t start, char *p_buf, ssize_t *pi_size);
 %inline %{
-ssize_t 
-seek_read (const iso9660_t *p_iso, lsn_t start, char *p_buf, 
-	   ssize_t *pi_size) 
+ssize_t
+seek_read (const iso9660_t *p_iso, lsn_t start, char *p_buf,
+	   ssize_t *pi_size)
 {
-  *pi_size = iso9660_iso_seek_read(p_iso, p_buf, start, 
+  *pi_size = iso9660_iso_seek_read(p_iso, p_buf, start,
 				   (*pi_size) / ISO_BLOCKSIZE);
   return *pi_size;
  }
@@ -299,7 +299,7 @@ iso9660_pvd_t *fs_read_pvd ( const CdIo_t *p_cdio ) {
   return &pvd;
  }
 %}
- 
+
 %feature("autodoc",
 "Read the Primary Volume Descriptor for an ISO 9660 image.
 None is returned if there was an error.");
@@ -314,16 +314,16 @@ iso9660_pvd_t *ifs_read_pvd ( const iso9660_t *p_iso ) {
 %}
 
 %feature("autodoc",
-"Read the Super block of an ISO 9660 image. This is the 
-Primary Volume Descriptor (PVD) and perhaps a Supplemental Volume 
+"Read the Super block of an ISO 9660 image. This is the
+Primary Volume Descriptor (PVD) and perhaps a Supplemental Volume
 Descriptor if (Joliet) extensions are acceptable.");
 %rename iso9660_fs_read_superblock fs_read_superblock;
-bool iso9660_fs_read_superblock (CdIo_t *p_cdio, 
+bool iso9660_fs_read_superblock (CdIo_t *p_cdio,
 				 iso_extension_mask_t iso_extension_mask);
 
 %feature("autodoc",
-"Read the Super block of an ISO 9660 image. This is the 
- Primary Volume Descriptor (PVD) and perhaps a Supplemental Volume 
+"Read the Super block of an ISO 9660 image. This is the
+ Primary Volume Descriptor (PVD) and perhaps a Supplemental Volume
  Descriptor if (Joliet) extensions are acceptable.");
 %rename iso9660_ifs_read_superblock ifs_read_superblock;
 bool iso9660_ifs_read_superblock (iso9660_t *p_iso,
@@ -331,7 +331,7 @@ bool iso9660_ifs_read_superblock (iso9660_t *p_iso,
 
 
 /*====================================================
-  Time conversion 
+  Time conversion
  ====================================================*/
 %feature("autodoc",
 "Set time in format used in ISO 9660 directory index record");
@@ -365,7 +365,7 @@ set_ltime ( int year, int mon,  int mday, int hour, int min, int sec)
 %}
 
 %feature("autodoc",
-"Get Unix time structure from format use in an ISO 9660 directory index 
+"Get Unix time structure from format use in an ISO 9660 directory index
 record. Even though tm_wday and tm_yday fields are not explicitly in
 idr_date, they are calculated from the other fields.
 
@@ -410,14 +410,14 @@ struct tm *get_ltime (const iso9660_ltime_t *p_ltime)
 bool iso9660_isdchar (int c);
 
 %feature("autodoc",
-"Return true if c is an ACHAR - 
- These are the DCHAR's plus some ASCII symbols including the space 
+"Return true if c is an ACHAR -
+ These are the DCHAR's plus some ASCII symbols including the space
  symbol.");
 %rename iso9660_isachar is_achar;
 bool iso9660_isachar (int c);
 
 %feature("autodoc",
-"Convert an ISO-9660 file name that stored in a directory entry into 
+"Convert an ISO-9660 file name that stored in a directory entry into
  what's usually listed as the file name in a listing.
  Lowercase name, and remove trailing ;1's or .;1's and
  turn the other ;'s into version numbers.
@@ -453,7 +453,7 @@ name_translate(const char *psz_oldname) {
 %newobject name_translate_ext;
 char * name_translate_ext(const char *psz_oldname, uint8_t i_joliet_level);
 %inline %{
-char * 
+char *
 name_translate_ext(const char *psz_oldname, uint8_t i_joliet_level) {
   char *psz_newname=calloc(sizeof(char), strlen(psz_oldname)+1);
   iso9660_name_translate_ext(psz_oldname, psz_newname, i_joliet_level);
@@ -466,7 +466,7 @@ name_translate_ext(const char *psz_oldname, uint8_t i_joliet_level) {
  en is less than the length of src, dst will be truncated to the
  first len characters of src.
 
- src can also be scanned to see if it contains only ACHARs, DCHARs, 
+ src can also be scanned to see if it contains only ACHARs, DCHARs,
  7-bit ASCII chars depending on the enumeration _check.
 
  In addition to getting changed, dst is the return value.
@@ -480,18 +480,18 @@ strncpy_pad(const char src[], size_t len, enum strncpy_pad_check _check) {
   return iso9660_strncpy_pad(dst, src, len, _check);
 }
 %}
- 
+
 /*=====================================================================
-  Files and Directory Names 
+  Files and Directory Names
 ======================================================================*/
 
 %feature("autodoc",
 "Check that psz_path is a valid ISO-9660 directory name.
 
- A valid directory name should not start out with a slash (/), 
- dot (.) or null byte, should be less than 37 characters long, 
- have no more than 8 characters in a directory component 
- which is separated by a /, and consist of only DCHARs. 
+ A valid directory name should not start out with a slash (/),
+ dot (.) or null byte, should be less than 37 characters long,
+ have no more than 8 characters in a directory component
+ which is separated by a /, and consist of only DCHARs.
 
  True is returned if psz_path is valid.");
 %rename iso9660_dirname_valid_p dirname_valid_p;
@@ -507,14 +507,14 @@ number. For example, mydir/file.ext -> MYDIR/FILE.EXT;1 for version
 char *iso9660_pathname_isofy (const char psz_path[], uint16_t i_version=1);
 
 %feature("autodoc",
-"Check that psz_path is a valid ISO-9660 pathname.  
+"Check that psz_path is a valid ISO-9660 pathname.
 
 A valid pathname contains a valid directory name, if one appears and
 the filename portion should be no more than 8 characters for the
 file prefix and 3 characters in the extension (or portion after a
 dot). There should be exactly one dot somewhere in the filename
 portion and the filename should be composed of only DCHARs.
-  
+
 True is returned if psz_path is valid.");
 %rename iso9660_pathname_valid_p pathname_valid_p;
 bool iso9660_pathname_valid_p (const char psz_path[]);
@@ -545,18 +545,15 @@ IsoStat_t *iso9660_find_ifs_lsn(const iso9660_t *p_iso, lsn_t i_lsn);
 "Return file status for psz_path. None is returned on error.");
 %rename iso9660_fs_stat fs_stat;
 IsoStat_t *iso9660_fs_stat (CdIo_t *p_cdio, const char psz_path[]);
-  
+
 
 %feature("autodoc",
 "Return file status for path name psz_path. None is returned on error.
 pathname version numbers in the ISO 9660 name are dropped, i.e. ;1
-is removed and if level 1 ISO-9660 names are lowercased.
-
-The b_mode2 parameter is not used.");
+is removed and if level 1 ISO-9660 names are lowercased.");
 %rename iso9660_fs_stat_translate fs_stat_translate;
-IsoStat_t *iso9660_fs_stat_translate (CdIo_t *p_cdio, 
-				      const char psz_path[], 
-				      bool b_mode2=false);
+IsoStat_t *iso9660_fs_stat_translate (CdIo_t *p_cdio,
+				      const char psz_path[]);
 
 %feature("autodoc",
 "Return file status for pathname. None is returned on error.");
@@ -569,7 +566,7 @@ IsoStat_t *iso9660_ifs_stat (iso9660_t *p_iso, const char psz_path[]);
 pathname version numbers in the ISO 9660 name are dropped, i.e. ;1 is
 removed and if level 1 ISO-9660 names are lowercased.");
 %rename iso9660_ifs_stat_translate ifs_stat_translate;
-IsoStat_t *iso9660_ifs_stat_translate (iso9660_t *p_iso, 
+IsoStat_t *iso9660_ifs_stat_translate (iso9660_t *p_iso,
 				       const char psz_path[]);
 
 %feature("autodoc",
@@ -580,7 +577,7 @@ IsoStatList_t *fs_readdir (CdIo_t *p_cdio, const char psz_path[]);
 %inline %{
 IsoStatList_t *fs_readdir (CdIo_t *p_cdio, const char psz_path[])
 {
-  CdioList_t *p_statlist = iso9660_fs_readdir (p_cdio, psz_path, false);
+  CdioList_t *p_statlist = iso9660_fs_readdir (p_cdio, psz_path);
   return p_statlist;
 }
 %}
@@ -603,7 +600,7 @@ IsoStatList_t *ifs_readdir (iso9660_t *p_iso, const char psz_path[])
 None is returned if there is some problem in getting this.");
 %rename iso9660_get_application_id get_application_id;
 char * iso9660_get_application_id(iso9660_pvd_t *p_pvd);
-  
+
 %feature("autodoc",
 "Get the application ID.  Return None if there
 is some problem in getting this.");
@@ -633,13 +630,11 @@ uint8_t iso9660_get_dir_len(const iso9660_dir_t *p_idr);
 %newobject iso9660_dir_to_name; // free malloc'd return value
 %rename iso9660_get_to_name get_to_name;
 char * iso9660_dir_to_name (const iso9660_dir_t *p_iso9660_dir);
-  
-#if LIBCDIO_VERSION_NUM > 76
+
 %feature("autodoc",
 "Returns a POSIX mode for a given p_iso_dirent.");
 %rename iso9660_get_posix_filemode get_posix_filemode;
 mode_t iso9660_get_posix_filemode(const iso9660_stat_t *p_iso_dirent);
-#endif
 
 %feature("autodoc",
 "Return a string containing the preparer id with trailing
@@ -685,7 +680,7 @@ ifs_get_publisher_id(iso9660_t *p_iso) {
 
 %rename iso9660_get_pvd_type get_pvd_type;
 uint8_t iso9660_get_pvd_type(const iso9660_pvd_t *p_pvd);
-  
+
 %rename iso9660_get_pvd_id get_pvd_id;
 const char * iso9660_get_pvd_id(const iso9660_pvd_t *p_pvd);
 
@@ -751,7 +746,7 @@ ifs_get_volume_id(iso9660_t *p_iso) {
 
 %feature("autodoc",
 "  Return the PVD's volumeset ID.
-  None is returned if there is some problem in getting this. 
+  None is returned if there is some problem in getting this.
 ");
 %rename iso9660_get_volumeset_id get_volumeset_id;
 char *iso9660_get_volumeset_id(const iso9660_pvd_t *p_pvd);
@@ -772,33 +767,33 @@ ifs_get_volumeset_id(iso9660_t *p_iso) {
 %}
 
 /* ================= pathtable  ================== */
-  
+
 %feature("autodoc",
 "Zero's out pathable. Do this first.");
 %rename iso9660_pathtable_init pathtable_init;
 void iso9660_pathtable_init (void *pt);
-  
+
 %rename iso9660_pathtable_get_size pathtable_get_size;
 unsigned int iso9660_pathtable_get_size (const void *pt);
-  
+
 %rename iso9660_pathtable_l_add_entry pathtable_l_add_entry;
-uint16_t iso9660_pathtable_l_add_entry (void *pt, const char name[], 
+uint16_t iso9660_pathtable_l_add_entry (void *pt, const char name[],
 					uint32_t extent, uint16_t parent);
-  
+
 %rename iso9660_pathtable_m_add_entry pathtable_m_add_entry;
-uint16_t iso9660_pathtable_m_add_entry (void *pt, const char name[], 
+uint16_t iso9660_pathtable_m_add_entry (void *pt, const char name[],
 					uint32_t extent, uint16_t parent);
-  
+
 /*======================================================================
    Volume Descriptors
 ========================================================================*/
 
 #ifdef FINSHED
-void iso9660_set_pvd (void *pd, const char volume_id[], 
-		      const char application_id[], 
+void iso9660_set_pvd (void *pd, const char volume_id[],
+		      const char application_id[],
 		      const char publisher_id[], const char preparer_id[],
-		      uint32_t iso_size, const void *root_dir, 
-		      uint32_t path_table_l_extent, 
+		      uint32_t iso_size, const void *root_dir,
+		      uint32_t path_table_l_extent,
 		      uint32_t path_table_m_extent,
 		      uint32_t path_table_size, const time_t *pvd_time);
 #endif /*FINISHED*/

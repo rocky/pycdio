@@ -1,4 +1,4 @@
-# Copyright (C) 2006, 2008, 2009, 2013 Rocky Bernstein <rocky@gnu.org>
+# Copyright (C) 2006, 2008-2009, 2013, 2016, 2018 Rocky Bernstein <rocky@gnu.org>
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -16,10 +16,10 @@
 
 modname = 'pycdio'
 
-version = '0.20'
+version = '2.0.0'
 
 license   = 'GPL'
-copyright = '''Copyright (C) 2006, 2008, 2009, 2010, 2013 Rocky Bernstein <rocky@gnu.org>.'''
+copyright = '''Copyright (C) 2006, 2008-2010, 2013, 2018 Rocky Bernstein <rocky@gnu.org>.'''
 
 short_desc = 'Python OO interface to libcdio (CD Input and Control library)'
 
@@ -30,8 +30,19 @@ web = 'http://www.gnu.org/software/libcdio'
 ftp = "ftp://ftp.gnu.org/pub/gnu/libcdio/%s-%s.tar.gz" % (modname, version)
 mailinglist = "mailto:libcdio-pycdio-devel@gnu.org"
 
-classifiers =  ['Development Status :: 4 - Beta',
+classifiers =  ['Development Status :: 5 - Production/Stable',
                 'Intended Audience :: Developers',
                 'License :: OSI Approved :: GNU General Public License (GPL)',
                 'Programming Language :: Python',
+                'Programming Language :: Python :: 2.4',
+                'Programming Language :: Python :: 2.5',
+                'Programming Language :: Python :: 2.6',
+                'Programming Language :: Python :: 2.7',
+                'Programming Language :: Python :: 3',
+                'Programming Language :: Python :: 3.2',
+                'Programming Language :: Python :: 3.3',
+                'Programming Language :: Python :: 3.4',
+                'Programming Language :: Python :: 3.5',
+                'Programming Language :: Python :: 3.6',
+                'Programming Language :: Python :: 3.7',
                 ]

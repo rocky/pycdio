@@ -1,8 +1,20 @@
+2018-01-25  rocky <rocky@gnu.org>
+
+	* .gitignore, README.txt, __pkginfo__.py,
+	admin-tools/how-to-make-a-release.md, cdio.py, setup.py,
+	swig/device.swg, swig/device_const.swg, swig/pyiso9660.i,
+	test/test-cdio.py: Ready for Release 2.0.0 * Update API to 2.0.0. Assume version 2.0.0 or greater of libcdio.  * remove old compatibilty code.  * Update usual Python administrivia and package info.
+
 2013-09-06  rocky <rocky@gnu.org>
 
-	* ChangeLog, Makefile, NEWS, README.txt, __pkginfo__.py,
-	example/device.py, test/test-iso.py: Update README to put into
-	proper ReStructuredText. Add an example. Get ready for release 0.20.
+	* : commit 6d8e002ca3c04f69fdbc5c9b5fb26b66ea327327 Author: rocky
+	<rocky@gnu.org> Date:   Fri Sep 6 02:51:03 2013 -0400
+
+2013-09-06  rocky <rocky@gnu.org>
+
+	* ChangeLog, NEWS, README.txt, __pkginfo__.py, example/device.py,
+	test/test-iso.py: Update README to put into proper ReStructuredText.
+	Add an example. Get ready for release 0.20.
 
 2013-03-06  rocky <rocky@gnu.org>
 
@@ -35,7 +47,7 @@
 
 2013-02-13  R. Bernstein <rocky@gnu.org>
 
-	* __pkginfo__.py, cdio.py, iso9660.py, setup.py, test/test-iso.py:
+	* __pkginfo__.py, cdio.py, iso9660.py, setup.py, test/test-iso.py: 
 	Closer to having Python3 but not quite there yet.
 
 2013-02-13  R. Bernstein <rocky@gnu.org>
@@ -51,7 +63,7 @@
 
 2013-02-13  R. Bernstein <rocky@gnu.org>
 
-	* Makefile, example/Makefile, example/cdtext.py, example/iso2.py:
+	* Makefile, example/Makefile, example/cdtext.py, example/iso2.py: 
 	Fix up CD-Text example program
 
 2013-02-13  R. Bernstein <rocky@gnu.org>
@@ -66,7 +78,7 @@
 
 2013-02-12  R. Bernstein <rocky@gnu.org>
 
-	* MANIFEST.in, Makefile, iso9660.py, setup.py, swig/device.swg:
+	* MANIFEST.in, Makefile, iso9660.py, setup.py, swig/device.swg: 
 	MANIFEST.in: Add ChangeLog and Makefile Makefile: remove more
 	derived files iso9660.py: add missing import pycdio - thanks to
 	Benjamin Eitzner setup.py: remove more files is usin libcdio 0.83
@@ -109,8 +121,8 @@
 
 2012-03-27  Leon Merten Lohse <leon@green-side.de>
 
-	* Makefile, cdio.py, setup.py, swig/cdtext.swg,
-	swig/cdtext_new.swg, swig/cdtext_old.swg, swig/compat.swg,
+	* Makefile, cdio.py, setup.py, swig/cdtext_new.swg,
+	swig/{cdtext.swg => cdtext_old.swg}, swig/compat.swg,
 	swig/pycdio.i, swig/pyiso9660.i, swig/track.swg, swig/types.swg,
 	test/test-cdtext.py: removed compatibility with pre 0.80 libcdio.
 	made compatible with recent CD-Text api changes.
@@ -282,7 +294,7 @@
 2008-12-06  R. Bernstein <rocky@sanchez.(none)>
 
 	* Makefile, cdio.py, example/device.py, example/drives.py,
-	swig/device.swg, swig/device_const.swg, test/test-isocopy.py:
+	swig/device.swg, swig/device_const.swg, test/test-isocopy.py: 
 	device.swg: Remove bug in returning null device list.
 	device_const.swg, cdio.py: Add NetBSD driver id.
 	test/test-isocopyFix.py:  bug in test path.  cdio.py: DRY code a
@@ -292,14 +304,13 @@
 2008-12-06  R. Bernstein <rocky@gnu.org>
 
 	* .cvsignore, .gitignore, COPYING, INSTALL, MANIFEST.in, Makefile,
-	Makefile.am, README, README.txt, __init__.py, __pkginfo__.py,
+	Makefile.am, README => README.txt, __init__.py, __pkginfo__.py,
 	autogen.sh, configure.ac, cvs2cl_header, cvs2cl_usermap,
 	example/.cvsignore, example/.gitignore, get-cygwin-python-libs,
 	git2authors.txt, include-path.py, pycdio.m4, setup.cfg, setup.py,
-	site-packages-path.py, swig/.gitignore, swig/pycdio.i,
-	swig/pycdio.swg, swig/pyiso9660.i, swig/pyiso9660.swg,
-	test/.gitignore, test/cdda.toc, test/test-cdio.py: Rework to use
-	setuptools.
+	site-packages-path.py, swig/.gitignore, swig/{pycdio.swg =>
+	pycdio.i}, swig/{pyiso9660.swg => pyiso9660.i}, test/.gitignore,
+	test/cdda.toc, test/test-cdio.py: Rework to use setuptools.
 
 2008-11-24  rocky <rocky>
 
@@ -307,10 +318,10 @@
 
 2008-11-24  rocky <rocky>
 
-	* Makefile.am, test/cdiotest.py, test/isotest.py,
-	test/test-cdio.py, test/test-iso.py, test/test-isocopy.py: Make more
-	setuptools and distutils friendly. Rename test programs to start
-	with test- (in the test directory).
+	* Makefile.am, test/{cdiotest.py => test-cdio.py}, test/{isotest.py
+	=> test-iso.py}, test/test-isocopy.py: Make more setuptools and
+	distutils friendly. Rename test programs to start with test- (in the
+	test directory).
 
 2008-11-24  rocky <rocky>
 
@@ -330,15 +341,15 @@
 2008-11-24  rocky <rocky>
 
 	* Makefile.am, configure.ac, example/audio.py.in,
-	example/cd-read.py, example/cd-read.py.in, example/cdchange.py.in,
-	example/device.py, example/device.py.in, example/drives.py,
-	example/drives.py.in, example/eject.py, example/eject.py.in,
-	example/iso1.py, example/iso1.py.in, example/iso2.py,
-	example/iso2.py.in, example/iso3.py, example/iso3.py.in,
-	example/tracks.py, example/tracks.py.in, test/cdiotest.py,
-	test/cdiotest.py.in, test/isocopy.py, test/isocopy.py.in,
-	test/isotest.py, test/isotest.py.in: More Pythonic less autoconf-ish
-	and closer to being able to use distutils.
+	example/{cd-read.py.in => cd-read.py}, example/cdchange.py.in,
+	example/{device.py.in => device.py}, example/drives.py,
+	example/drives.py.in, example/{eject.py.in => eject.py},
+	example/{iso1.py.in => iso1.py}, example/{iso2.py.in => iso2.py},
+	example/{iso3.py.in => iso3.py}, example/{tracks.py.in =>
+	tracks.py}, test/{cdiotest.py.in => cdiotest.py},
+	test/{isocopy.py.in => isocopy.py}, test/{isotest.py.in =>
+	isotest.py}: More Pythonic less autoconf-ish and closer to being
+	able to use distutils.
 
 2008-05-01  karl <karl>
 
@@ -457,7 +468,7 @@
 
 	* swig/audio.swg, swig/compat.swg, swig/device.swg,
 	swig/device_const.swg, swig/disc.swg, swig/pycdio.swg,
-	swig/pyiso9660.swg, swig/read.swg, swig/track.swg, swig/types.swg:
+	swig/pyiso9660.swg, swig/read.swg, swig/track.swg, swig/types.swg: 
 	email address change.
 
 2006-11-12  rocky <rocky>
@@ -480,7 +491,7 @@
 
 2006-03-31  rocky <rocky>
 
-	* test/cdiotest.py.in, test/isocopy.py.in, test/isotest.py.in:
+	* test/cdiotest.py.in, test/isocopy.py.in, test/isotest.py.in: 
 	Darwin and old Python fixes
 
 2006-03-31  rocky <rocky>
@@ -619,9 +630,9 @@
 
 2006-03-15  rocky <rocky>
 
-	* .cvsignore, Makefile.am, cdio.py, cdio.py.in, example/.cvsignore,
-	iso9660.py, test/.cvsignore, test/isotest.py.in: Misc autobuild
-	lint.
+	* .cvsignore, Makefile.am, cdio.py.in => cdio.py,
+	example/.cvsignore, iso9660.py, test/.cvsignore, test/isotest.py.in: 
+	Misc autobuild lint.
 
 2006-03-15  rocky <rocky>
 
@@ -641,7 +652,7 @@
 2006-03-14  rocky <rocky>
 
 	* Makefile.am, cdio.py.in, configure.ac, example/drives.py.in,
-	iso9660.py, swig/pycdio.swg, swig/pyiso9660.swg, swig/read.swg:
+	iso9660.py, swig/pycdio.swg, swig/pyiso9660.swg, swig/read.swg: 
 	First attempt at adding ISO9660 library.
 
 2006-02-14  rocky <rocky>
@@ -700,7 +711,7 @@
 
 2006-02-03  rocky <rocky>
 
-	* NEWS, example/audio.py.in, swig/device.swg, test/cdiotest.py.in:
+	* NEWS, example/audio.py.in, swig/device.swg, test/cdiotest.py.in: 
 	device.swg:  Add get_hwinfo (tentatively) audio.py.in doc fix.
 
 2006-02-01  rocky <rocky>
@@ -783,3 +794,4 @@
 2006-01-25  rocky <rocky>
 
 	* Initial revision
+

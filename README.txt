@@ -1,7 +1,8 @@
 Introduction
 ============
 
-pycdio is a Python interface to the *libcdio*, the CD Input and Control library http://www.gnu.org/software/libcdio
+pycdio is a Python interface to the *libcdio*, the CD Input and
+Control library http://www.gnu.org/software/libcdio
 
 
 You can get the source at the same place as libcdio:
@@ -87,7 +88,7 @@ those things that didn't require any thought. The ISO 9660 library is
 pretty complete, except file *stat()* information which is at present is
 pretty minimal.
 
-That said, what's in there is very usable It contains probably more
+That said, what's in there is very usable. It contains probably more
 access capabilities than what most media players that don't use
 libcdio have.
 

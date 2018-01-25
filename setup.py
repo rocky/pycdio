@@ -38,13 +38,13 @@ long_description = open(README).read() + '\n\n'
 # to their own directory if I knew how to do that in distutils.
 swig_opts        = ['-outdir', top_dir]
 
-# Account for API change after 0.83
-ge_84 = call(['pkg-config','--atleast-version=0.84','libcdio'])
-if ge_84 is 0:
-  print("libcdio version > 0.83")
+# Account for API change at 2.0.0
+ge_2 = call(['pkg-config','--atleast-version=2.0.0','libcdio'])
+if ge_2 is 0:
+  print("libcdio version >= 2.0.0")
   shutil.copy('swig/cdtext_new.swg','swig/cdtext.swg')
 else:
-  print("libcdio version <= 0.83")
+  print("libcdio version > 2.0.0")
   shutil.copy('swig/cdtext_old.swg','swig/cdtext.swg')
   print("Note: you should have SWIG installed to build this package")
   for filename in ('pyiso9660_wrap.c', 'pycdio_wrap.c'):
