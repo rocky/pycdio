@@ -20,15 +20,13 @@ or assertFalse."""
 import unittest, sys, os
 import os.path as osp
 
-my_dir = osp.realpath(osp.dirname(__file__))
-libdir = osp.realpath(osp.join(my_dir, '..'))
+testdir = osp.realpath(osp.dirname(__file__))
+libdir = osp.realpath(osp.join(testdir, '..'))
 if libdir[-1] != os.path.sep:
     libdir += os.path.sep
 sys.path.insert(0, libdir)
 import pycdio
 import cdio
-
-os.chdir(my_dir)
 
 class CdioTests(unittest.TestCase):
 
@@ -115,7 +113,6 @@ class CdioTests(unittest.TestCase):
         """Test functioning of cdrdao image routines"""
         ## TOC reading needs to be done in the directory where the
         ## TOC/BIN files reside.
-        global testdir
         olddir=os.getcwd()
         os.chdir(testdir)
         tocfile=os.path.join(testdir, "cdda.toc")

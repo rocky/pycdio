@@ -3,6 +3,7 @@
 
 - Update to libcdio 2.0.0 API
 - remove old compability code before 2.0.0
+  We no longer support obsolte CD-Text interface
 - Update Python packaging info
 
 0.20

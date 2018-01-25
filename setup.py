@@ -63,15 +63,8 @@ class custom_build(build):
     def run(self):
         # Account for API change after 0.83
         ge_2 = call([pkg_config,'--atleast-version=2.0.0','libcdio'])
-        if ge_84 is 0:
-            print("libcdio version >= 2.0.0")
-            shutil.copy('swig/cdtext_new.swg','swig/cdtext.swg')
-        else:
-            print("libcdio version <= 0.83")
-            shutil.copy('swig/cdtext_old.swg','swig/cdtext.swg')
-            print("Note: you should have SWIG installed to build this package")
-            for filename in ('pyiso9660_wrap.c', 'pycdio_wrap.c'):
-                rm_file('swig', filename)
+        assert ge_2 == 0, "Need at least libcdio 2.0.0 to use this"
+        print("libcdio version >= 2.0.0")
         build.run(self)
 
 # Find runtime library directories for libcdio and libiso9660 using
