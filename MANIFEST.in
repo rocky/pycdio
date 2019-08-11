@@ -1,9 +1,11 @@
+exclude swig/cdtext.swg
 include AUTHORS
 include COPYING
-include NEWS
 include ChangeLog
 include Makefile
+include NEWS
 include THANKS
+include VERSION.py
 include __pkginfo__.py
 include data/copying.iso
 include data/isofs-m1.bin
@@ -13,7 +15,6 @@ include example/README
 include pycdio.py
 include pyiso9660.py
 include swig/*.swg
-exclude swig/cdtext.swg
 include swig/Makefile
 include test/Makefile
 include test/cdda.bin
