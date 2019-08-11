@@ -19,7 +19,10 @@ and device-dependent properties of a CD-ROM can use this library."""
 
 import pycdio
 import _pycdio
+import sys
 import types
+
+PYTHON2 = sys.version_info[0] <= 2
 
 class DeviceException(Exception):
     """General device or driver exceptions"""
@@ -182,9 +185,10 @@ def have_driver(driver_id):
 
     Return True if we have driver driver_id.
     """
-    if isinstance(driver_id, long) or isinstance(driver_id, int):
+    if (isinstance(driver_id, int) or
+        (PYTHON2 and isinstance(driver_id, long))) :
         return pycdio.have_driver(driver_id)
-    elif type(driver_id)==bytes and driver_id in drivers:
+    elif type(driver_id) in (bytes, str) and driver_id in drivers:
         ret = pycdio.have_driver(drivers[driver_id])
         if ret == 0: return False
         if ret == 1: return True
