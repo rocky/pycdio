@@ -63,10 +63,9 @@ Goto https://github.com/rocky/pycdio/releases
 Use `gnupload` from the `automake` distribution.
 
 ```
-    $ locate gnupload
+    $ cd dist
+	$ ~/bin/gnupload  --to ftp.gnu.org:libcdio pycdio-${VERSION}.tar.*  # (Use "is" password)
 ```
-
-/src/external-vcs/coreutils/build-aux/gnupload --to ftp.gnu.org:libcdio pycdio-${VERSION}.tar.*  # (Use "is" password)
 
 #  Bump version in __pkginfo__.py.
 
