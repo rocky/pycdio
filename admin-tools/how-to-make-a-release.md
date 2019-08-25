@@ -18,7 +18,7 @@ major changes before release, please
 
     rm ChangeLog ; make ChangeLog
 
-#  Update NEWS from ChangeLog.
+#  Update NEWS.md from ChangeLog.
 
 # Make sure sources are current and checked in:
 
@@ -35,19 +35,14 @@ major changes before release, please
 
 Test all python versions:
 
-     bash
-     source "$HOME/.pythonbrew/etc/bashrc"
-     PYVERSIONS='2.4.6 2.5.6 2.6.8 2.7.3'
-
-     for version in $PYVERSIONS; do pythonbrew use $version && nosetests ; done
-
+	./admin-tools/check-versions.sh
 
 #  Tag release in git:
 
 look in __pkginfo__.py for version =
 (also look at .git/refs/tags to see existing release numbers)
 
-    VERSION='2.0.00'
+    VERSION='2.0.0'
     echo git tag release-$VERSION
      git tag release-$VERSION
      git push

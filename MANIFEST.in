@@ -3,7 +3,7 @@ include AUTHORS
 include COPYING
 include ChangeLog
 include Makefile
-include NEWS
+include NEWS.md
 include THANKS
 include VERSION.py
 include __pkginfo__.py
