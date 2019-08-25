@@ -8,7 +8,7 @@ major changes before release, please
 
     $ emacs VERSION.py
 	source VERSION.py
-	git commit -m'Get ready for release $VERSION" .
+	git commit -m"Get ready for release $VERSION" .
 
 # test on lots of platforms (Solaris, cygwin, Darwin GNU/Linux)
 
@@ -27,32 +27,31 @@ major changes before release, please
     git commit .
     git push
 
-#  Test it:
+#  Test Code
 
-    make clean
-    make build
-    make check
+```
+    make clean && make check
+```
 
 Test all python versions:
 
-	./admin-tools/check-versions.sh
+```
+	./admin-tools/check-versions.h
+```
+
+#  Make distribution
+
+```
+	./admin-tools/make-dist.sh
+```
 
 #  Tag release in git:
 
-look in __pkginfo__.py for version =
-(also look at .git/refs/tags to see existing release numbers)
-
-    VERSION='2.0.0'
-    echo git tag release-$VERSION
-     git tag release-$VERSION
-     git push
-     git push --tags
-
-- "make check" one more time
+Goto https://github.com/rocky/pycdio/releases
 
 # Upload single package and look at Rst Formating
 
-    $ twine upload dist/pycdio-${VERSION}-py3.3.egg
+    $ twine upload dist/pycdio-${VERSION}-py3.3*.egg
 
 # Upload rest of versions
 
@@ -61,9 +60,13 @@ look in __pkginfo__.py for version =
 
 # Get onto ftp.gnu.org. I use my perl program
 
-    gnupload from the automake distribution.
-    locate gnupload
-    /src/external-vcs/coreutils/build-aux/gnupload --to ftp.gnu.org:libcdio pycdio-${VERSION}.tar.*  # (Use "is" password)
+Use `gnupload` from the `automake` distribution.
+
+```
+    $ locate gnupload
+```
+
+/src/external-vcs/coreutils/build-aux/gnupload --to ftp.gnu.org:libcdio pycdio-${VERSION}.tar.*  # (Use "is" password)
 
 #  Bump version in __pkginfo__.py.
 

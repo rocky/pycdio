@@ -84,6 +84,7 @@ I've noticed however problems in various distutils.
 If you see a message like this when running `make check`:
 
 ::
+
      File "/home/rocky/.pyenv/versions/3.5.6/lib/python3.5/distutils/unixccompiler.py", line 207, in library_dir_option
       return "-L" + dir
      TypeError: Can't convert 'bytes' object to str implicitly
@@ -92,6 +93,7 @@ If you see a message like this when running `make check`:
 Copy in a recent ditutils `unixccompiler.py` like this:
 
 ::
+
    $ cp admin-tools/unixccompiler.py /home/rocky/.pyenv/versions/3.5.6/lib/python3.5/distutils/unixccompiler.py
 
 The distutils distribution says that it tries to be compatible with all Python versions from 2.3. The
