@@ -1,5 +1,5 @@
 Introduction
-============
+==============
 
 pycdio is a Python interface to the *libcdio*, the CD Input and
 Control library http://www.gnu.org/software/libcdio
@@ -55,7 +55,7 @@ Getting CD-ROM Drive Information
 Other sample code can be found in the *example* directory of the distribution.
 
 Requirements
-============
+=============
 
 * A C compiler so the extension can be compiled when it is installed.
 * libcdio (http://www.gnu.org/software/libcdio) and it's header files installed.
@@ -63,7 +63,7 @@ Requirements
 * pkg-config http://pkg-config.freedesktop.org
 
 To build on Debian (e.g. Ubuntu):
----------------------------------
+-------------------------------------
 
 ::
 
@@ -74,8 +74,31 @@ To build on Debian (e.g. Ubuntu):
     $ pip install -e .
     $ make check
 
+SWIG Problems
+===============
+
+I've tried to make this work back to Python 2.3 or so.
+
+I've noticed however problems in various distutils.
+
+If you see a message like this when running `make check`:
+
+::
+     File "/home/rocky/.pyenv/versions/3.5.6/lib/python3.5/distutils/unixccompiler.py", line 207, in library_dir_option
+      return "-L" + dir
+     TypeError: Can't convert 'bytes' object to str implicitly
+
+
+Copy in a recent ditutils `unixccompiler.py` like this:
+
+::
+   $ cp admin-tools/unixccompiler.py /home/rocky/.pyenv/versions/3.5.6/lib/python3.5/distutils/unixccompiler.py
+
+The distutils distribution says that it tries to be compatible with all Python versions from 2.3. The
+`unixccompiler.py` in `admin_tools` is from the Python 3.7.4 distribution.
+
 Completeness
-============
+=============
 
 *libcdio* is rather large and yet may still grow a bit.
 

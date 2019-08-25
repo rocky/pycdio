@@ -38,6 +38,9 @@ from subprocess import *
 
 import os
 import shutil
+import sys
+
+OVER_PYTHON_25 = sys.version_info[0:1] >= (2, 5)
 
 top_dir = os.path.dirname(os.path.abspath(__file__))
 README = os.path.join(top_dir, "README.rst")
@@ -99,7 +102,9 @@ for lib_name in ("libcdio", "libiso9660"):
 
     if p.returncode is None:
         # Strip off blanks and initial '-L'
-        dirs = p.communicate()[0].split(b"-L")[1:]
+        L_flag = "-L"
+        if OVER_PYTHON_25: L_flag = bytes(L_flag, "utf-8")
+        dirs = p.communicate()[0].split(L_flag)[1:]
         runtime_lib_dirs = [d.strip() for d in dirs]
     else:
         print(
@@ -115,13 +120,17 @@ for lib_name in ("libcdio", "libiso9660"):
     if p.returncode is None:
         # String starts '-I' so the first entry is ''; Discard that,
         # the others we want.
-        dirs = p.communicate()[0].split(b"-I")[1:]
+        I_flag = "-I"
+        if OVER_PYTHON_25: I_flag = bytes(I_flag, "utf-8")
+        dirs = p.communicate()[0].split(I_flag)[1:]
         include_dirs = [d.strip() for d in dirs]
     p = Popen([pkg_config, "--libs-only-l", lib_name], stdout=PIPE)
     if p.returncode is None:
         # String starts '-l' so the first entry is ''; Discard that,
         # the others we want.
-        dirs = p.communicate()[0].split(b"-l")[1:]
+        l_flag = "-l"
+        if OVER_PYTHON_25: l_flag = bytes(l_flag, "utf-8")
+        dirs = p.communicate()[0].split(l_flag)[1:]
         libraries = [d.strip().decode("utf-8") for d in dirs]
         pass
     py_shortname = "py" + short_libname

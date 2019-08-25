@@ -23,80 +23,107 @@ import sys
 import types
 
 PYTHON2 = sys.version_info[0] <= 2
+OVER_PYTHON_25 = sys.version_info[0:1] >= (2, 5)
+
 
 class DeviceException(Exception):
     """General device or driver exceptions"""
 
-class DriverError(DeviceException): pass
-class DriverUnsupportedError(DeviceException): pass
-class DriverUninitError(DeviceException): pass
-class DriverNotPermittedError(DeviceException): pass
-class DriverBadParameterError(DeviceException): pass
-class DriverBadPointerError(DeviceException): pass
-class NoDriverError(DeviceException): pass
 
-class TrackError(DeviceException): pass
+class DriverError(DeviceException):
+    pass
 
-pycdio.CDTEXT_FIELD_ARRANGER  = _pycdio.CDTEXT_ARRANGER
-pycdio.CDTEXT_FIELD_COMPOSER  = _pycdio.CDTEXT_COMPOSER
-pycdio.CDTEXT_FIELD_DISCID    = _pycdio.CDTEXT_DISCID
-pycdio.CDTEXT_FIELD_MESSAGE   = _pycdio.CDTEXT_MESSAGE
+
+class DriverUnsupportedError(DeviceException):
+    pass
+
+
+class DriverUninitError(DeviceException):
+    pass
+
+
+class DriverNotPermittedError(DeviceException):
+    pass
+
+
+class DriverBadParameterError(DeviceException):
+    pass
+
+
+class DriverBadPointerError(DeviceException):
+    pass
+
+
+class NoDriverError(DeviceException):
+    pass
+
+
+class TrackError(DeviceException):
+    pass
+
+
+pycdio.CDTEXT_FIELD_ARRANGER = _pycdio.CDTEXT_ARRANGER
+pycdio.CDTEXT_FIELD_COMPOSER = _pycdio.CDTEXT_COMPOSER
+pycdio.CDTEXT_FIELD_DISCID = _pycdio.CDTEXT_DISCID
+pycdio.CDTEXT_FIELD_MESSAGE = _pycdio.CDTEXT_MESSAGE
 pycdio.CDTEXT_FIELD_PERFORMER = _pycdio.CDTEXT_PERFORMER
-pycdio.CDTEXT_FIELD_ISRC      = _pycdio.CDTEXT_PERFORMER
+pycdio.CDTEXT_FIELD_ISRC = _pycdio.CDTEXT_PERFORMER
 
 # Note: the keys below match those the names returned by
 # cdio_get_driver_name()
 
 drivers = {
-    'Unknown'  : pycdio.DRIVER_UNKNOWN,
-    'AIX'      : pycdio.DRIVER_AIX,
-    'FreeBSD'  : pycdio.DRIVER_FREEBSD,
-    'GNU/Linux': pycdio.DRIVER_LINUX,
-    'linux'    : pycdio.DRIVER_LINUX,
-    'Solaris'  : pycdio.DRIVER_SOLARIS,
-    'OS X'     : pycdio.DRIVER_OSX,
-    'osx'      : pycdio.DRIVER_OSX,
-    'WIN32'    : pycdio.DRIVER_WIN32,
-    'CDRDAO'   : pycdio.DRIVER_CDRDAO,
-    'BIN/CUE'  : pycdio.DRIVER_BINCUE,
-    'NRG'      : pycdio.DRIVER_NRG,
-    'Nero'     : pycdio.DRIVER_NRG,
-    'device'   : pycdio.DRIVER_DEVICE
-    }
+    "Unknown": pycdio.DRIVER_UNKNOWN,
+    "AIX": pycdio.DRIVER_AIX,
+    "FreeBSD": pycdio.DRIVER_FREEBSD,
+    "GNU/Linux": pycdio.DRIVER_LINUX,
+    "linux": pycdio.DRIVER_LINUX,
+    "Solaris": pycdio.DRIVER_SOLARIS,
+    "OS X": pycdio.DRIVER_OSX,
+    "osx": pycdio.DRIVER_OSX,
+    "WIN32": pycdio.DRIVER_WIN32,
+    "CDRDAO": pycdio.DRIVER_CDRDAO,
+    "BIN/CUE": pycdio.DRIVER_BINCUE,
+    "NRG": pycdio.DRIVER_NRG,
+    "Nero": pycdio.DRIVER_NRG,
+    "device": pycdio.DRIVER_DEVICE,
+}
 
 if pycdio.VERSION_NUM >= 82:
-    drivers['NetBSD'] = pycdio.DRIVER_NETBSD
+    drivers["NetBSD"] = pycdio.DRIVER_NETBSD
 
 for name in list(drivers.keys()):
     drivers[name.lower()] = drivers[name]
 
 read_mode2blocksize = {
     pycdio.READ_MODE_AUDIO: pycdio.CD_FRAMESIZE_RAW,
-    pycdio.READ_MODE_M1F1:  pycdio.M2RAW_SECTOR_SIZE,
-    pycdio.READ_MODE_M1F2:  pycdio.CD_FRAMESIZE,
-    pycdio.READ_MODE_M2F1:  pycdio.M2RAW_SECTOR_SIZE,
-    pycdio.READ_MODE_M2F2:  pycdio.CD_FRAMESIZE
-    }
+    pycdio.READ_MODE_M1F1: pycdio.M2RAW_SECTOR_SIZE,
+    pycdio.READ_MODE_M1F2: pycdio.CD_FRAMESIZE,
+    pycdio.READ_MODE_M2F1: pycdio.M2RAW_SECTOR_SIZE,
+    pycdio.READ_MODE_M2F2: pycdio.CD_FRAMESIZE,
+}
+
 
 def __possibly_raise_exception__(drc, msg=None):
     """Raise a Driver Error exception on error as determined by drc"""
-    if drc==pycdio.DRIVER_OP_SUCCESS:
+    if drc == pycdio.DRIVER_OP_SUCCESS:
         return
-    if drc==pycdio.DRIVER_OP_ERROR:
+    if drc == pycdio.DRIVER_OP_ERROR:
         raise DriverError
-    if drc==pycdio.DRIVER_OP_UNINIT:
+    if drc == pycdio.DRIVER_OP_UNINIT:
         raise DriverUninitError
-    if drc==pycdio.DRIVER_OP_UNSUPPORTED:
+    if drc == pycdio.DRIVER_OP_UNSUPPORTED:
         raise DriverUnsupportedError
-    if drc==pycdio.DRIVER_OP_NOT_PERMITTED:
+    if drc == pycdio.DRIVER_OP_NOT_PERMITTED:
         raise DriverUnsupportedError
-    if drc==pycdio.DRIVER_OP_BAD_PARAMETER:
+    if drc == pycdio.DRIVER_OP_BAD_PARAMETER:
         raise DriverBadParameterError
-    if drc==pycdio.DRIVER_OP_BAD_POINTER:
+    if drc == pycdio.DRIVER_OP_BAD_POINTER:
         raise DriverBadPointerError
-    if drc==pycdio.DRIVER_OP_NO_DRIVER:
+    if drc == pycdio.DRIVER_OP_NO_DRIVER:
         raise NoDriverError
-    raise DeviceException('unknown exception %d' % drc)
+    raise DeviceException("unknown exception %d" % drc)
+
 
 def close_tray(drive=None, driver_id=pycdio.DRIVER_UNKNOWN):
     """close_tray(drive=None, driver_id=DRIVER_UNKNOWN) -> driver_id
@@ -106,6 +133,7 @@ def close_tray(drive=None, driver_id=pycdio.DRIVER_UNKNOWN):
     drc, found_driver_id = pycdio.close_tray(drive, driver_id)
     __possibly_raise_exception__(drc)
     return found_driver_id
+
 
 def get_default_device_driver(driver_id=pycdio.DRIVER_DEVICE):
     """get_default_device_driver(self, driver_id=pycdio.DRIVER_DEVICE)
@@ -118,9 +146,10 @@ def get_default_device_driver(driver_id=pycdio.DRIVER_DEVICE):
     None is returned as the device if we couldn't get a default
     device."""
     result = pycdio.get_default_device_driver(driver_id)
-    if type(result) == type([1,2]):
+    if type(result) == type([1, 2]):
         return result
     return None
+
 
 def get_devices(driver_id=pycdio.DRIVER_UNKNOWN):
     """
@@ -129,10 +158,11 @@ def get_devices(driver_id=pycdio.DRIVER_UNKNOWN):
     Get an list of device names.
     """
     result = pycdio.get_devices(driver_id)
-    if type(result) == bytes:
+    if OVER_PYTHON_25 and type(result) == bytes:
         return [result]
     else:
         return result
+
 
 def get_devices_ret(driver_id=pycdio.DRIVER_UNKNOWN):
     """
@@ -146,6 +176,7 @@ def get_devices_ret(driver_id=pycdio.DRIVER_UNKNOWN):
     up for libcdio as well.
     """
     return pycdio.get_devices_ret(driver_id)
+
 
 def get_devices_with_cap(capabilities, any=False):
     """
@@ -167,6 +198,7 @@ def get_devices_with_cap(capabilities, any=False):
     """
     return pycdio.get_devices_with_cap(capabilities, any)
 
+
 def get_devices_with_cap_ret(capabilities, any=False):
     """
     get_devices_with_cap(capabilities, any=False)
@@ -179,22 +211,30 @@ def get_devices_with_cap_ret(capabilities, any=False):
     """
     return pycdio.get_devices_with_cap_ret(capabilities, any)
 
+
 def have_driver(driver_id):
     """
     have_driver(driver_id) -> bool
 
     Return True if we have driver driver_id.
     """
-    if (isinstance(driver_id, int) or
-        (PYTHON2 and isinstance(driver_id, long))) :
-        return pycdio.have_driver(driver_id)
-    elif type(driver_id) in (bytes, str) and driver_id in drivers:
-        ret = pycdio.have_driver(drivers[driver_id])
-        if ret == 0: return False
-        if ret == 1: return True
-        raise ValueError('internal error: driver id came back %d' % ret)
+    if OVER_PYTHON_25:
+        check_types = (bytes, str)
     else:
-        raise ValueError('need either a number or string driver id')
+        check_types = (str,)
+
+    if isinstance(driver_id, int) or (PYTHON2 and isinstance(driver_id, long)):
+        return pycdio.have_driver(driver_id)
+    elif type(driver_id) in check_types and driver_id in drivers:
+        ret = pycdio.have_driver(drivers[driver_id])
+        if ret == 0:
+            return False
+        if ret == 1:
+            return True
+        raise ValueError("internal error: driver id came back %d" % ret)
+    else:
+        raise ValueError("need either a number or string driver id")
+
 
 def is_binfile(binfile_name):
     """
@@ -208,6 +248,7 @@ def is_binfile(binfile_name):
     """
     return pycdio.is_binfile(binfile_name)
 
+
 def is_cuefile(cuefile_name):
     """
     is_cuefile(cuefile_name)->bin_name
@@ -220,13 +261,16 @@ def is_cuefile(cuefile_name):
     """
     return pycdio.is_cuefile(cuefile_name)
 
+
 def is_device(source, driver_id=pycdio.DRIVER_UNKNOWN):
     """
     is_device(source, driver_id=pycdio.DRIVER_UNKNOWN)->bool
     Return True if source refers to a real hardware CD-ROM.
     """
-    if driver_id is None: driver_id=pycdio.DRIVER_UNKNOWN
+    if driver_id is None:
+        driver_id = pycdio.DRIVER_UNKNOWN
     return pycdio.is_device(source, driver_id)
+
 
 def is_nrg(nrgfile_name):
     """
@@ -236,6 +280,7 @@ def is_nrg(nrgfile_name):
     """
     return pycdio.is_nrg(nrgfile_name)
 
+
 def is_tocfile(tocfile_name):
     """
     is_tocfile(tocfile_name)->bool
@@ -244,101 +289,104 @@ def is_tocfile(tocfile_name):
     """
     return pycdio.is_tocfile(tocfile_name)
 
+
 def convert_drive_cap_misc(bitmask):
     """Convert bit mask for miscellaneous drive properties
     into a dictionary of drive capabilities"""
-    result={}
+    result = {}
     if bitmask & pycdio.DRIVE_CAP_ERROR:
-        result['DRIVE_CAP_ERROR'] = True
+        result["DRIVE_CAP_ERROR"] = True
     if bitmask & pycdio.DRIVE_CAP_UNKNOWN:
-        result['DRIVE_CAP_UNKNOWN'] = True
+        result["DRIVE_CAP_UNKNOWN"] = True
     if bitmask & pycdio.DRIVE_CAP_MISC_CLOSE_TRAY:
-        result['DRIVE_CAP_MISC_CLOSE_TRAY'] = True
+        result["DRIVE_CAP_MISC_CLOSE_TRAY"] = True
     if bitmask & pycdio.DRIVE_CAP_MISC_EJECT:
-        result['DRIVE_CAP_MISC_EJECT'] = True
+        result["DRIVE_CAP_MISC_EJECT"] = True
     if bitmask & pycdio.DRIVE_CAP_MISC_LOCK:
-        result['DRIVE_CAP_MISC_LOCK'] = True
+        result["DRIVE_CAP_MISC_LOCK"] = True
     if bitmask & pycdio.DRIVE_CAP_MISC_SELECT_SPEED:
-        result['DRIVE_CAP_MISC_SELECT_SPEED'] = True
+        result["DRIVE_CAP_MISC_SELECT_SPEED"] = True
     if bitmask & pycdio.DRIVE_CAP_MISC_SELECT_DISC:
-        result['DRIVE_CAP_MISC_SELECT_DISC'] = True
+        result["DRIVE_CAP_MISC_SELECT_DISC"] = True
     if bitmask & pycdio.DRIVE_CAP_MISC_MULTI_SESSION:
-        result['DRIVE_CAP_MISC_MULTI_SESSION'] = True
+        result["DRIVE_CAP_MISC_MULTI_SESSION"] = True
     if bitmask & pycdio.DRIVE_CAP_MISC_MEDIA_CHANGED:
-        result['DRIVE_CAP_MISC_MEDIA_CHANGED'] = True
+        result["DRIVE_CAP_MISC_MEDIA_CHANGED"] = True
     if bitmask & pycdio.DRIVE_CAP_MISC_RESET:
-        result['DRIVE_CAP_MISC_RESET'] = True
+        result["DRIVE_CAP_MISC_RESET"] = True
     if bitmask & pycdio.DRIVE_CAP_MISC_FILE:
-        result['DRIVE_CAP_MISC_FILE'] = True
+        result["DRIVE_CAP_MISC_FILE"] = True
     return result
+
 
 def convert_drive_cap_read(bitmask):
     """Convert bit mask for drive read properties
     into a dictionary of drive capabilities"""
-    result={}
+    result = {}
     if bitmask & pycdio.DRIVE_CAP_READ_AUDIO:
-        result['DRIVE_CAP_READ_AUDIO'] = True
+        result["DRIVE_CAP_READ_AUDIO"] = True
     if bitmask & pycdio.DRIVE_CAP_READ_CD_DA:
-        result['DRIVE_CAP_READ_CD_DA'] = True
+        result["DRIVE_CAP_READ_CD_DA"] = True
     if bitmask & pycdio.DRIVE_CAP_READ_CD_G:
-        result['DRIVE_CAP_READ_CD_G'] = True
+        result["DRIVE_CAP_READ_CD_G"] = True
     if bitmask & pycdio.DRIVE_CAP_READ_CD_R:
-        result['DRIVE_CAP_READ_CD_R'] = True
+        result["DRIVE_CAP_READ_CD_R"] = True
     if bitmask & pycdio.DRIVE_CAP_READ_CD_RW:
-        result['DRIVE_CAP_READ_CD_RW'] = True
+        result["DRIVE_CAP_READ_CD_RW"] = True
     if bitmask & pycdio.DRIVE_CAP_READ_DVD_R:
-        result['DRIVE_CAP_READ_DVD_R'] = True
+        result["DRIVE_CAP_READ_DVD_R"] = True
     if bitmask & pycdio.DRIVE_CAP_READ_DVD_PR:
-        result['DRIVE_CAP_READ_DVD_PR'] = True
+        result["DRIVE_CAP_READ_DVD_PR"] = True
     if bitmask & pycdio.DRIVE_CAP_READ_DVD_RAM:
-        result['DRIVE_CAP_READ_DVD_RAM'] = True
+        result["DRIVE_CAP_READ_DVD_RAM"] = True
     if bitmask & pycdio.DRIVE_CAP_READ_DVD_ROM:
-        result['DRIVE_CAP_READ_DVD_ROM'] = True
+        result["DRIVE_CAP_READ_DVD_ROM"] = True
     if bitmask & pycdio.DRIVE_CAP_READ_DVD_RW:
-        result['DRIVE_CAP_READ_DVD_RW'] = True
+        result["DRIVE_CAP_READ_DVD_RW"] = True
     if bitmask & pycdio.DRIVE_CAP_READ_DVD_RPW:
-        result['DRIVE_CAP_READ_DVD_RPW'] = True
+        result["DRIVE_CAP_READ_DVD_RPW"] = True
     if bitmask & pycdio.DRIVE_CAP_READ_C2_ERRS:
-        result['DRIVE_CAP_READ_C2_ERRS'] = True
+        result["DRIVE_CAP_READ_C2_ERRS"] = True
     if bitmask & pycdio.DRIVE_CAP_READ_MODE2_FORM1:
-        result['DRIVE_CAP_READ_MODE2_FORM1'] = True
+        result["DRIVE_CAP_READ_MODE2_FORM1"] = True
     if bitmask & pycdio.DRIVE_CAP_READ_MODE2_FORM2:
-        result['DRIVE_CAP_READ_MODE2_FORM2'] = True
+        result["DRIVE_CAP_READ_MODE2_FORM2"] = True
     if bitmask & pycdio.DRIVE_CAP_READ_MCN:
-        result['DRIVE_CAP_READ_MCN'] = True
+        result["DRIVE_CAP_READ_MCN"] = True
     if bitmask & pycdio.DRIVE_CAP_READ_ISRC:
-        result['DRIVE_CAP_READ_ISRC'] = True
+        result["DRIVE_CAP_READ_ISRC"] = True
     return result
+
 
 def convert_drive_cap_write(bitmask):
     """Convert bit mask for drive write properties
     into a dictionary of drive capabilities"""
-    result={}
+    result = {}
     if bitmask & pycdio.DRIVE_CAP_WRITE_CD_R:
-        result['DRIVE_CAP_WRITE_CD_R'] = True
+        result["DRIVE_CAP_WRITE_CD_R"] = True
     if bitmask & pycdio.DRIVE_CAP_WRITE_CD_RW:
-        result['DRIVE_CAP_WRITE_CD_RW'] = True
+        result["DRIVE_CAP_WRITE_CD_RW"] = True
     if bitmask & pycdio.DRIVE_CAP_WRITE_DVD_R:
-        result['DRIVE_CAP_WRITE_DVD_R'] = True
+        result["DRIVE_CAP_WRITE_DVD_R"] = True
     if bitmask & pycdio.DRIVE_CAP_WRITE_DVD_PR:
-        result['DRIVE_CAP_WRITE_DVD_PR'] = True
+        result["DRIVE_CAP_WRITE_DVD_PR"] = True
     if bitmask & pycdio.DRIVE_CAP_WRITE_DVD_RAM:
-        result['DRIVE_CAP_WRITE_DVD_RAM'] = True
+        result["DRIVE_CAP_WRITE_DVD_RAM"] = True
     if bitmask & pycdio.DRIVE_CAP_WRITE_DVD_RW:
-        result['DRIVE_CAP_WRITE_DVD_RW'] = True
+        result["DRIVE_CAP_WRITE_DVD_RW"] = True
     if bitmask & pycdio.DRIVE_CAP_WRITE_DVD_RPW:
-        result['DRIVE_CAP_WRITE_DVD_RPW'] = True
+        result["DRIVE_CAP_WRITE_DVD_RPW"] = True
     if bitmask & pycdio.DRIVE_CAP_WRITE_MT_RAINIER:
-        result['DRIVE_CAP_WRITE_MT_RAINIER'] = True
+        result["DRIVE_CAP_WRITE_MT_RAINIER"] = True
     if bitmask & pycdio.DRIVE_CAP_WRITE_BURN_PROOF:
-        result['DRIVE_CAP_WRITE_BURN_PROOF'] = True
+        result["DRIVE_CAP_WRITE_BURN_PROOF"] = True
     return result
+
 
 class Device:
     """CD Input and control class for discs/devices"""
 
-    def __init__(self, source=None, driver_id=None,
-                 access_mode=None):
+    def __init__(self, source=None, driver_id=None, access_mode=None):
         self.cd = None
         if source is not None or driver_id is not None:
             self.open(source, driver_id, access_mode)
@@ -349,7 +397,7 @@ class Device:
         Pause playing CD through analog output.
         A DeviceError exception may be raised.
         """
-        drc=pycdio.audio_pause(self.cd)
+        drc = pycdio.audio_pause(self.cd)
         __possibly_raise_exception__(drc)
 
     def audio_play_lsn(self, start_lsn, end_lsn):
@@ -359,7 +407,7 @@ class Device:
         Playing CD through analog output at the given lsn to the ending lsn
         A DeviceError exception may be raised.
         """
-        drc=pycdio.audio_play_lsn(self.cd, start_lsn, end_lsn)
+        drc = pycdio.audio_play_lsn(self.cd, start_lsn, end_lsn)
         __possibly_raise_exception__(drc)
 
     def audio_resume(self):
@@ -368,7 +416,7 @@ class Device:
         Resume playing an audio CD through the analog interface.
         A DeviceError exception may be raised.
         """
-        drc=pycdio.audio_resume(self.cd)
+        drc = pycdio.audio_resume(self.cd)
         __possibly_raise_exception__(drc)
 
     def audio_stop(self):
@@ -377,7 +425,7 @@ class Device:
         Stop playing an audio CD through the analog interface.
         A DeviceError exception may be raised.
         """
-        drc=pycdio.audio_stop(self.cd)
+        drc = pycdio.audio_stop(self.cd)
         __possibly_raise_exception__(drc)
 
     def close(self):
@@ -389,14 +437,14 @@ class Device:
             pycdio.close(self.cd)
         else:
             print("***No object to close")
-        self.cd=None
+        self.cd = None
 
     def eject_media(self):
         """eject_media(self)
         Eject media in CD drive if there is a routine to do so.
         A DeviceError exception may be raised.
         """
-        drc=pycdio.eject_media(self.cd)
+        drc = pycdio.eject_media(self.cd)
         self.cd = None
         __possibly_raise_exception__(drc)
 
@@ -414,6 +462,7 @@ class Device:
         return pycdio.get_arg(self.cd, key)
 
     if pycdio.VERSION_NUM > 83:
+
         def get_cdtext(self):
             return CDText(pycdio.get_cdtext(self.cd))
 
@@ -438,7 +487,7 @@ class Device:
         """
         lsn = pycdio.get_disc_last_lsn(self.cd)
         if lsn == pycdio.INVALID_LSN:
-            raise DriverError('Invalid LSN returned')
+            raise DriverError("Invalid LSN returned")
         return lsn
 
     def get_disc_mode(self):
@@ -471,17 +520,20 @@ class Device:
         hardware CD-ROM."""
 
         b_read_cap, b_write_cap, b_misc_cap = pycdio.get_drive_cap(self.cd)
-        return (convert_drive_cap_read(b_read_cap), \
-                convert_drive_cap_write(b_write_cap), \
-                convert_drive_cap_misc(b_misc_cap))
+        return (
+            convert_drive_cap_read(b_read_cap),
+            convert_drive_cap_write(b_write_cap),
+            convert_drive_cap_misc(b_misc_cap),
+        )
 
     ### FIXME: combine into above by testing on the type of device.
     def get_drive_cap_dev(self, device=None):
-        b_read_cap, b_write_cap, b_misc_cap = \
-                    pycdio.get_drive_cap_dev(device)
-        return (convert_drive_cap_read(b_read_cap), \
-                convert_drive_cap_write(b_write_cap), \
-                convert_drive_cap_misc(b_misc_cap))
+        b_read_cap, b_write_cap, b_misc_cap = pycdio.get_drive_cap_dev(device)
+        return (
+            convert_drive_cap_read(b_read_cap),
+            convert_drive_cap_write(b_write_cap),
+            convert_drive_cap_misc(b_misc_cap),
+        )
 
     def get_driver_name(self):
         """
@@ -569,10 +621,12 @@ class Device:
         Error is given on error.
         """
         drc = pycdio.get_media_changed(self.cd)
-        if drc == 0: return False
-        if drc == 1: return True
+        if drc == 0:
+            return False
+        if drc == 1:
+            return True
         __possibly_raise_exception__(drc)
-        raise DeviceException('Unknown return value %d' % drc)
+        raise DeviceException("Unknown return value %d" % drc)
 
     def get_num_tracks(self):
         """
@@ -583,7 +637,7 @@ class Device:
         """
         track = pycdio.get_num_tracks(self.cd)
         if track == pycdio.INVALID_TRACK:
-            raise TrackError('Invalid track returned')
+            raise TrackError("Invalid track returned")
         return track
 
     def get_track(self, track_num):
@@ -630,8 +684,7 @@ class Device:
         """
         return pycdio.lseek(self.cd, offset, whence)
 
-    def open(self, source=None, driver_id=pycdio.DRIVER_UNKNOWN,
-             access_mode=None):
+    def open(self, source=None, driver_id=pycdio.DRIVER_UNKNOWN, access_mode=None):
         """
         open(self, source=None, driver_id=pycdio.DRIVER_UNKNOWN,
              access_mode=None)
@@ -648,7 +701,8 @@ class Device:
         Device is opened so that subsequent operations can be performed.
 
         """
-        if driver_id is None: driver_id=pycdio.DRIVER_UNKNOWN
+        if driver_id is None:
+            driver_id = pycdio.DRIVER_UNKNOWN
         if self.cd is not None:
             self.close()
         self.cd = pycdio.open_cd(source, driver_id, access_mode)
@@ -676,11 +730,10 @@ class Device:
         lsn is sector to read, bytes is the number of bytes.
         A DeviceError exception may be raised.
         """
-        size = pycdio.ISO_BLOCKSIZE*blocks
-        size, data = pycdio.read_data_bytes(self.cd, size, lsn,
-                                            pycdio.ISO_BLOCKSIZE)
+        size = pycdio.ISO_BLOCKSIZE * blocks
+        size, data = pycdio.read_data_bytes(self.cd, size, lsn, pycdio.ISO_BLOCKSIZE)
         if size < 0:
-             __possibly_raise_exception__(size)
+            __possibly_raise_exception__(size)
         return [size, data]
 
     def read_sectors(self, lsn, read_mode, blocks=1):
@@ -710,7 +763,7 @@ class Device:
             blocksize = read_mode2blocksize[read_mode]
             size = blocks * blocksize
         except KeyError:
-            raise DriverBadParameterError ('Bad read mode %d' % read_mode)
+            raise DriverBadParameterError("Bad read mode %d" % read_mode)
         size, data = pycdio.read_sectors(self.cd, size, lsn, read_mode)
         if size < 0:
             __possibly_raise_exception__(size)
@@ -731,21 +784,22 @@ class Device:
         drc = pycdio.set_speed(self.cd, speed)
         __possibly_raise_exception__(drc)
 
+
 class Track:
     """CD Input and control track class"""
 
     def __init__(self, device, track_num):
 
         if type(track_num) != int:
-            raise TrackError('track number parameter is not an integer')
+            raise TrackError("track number parameter is not an integer")
         self.track = track_num
 
         # See if the device parameter is a string or
         # a device object.
-        if type(device) == bytes:
+        if OVER_PYTHON_25 and type(device) == bytes:
             self.device = Device(device)
         else:
-            test_device=Device()
+            test_device = Device()
             ## FIXME: would like a way to test if device
             ## is a PySwigObject
             self.device = device
@@ -796,7 +850,7 @@ class Track:
         """
         lsn = pycdio.get_track_last_lsn(self.device, self.track)
         if lsn == pycdio.INVALID_LSN:
-            raise TrackError('Invalid LSN returned')
+            raise TrackError("Invalid LSN returned")
         return lsn
 
     def get_lba(self):
@@ -808,7 +862,7 @@ class Track:
         """
         lba = pycdio.get_track_lba(self.device, self.track)
         if lba == pycdio.INVALID_LBA:
-            raise TrackError('Invalid LBA returned')
+            raise TrackError("Invalid LBA returned")
         return lba
 
     def get_lsn(self):
@@ -820,7 +874,7 @@ class Track:
         """
         lsn = pycdio.get_track_lsn(self.device, self.track)
         if lsn == pycdio.INVALID_LSN:
-            raise TrackError('Invalid LSN returned')
+            raise TrackError("Invalid LSN returned")
         return lsn
 
     def get_msf(self):
@@ -845,13 +899,13 @@ class Track:
         """
         rc = pycdio.get_track_preemphasis(self.device, self.track)
         if rc == pycdio.TRACK_FLAG_FALSE:
-            return 'none'
+            return "none"
         elif rc == pycdio.TRACK_FLAG_TRUE:
-            return 'preemphasis'
+            return "preemphasis"
         elif rc == pycdio.TRACK_FLAG_UNKNOWN:
-            return 'unknown'
+            return "unknown"
         else:
-            raise TrackError('Invalid return value %d' % rc)
+            raise TrackError("Invalid return value %d" % rc)
 
     def get_track_sec_count(self):
         """
@@ -889,14 +943,17 @@ class Track:
         self.track = track_num
 
     if pycdio.VERSION_NUM <= 83:
+
         def get_cdtext(self):
             return CDText(pycdio.get_cdtext(self.device, self.track))
+
 
 class CDText:
     def __init__(self, opaque):
         self._cdtext = opaque
 
     if pycdio.VERSION_NUM <= 83:
+
         def get(self, key):
             """
             get(self, key)->string
@@ -905,7 +962,6 @@ class CDText:
             """
             return pycdio.cdtext_get(key, self._cdtext)
 
-
         def set(self, key, string):
             """
             set(self, key, string)->None
@@ -913,7 +969,9 @@ class CDText:
             Set the value associatied with key.
             """
             return pycdio.cdtext_set(key, string, self._cdtext)
+
     else:
+
         def get(self, key, track):
             """
             get(self, key, track)->string
@@ -921,6 +979,7 @@ class CDText:
             Get the value associatied with key.
             """
             return pycdio.cdtext_get(self._cdtext, key, track)
+
 
 #
 # Local variables:

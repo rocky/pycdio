@@ -17,7 +17,7 @@ check:  build
 
 #: Remove OS- and platform-specific derived files.
 clean:
-	$(PYTHON) ./setup.py clean --all
+	$(PYTHON) ./setup.py clean --all && rm -f *.so || /bin/true
 
 #: Create source and binary distribution
 dist:
