@@ -1,3 +1,6 @@
+|Package Status|
+
+
 Introduction
 ==============
 
@@ -145,3 +148,6 @@ There is much to be done - you want to help out, please do so!
 Standalone documentation is missing although many of the methods,
 classes and functions have some document strings. See also the
 programs in the example directory.
+
+.. |Package Status| image:: https://repology.org/badge/vertical-allrepos/pycdio.svg
+		 :target: https://repology.org/project/pycdio/versions
