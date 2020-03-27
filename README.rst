@@ -93,7 +93,7 @@ If you see a message like this when running `make check`:
      TypeError: Can't convert 'bytes' object to str implicitly
 
 
-Copy in a recent ditutils `unixccompiler.py` like this:
+Copy in a recent distutils `unixccompiler.py` like this:
 
 ::
 
@@ -148,6 +148,11 @@ There is much to be done - you want to help out, please do so!
 Standalone documentation is missing although many of the methods,
 classes and functions have some document strings. See also the
 programs in the example directory.
+
+Security contact information
+============================
+
+To report a security vulnerability, please use the `Tidelift security contact <https://tidelift.com/security>`_ and Tidelift will coordinate the fix and disclosure.
 
 .. |Package Status| image:: https://repology.org/badge/vertical-allrepos/pycdio.svg
 		 :target: https://repology.org/project/pycdio/versions
