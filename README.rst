@@ -1,4 +1,4 @@
-|Package Status|
+|Package Status| |Pypi Installs|
 
 
 Introduction
@@ -149,6 +149,13 @@ Standalone documentation is missing although many of the methods,
 classes and functions have some document strings. See also the
 programs in the example directory.
 
+pycdio for enterprise
+=====================
+
+Available as part of the Tidelift Subscription.
+
+The maintainers of pycdio and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source dependencies you use to build your applications. Save time, reduce risk, and improve code health, while paying the maintainers of the exact dependencies you use. `Learn more. <https://tidelift.com/subscription/pkg/pypi-pycdio?utm_source=pypi-pycdio&utm_medium=referral&utm_campaign=readme>`_
+
 Security contact information
 ============================
 
@@ -156,3 +163,4 @@ To report a security vulnerability, please use the `Tidelift security contact <h
 
 .. |Package Status| image:: https://repology.org/badge/vertical-allrepos/pycdio.svg
 		 :target: https://repology.org/project/pycdio/versions
+.. |Pypi Installs| image:: https://pepy.tech/badge/pycdio
