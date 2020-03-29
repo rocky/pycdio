@@ -1,4 +1,4 @@
-|Package Status| |Pypi Installs|
+|Package Status 1| |Package Status 2| |Pypi Installs|
 
 
 Introduction
@@ -161,6 +161,8 @@ Security contact information
 
 To report a security vulnerability, please use the `Tidelift security contact <https://tidelift.com/security>`_ and Tidelift will coordinate the fix and disclosure.
 
-.. |Package Status| image:: https://repology.org/badge/vertical-allrepos/pycdio.svg
+.. |Package Status 1| image:: https://repology.org/badge/tiny-repos/pycdio.svg
+		 :target: https://repology.org/project/pycdio/versions
+.. |Package Status 2| image:: https://repology.org/badge/tiny-repos/python:pycdio.svg
 		 :target: https://repology.org/project/pycdio/versions
 .. |Pypi Installs| image:: https://pepy.tech/badge/pycdio
