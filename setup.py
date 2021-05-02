@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#  Copyright (C) 2015, 2018-2019 Rocky Bernstein <rocky@gnu.org>
+#  Copyright (C) 2015, 2018-2019, 2021 Rocky Bernstein <rocky@gnu.org>
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -139,9 +139,9 @@ for lib_name in ("libcdio", "libiso9660"):
             "_" + py_shortname,
             libraries=libraries,
             swig_opts=swig_opts,
-            include_dirs=include_dirs,
-            library_dirs=library_dirs,
-            runtime_library_dirs=runtime_lib_dirs,
+            include_dirs=[dir.decode("utf-8") for dir in include_dirs],
+            library_dirs=[d.decode("utf-8") for d in library_dirs],
+            runtime_library_dirs=[d.decode("utf-8") for d in runtime_lib_dirs],
             sources=["swig/%s.i" % py_shortname],
         )
     )

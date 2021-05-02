@@ -212,11 +212,7 @@ class UnixCCompiler(CCompiler):
     # ccompiler.py.
 
     def library_dir_option(self, dir):
-        try:
-            return "-L" + dir
-        except:
-            return "-L" + dir.decode("utf-8")
-
+        return "-L" + dir
 
     def _is_gcc(self, compiler_name):
         return "gcc" in compiler_name or "g++" in compiler_name
@@ -254,7 +250,7 @@ class UnixCCompiler(CCompiler):
                 if sysconfig.get_config_var("GNULD") == "yes":
                     # GNU ld needs an extra option to get a RUNPATH
                     # instead of just an RPATH.
-                    return "-Wl,--enable-new-dtags,-R" + dir.decode("utf-8")
+                    return "-Wl,--enable-new-dtags,-R" + dir
                 else:
                     return "-Wl,-R" + dir
             else:
@@ -292,7 +288,7 @@ class UnixCCompiler(CCompiler):
             # vs
             #   /usr/lib/libedit.dylib
             cflags = sysconfig.get_config_var('CFLAGS')
-            m = re.search(r'-isysroot\s+(\S+)', cflags)
+            m = re.search(r'-isysroot\s*(\S+)', cflags)
             if m is None:
                 sysroot = '/'
             else:
