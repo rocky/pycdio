@@ -119,6 +119,14 @@ Return the ending LSN for track number
 track in cdio.  CDIO_INVALID_LSN is returned on error.");
 lsn_t cdio_get_track_last_lsn(const CdIo_t *p_cdio, track_t i_track);
 
+%rename cdio_get_track_isrc get_track_isrc;
+%feature("autodoc",
+"cdio_get_track_isrc(cdio, track)->string
+
+Return the International Standard Recording Code (ISRC)
+for track number i_track in p_cdio. Track numbers start at 1.");
+const char * cdio_get_track_isrc(const CdIo_t *p_cdio, track_t i_track);
+
 %rename cdio_get_track_lba get_track_lba;
 %feature("autodoc",
 "cdio_get_track_lba  

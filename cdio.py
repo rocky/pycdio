@@ -853,6 +853,15 @@ class Track:
             raise TrackError("Invalid LSN returned")
         return lsn
 
+    def get_isrc(self):
+        """
+        get_isrc(self)->string
+
+        Return the International Standard Recording Code
+        (ISRC) for a track
+        """
+        return pycdio.get_track_isrc(self.device, self.track)
+
     def get_lba(self):
         """
         get_lsn(self)->lba
