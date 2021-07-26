@@ -164,6 +164,8 @@
 %constant int CDTEXT_LANGUAGE_ARMENIAN     = CDTEXT_LANGUAGE_ARMENIAN;
 %constant int CDTEXT_LANGUAGE_ARABIC       = CDTEXT_LANGUAGE_ARABIC;
 %constant int CDTEXT_LANGUAGE_AMHARIC      = CDTEXT_LANGUAGE_AMHARIC;
+%constant int CDTEXT_LANGUAGE_INVALID      = CDTEXT_LANGUAGE_INVALID;
+%constant int CDTEXT_LANGUAGE_BLOCK_UNUSED = CDTEXT_LANGUAGE_BLOCK_UNUSED;
 
 %constant int MIN_CDTEXT_FIELD             = MIN_CDTEXT_FIELD;
 %constant int MAX_CDTEXT_FIELDS            = MAX_CDTEXT_FIELDS;
@@ -182,6 +184,7 @@ const char *cdtext_get_const (const cdtext_t *p_cdtext, cdtext_field_t key, trac
 cdtext_lang_t cdtext_get_language (const cdtext_t *p_cdtext);
 bool cdtext_select_language(cdtext_t *p_cdtext, cdtext_lang_t lang);
 cdtext_lang_t *cdtext_list_languages (const cdtext_t *p_cdtext);
+cdtext_lang_t *cdtext_list_languages_v2 (const cdtext_t *p_cdtext);
 void cdtext_set (cdtext_t *p_cdtext, cdtext_field_t key, const uint8_t *value, track_t track, const char *charset);
 
 %rename cdio_get_cdtext get_cdtext;
