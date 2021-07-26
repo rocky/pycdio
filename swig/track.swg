@@ -1,5 +1,5 @@
 /* -*- c -*-
-  Copyright (C) 2006, 2008, 2009 Rocky Bernstein <rocky@gnu.org>
+  Copyright (C) 2006, 2008, 2009, 2021 Rocky Bernstein <rocky@gnu.org>
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@ typedef int track_flag_t;
 %rename cdio_get_first_track_num get_first_track_num;
 %feature("autodoc",
 "get_first_track_num(p_cdio) -> int
-Get the number of the first track. 
+Get the number of the first track.
 
 return the track number or pycdio.INVALID_TRACK if there was
 a problem.");
@@ -58,7 +58,7 @@ track_t cdio_get_first_track_num(const CdIo_t *p_cdio);
 
 %rename cdio_get_last_track_num    get_last_track_num ;
 %feature("autodoc",
-"get_last_track_num 
+"get_last_track_num
 Return the last track number.
 pycdio.INVALID_TRACK is if there was a problem.");
 track_t cdio_get_last_track_num (const CdIo_t *p_cdio);
@@ -69,8 +69,8 @@ track_t cdio_get_last_track_num (const CdIo_t *p_cdio);
 
     Find the track which contains lsn.
     pycdio.INVALID_TRACK is returned if the lsn outside of the CD or
-    if there was some error. 
-    
+    if there was some error.
+
     If the lsn is before the pregap of the first track, 0 is returned.
     Otherwise we return the track that spans the lsn.");
 track_t cdio_get_track(const CdIo_t *p_cdio, lsn_t lsn);
@@ -87,10 +87,10 @@ int cdio_get_track_channels(const CdIo_t *p_cdio, track_t i_track);
 %feature("autodoc",
 "get_copy_permit(cdio, track)->int
 
-Return copy protection status on a track. Is this meaningful 
+Return copy protection status on a track. Is this meaningful
 not an audio track?
 ");
-track_flag_t cdio_get_track_copy_permit(const CdIo_t *p_cdio, 
+track_flag_t cdio_get_track_copy_permit(const CdIo_t *p_cdio,
 					 track_t i_track);
 
 %feature("autodoc",
@@ -107,7 +107,7 @@ Return True if we have XA data (green, mode2 form1) or
 XA data (green, mode2 form2). That is track begins:
  sync - header - subheader
 12     4      -  8
-    
+
 FIXME: there's gotta be a better design for this and get_track_format?");
 bool cdio_get_track_green(const CdIo_t *p_cdio, track_t i_track);
 
@@ -129,9 +129,9 @@ const char * cdio_get_track_isrc(const CdIo_t *p_cdio, track_t i_track);
 
 %rename cdio_get_track_lba get_track_lba;
 %feature("autodoc",
-"cdio_get_track_lba  
+"cdio_get_track_lba
     Get the starting LBA for track number
-    i_track in p_cdio.  Track numbers usually start at something 
+    i_track in p_cdio.  Track numbers usually start at something
     greater than 0, usually 1.
 
     The 'leadout' track is specified either by
@@ -146,7 +146,7 @@ const char * cdio_get_track_isrc(const CdIo_t *p_cdio, track_t i_track);
 %feature("autodoc",
 "cdio_get_track_lsn (cdio, track)->int
 
-Return the starting LSN for track number. 
+Return the starting LSN for track number.
 Track numbers usually start at something greater than 0, usually 1.
 
 The 'leadout' track is specified either by
@@ -159,12 +159,12 @@ lsn_t cdio_get_track_lsn(const CdIo_t *p_cdio, track_t i_track);
 "get_track_msf(cdio,track)->string
 
   Return the starting MSF (minutes/secs/frames) for track number
-  track.  Track numbers usually start at something 
+  track.  Track numbers usually start at something
   greater than 0, usually 1.
 
   The 'leadout' track is specified either by
   using i_track CDIO_CDROM_LEADOUT_TRACK or the total tracks+1.
-    
+
 @return string mm:ss:ff if all good, or string 'error' on error.");
 char *get_track_msf(const CdIo_t *p_cdio, track_t i_track);
 %inline %{
@@ -194,15 +194,15 @@ track_flag_t cdio_get_track_preemphasis(const CdIo_t *p_cdio, track_t i_track);
 
 Get the number of sectors between this track an the next.  This
 includes any pregap sectors before the start of the next track.
-Track numbers usually start at something 
+Track numbers usually start at something
 greater than 0, usually 1.
 
 0 is returned if there is an error.");
 unsigned int cdio_get_track_sec_count(const CdIo_t *p_cdio, track_t i_track);
 
 %inline %{
-const char 
-*get_track_format(const CdIo_t *p_cdio, track_t i_track) 
+const char
+*get_track_format(const CdIo_t *p_cdio, track_t i_track)
 {
   track_format_t track_format = cdio_get_track_format(p_cdio, i_track);
   return track_format2str[track_format];
