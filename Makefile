@@ -4,7 +4,7 @@
 # These comments before the targets start with #:
 # remake --tasks to shows the targets and the comments
 
-PHONY=check clean dist distclean test
+PHONY=build check clean dist distclean test
 GIT2CL ?= git2cl
 PYTHON ?= python
 

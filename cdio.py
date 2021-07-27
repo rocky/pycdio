@@ -75,24 +75,23 @@ pycdio.CDTEXT_FIELD_ISRC = _pycdio.CDTEXT_PERFORMER
 # cdio_get_driver_name()
 
 drivers = {
-    "Unknown": pycdio.DRIVER_UNKNOWN,
     "AIX": pycdio.DRIVER_AIX,
+    "BIN/CUE": pycdio.DRIVER_BINCUE,
+    "CDRDAO": pycdio.DRIVER_CDRDAO,
     "FreeBSD": pycdio.DRIVER_FREEBSD,
     "GNU/Linux": pycdio.DRIVER_LINUX,
-    "linux": pycdio.DRIVER_LINUX,
-    "Solaris": pycdio.DRIVER_SOLARIS,
-    "OS X": pycdio.DRIVER_OSX,
-    "osx": pycdio.DRIVER_OSX,
-    "WIN32": pycdio.DRIVER_WIN32,
-    "CDRDAO": pycdio.DRIVER_CDRDAO,
-    "BIN/CUE": pycdio.DRIVER_BINCUE,
     "NRG": pycdio.DRIVER_NRG,
     "Nero": pycdio.DRIVER_NRG,
+    "NetBSD": pycdio.DRIVER_NETBSD,
+    "OS X": pycdio.DRIVER_OSX,
+    "Solaris": pycdio.DRIVER_SOLARIS,
+    "Unknown": pycdio.DRIVER_UNKNOWN,
+    "WIN32": pycdio.DRIVER_WIN32,
     "device": pycdio.DRIVER_DEVICE,
+    "linux": pycdio.DRIVER_LINUX,
+    "osx": pycdio.DRIVER_OSX,
 }
 
-if pycdio.VERSION_NUM >= 82:
-    drivers["NetBSD"] = pycdio.DRIVER_NETBSD
 
 for name in list(drivers.keys()):
     drivers[name.lower()] = drivers[name]
@@ -463,10 +462,8 @@ class Device:
         Get the value associatied with key."""
         return pycdio.get_arg(self.cd, key)
 
-    if pycdio.VERSION_NUM > 83:
-
-        def get_cdtext(self):
-            return CDText(pycdio.get_cdtext(self.cd))
+    def get_cdtext(self):
+        return CDText(pycdio.get_cdtext(self.cd))
 
     def get_device(self):
         """get_device(self)->str
@@ -953,43 +950,29 @@ class Track:
         """
         self.track = track_num
 
-    if pycdio.VERSION_NUM <= 83:
-
-        def get_cdtext(self):
-            return CDText(pycdio.get_cdtext(self.device, self.track))
+    def get_cdtext(self):
+        return CDText(pycdio.get_cdtext(self.device, self.track))
 
 
 class CDText:
     def __init__(self, opaque):
         self._cdtext = opaque
 
-    if pycdio.VERSION_NUM <= 83:
+    def get(self, key, track):
+        """
+        get(self, key, track)->string
 
-        def get(self, key):
-            """
-            get(self, key)->string
+        Get the value associatied with key.
+        """
+        return pycdio.cdtext_get(self._cdtext, key, track)
 
-            Get the value associatied with key.
-            """
-            return pycdio.cdtext_get(key, self._cdtext)
+    def set(self, key, string):
+        """
+        set(self, key, string)->None
 
-        def set(self, key, string):
-            """
-            set(self, key, string)->None
-
-            Set the value associatied with key.
-            """
-            return pycdio.cdtext_set(key, string, self._cdtext)
-
-    else:
-
-        def get(self, key, track):
-            """
-            get(self, key, track)->string
-
-            Get the value associatied with key.
-            """
-            return pycdio.cdtext_get(self._cdtext, key, track)
+        Set the value associatied with key.
+        """
+        return pycdio.cdtext_set(key, string, self._cdtext)
 
 
 #
