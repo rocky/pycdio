@@ -1,4 +1,4 @@
-#  Copyright (C) 2006, 2008-2009, 2013, 2018-2019 Rocky Bernstein <rocky@gnu.org>
+#  Copyright (C) 2006, 2008-2009, 2013, 2018-2019, 2021 Rocky Bernstein <rocky@gnu.org>
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -20,10 +20,12 @@ and device-dependent properties of a CD-ROM can use this library."""
 import pycdio
 import _pycdio
 import sys
-import types
 
 PYTHON2 = sys.version_info[0] <= 2
 OVER_PYTHON_25 = sys.version_info[0:1] >= (2, 5)
+
+if not PYTHON2:
+    long = int
 
 
 class DeviceException(Exception):
@@ -137,7 +139,7 @@ def close_tray(drive=None, driver_id=pycdio.DRIVER_UNKNOWN):
 
 def get_default_device_driver(driver_id=pycdio.DRIVER_DEVICE):
     """get_default_device_driver(self, driver_id=pycdio.DRIVER_DEVICE)
-	->[device, driver]
+        ->[device, driver]
 
     Return a string containing the default CD device if none is
     specified.  if driver_id is DRIVER_UNKNOWN or DRIVER_DEVICE
@@ -799,7 +801,7 @@ class Track:
         if OVER_PYTHON_25 and type(device) == bytes:
             self.device = Device(device)
         else:
-            test_device = Device()
+            Device()
             ## FIXME: would like a way to test if device
             ## is a PySwigObject
             self.device = device
