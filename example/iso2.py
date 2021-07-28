@@ -7,8 +7,8 @@ in the extraction. Otherwise a compiled in default ISO 9660 image name
 (that comes with the libcdio distribution) will be used.  A program to
 show using iso9660 to extract a file from an ISO-9660 image."""
 #
-#  Copyright (C) 2006, 2008, 2013 Rocky Bernstein <rocky@gnu.org>
-#  
+#  Copyright (C) 2006, 2008, 2013, 2021 Rocky Bernstein <rocky@gnu.org>
+#
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 3 of the License, or
@@ -23,7 +23,8 @@ show using iso9660 to extract a file from an ISO-9660 image."""
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os, sys
-libdir = os.path.join(os.path.dirname(__file__), '..')
+
+libdir = os.path.join(os.path.dirname(__file__), "..")
 if libdir[-1] != os.path.sep:
     libdir += os.path.sep
 sys.path.insert(0, libdir)
@@ -35,60 +36,65 @@ PY3 = sys.version_info[0] == 3
 # Python has rounding (round) and trucation (int), but what about an integer
 # ceiling function? Until I learn what it is...
 def ceil(x):
-    return int(round(x+0.5))
+    return int(round(x + 0.5))
+
 
 # The default CD image if none given
-cd_image_path="../data"
-cd_image_fname=os.path.join(cd_image_path, "isofs-m1.cue")
+cd_image_path = "../data"
+cd_image_fname = os.path.join(cd_image_path, "isofs-m1.cue")
 
 # File to extract if none given.
-iso9660_path="/"
-local_filename="copying"
+iso9660_path = "/"
+local_filename = "COPYING"
 
 if len(sys.argv) > 1:
     cd_image_fname = sys.argv[1]
     if len(sys.argv) > 2:
         local_filename = sys.argv[1]
         if len(sys.argv) > 3:
-            print("""
+            print(
+                """
 usage: %s [CD-ROM-or-image [filename]]
 Extracts filename from CD-ROM-or-image.
-""" % sys.argv[0])
+"""
+                % sys.argv[0]
+            )
             sys.exit(1)
 
-try: 
+try:
     cd = iso9660.ISO9660.FS(source=cd_image_fname)
 except:
     print("Sorry, couldn't open %s as a CD image." % cd_image_fname)
     sys.exit(1)
 
-statbuf = cd.stat (local_filename, False)
+statbuf = cd.stat(local_filename, False)
 
 if statbuf is None:
-    print("Could not get ISO-9660 file information for file %s in %s" \
-          % (local_filename, cd_image_fname))
+    print(
+        "Could not get ISO-9660 file information for file %s in %s"
+        % (local_filename, cd_image_fname)
+    )
     cd.close()
     sys.exit(2)
 
 try:
-    OUTPUT=os.open(local_filename, os.O_CREAT|os.O_WRONLY, 0o664)
-except:    
+    OUTPUT = os.open(local_filename, os.O_CREAT | os.O_WRONLY, 0o664)
+except:
     print("Can't open %s for writing" % local_filename)
 
-# Copy the blocks from the ISO-9660 filesystem to the local filesystem. 
-blocks = ceil(statbuf['size'] / pycdio.ISO_BLOCKSIZE)
+# Copy the blocks from the ISO-9660 filesystem to the local filesystem.
+blocks = ceil(statbuf["size"] / pycdio.ISO_BLOCKSIZE)
 for i in range(blocks):
-    lsn = statbuf['LSN'] + i
+    lsn = statbuf["LSN"] + i
     size, buf = cd.read_data_blocks(lsn)
 
     if size < 0:
-        print("Error reading ISO 9660 file %s at LSN %d" % (
-            local_filename, lsn))
+        print("Error reading ISO 9660 file %s at LSN %d" % (local_filename, lsn))
         sys.exit(4)
         pass
 
     if PY3:
-        os.write(OUTPUT, bytes(buf, 'UTF-8'))
+        os.write(OUTPUT, bytes(buf, "UTF-8"))
     else:
         os.write(OUTPUT, buf)
         pass
@@ -96,10 +102,9 @@ for i in range(blocks):
 # Make sure the file size has the exact same byte size. Without the
 # truncate below, the file will a multiple of ISO_BLOCKSIZE.
 
-os.ftruncate(OUTPUT, statbuf['size'])
+os.ftruncate(OUTPUT, statbuf["size"])
 
-print("Extraction of file '%s' from %s successful." % (
-    local_filename,  cd_image_fname))
+print("Extraction of file '%s' from %s successful." % (local_filename, cd_image_fname))
 
 os.close(OUTPUT)
 cd.close()
