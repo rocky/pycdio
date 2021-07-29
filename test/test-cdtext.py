@@ -29,14 +29,9 @@ import cdio
 class CDTextTests(unittest.TestCase):
     def test_keyword(self):
         """Test keywords"""
-        if pycdio.VERSION_NUM > 83:
-            self.assertEquals(
-                pycdio.cdtext_field2str(pycdio.CDTEXT_FIELD_PERFORMER), "PERFORMER"
-            )
-        else:
-            self.assertEquals(
-                pycdio.cdtext_field2str(pycdio.CDTEXT_PERFORMER), "PERFORMER"
-            )
+        self.assertEquals(
+            pycdio.cdtext_field2str(pycdio.CDTEXT_FIELD_PERFORMER), "PERFORMER"
+        )
 
     def test_get_set(self):
         """Test getting and setting CDText"""
