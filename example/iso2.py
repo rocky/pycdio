@@ -40,15 +40,15 @@ def ceil(x):
 
 
 # The default CD image if none given
-cd_image_path = "../data"
-cd_image_fname = os.path.join(cd_image_path, "isofs-m1.cue")
+iso_image_path = "../data"
+iso_image_fname = os.path.join(iso_image_path, "isofs-m1.cue")
 
 # File to extract if none given.
 iso9660_path = "/"
 local_filename = "COPYING"
 
 if len(sys.argv) > 1:
-    cd_image_fname = sys.argv[1]
+    iso_image_fname = sys.argv[1]
     if len(sys.argv) > 2:
         local_filename = sys.argv[1]
         if len(sys.argv) > 3:
@@ -62,19 +62,24 @@ Extracts filename from CD-ROM-or-image.
             sys.exit(1)
 
 try:
-    cd = iso9660.ISO9660.FS(source=cd_image_fname)
+    iso = iso9660.ISO9660.FS(source=iso_image_fname)
 except:
-    print("Sorry, couldn't open %s as a CD image." % cd_image_fname)
+    print("Sorry, couldn't open %s as a ISO9660 CD image." % iso_image_fname)
     sys.exit(1)
 
-statbuf = cd.stat(local_filename, False)
+statbuf = iso.stat(local_filename, False)
 
 if statbuf is None:
     print(
-        "Could not get ISO-9660 file information for file %s in %s"
-        % (local_filename, cd_image_fname)
+        'Could not get ISO-9660 file information for file "%s" in "%s"'
+        % (local_filename, iso_image_fname)
     )
-    cd.close()
+    file_stats = iso.readdir("/")
+    print("Top-level names:")
+    for stat in file_stats:
+        filename = stat[0]
+        print("%s" % filename)
+    iso.close()
     sys.exit(2)
 
 try:
@@ -86,7 +91,7 @@ except:
 blocks = ceil(statbuf["size"] / pycdio.ISO_BLOCKSIZE)
 for i in range(blocks):
     lsn = statbuf["LSN"] + i
-    size, buf = cd.read_data_blocks(lsn)
+    size, buf = iso.read_data_blocks(lsn)
 
     if size < 0:
         print("Error reading ISO 9660 file %s at LSN %d" % (local_filename, lsn))
@@ -104,8 +109,8 @@ for i in range(blocks):
 
 os.ftruncate(OUTPUT, statbuf["size"])
 
-print("Extraction of file '%s' from %s successful." % (local_filename, cd_image_fname))
+print("Extraction of file '%s' from %s successful." % (local_filename, iso_image_fname))
 
 os.close(OUTPUT)
-cd.close()
+iso.close()
 sys.exit(0)
