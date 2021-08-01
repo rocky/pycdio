@@ -1,3 +1,12 @@
+2.1.1 2021-07-31
+----------------
+
+- cdtext_list_languages_v2() and new language constants (Bas Zoetekouw)
+- cdio_get_track_isrc() (Bas Zoetekouw)
+- Security is now provided by TideLift
+- Remove legacy libcdio 0.82, 0.83 code; libcdio before 2.0.0 really doesn't exist anymore
+- Fix default filename in iso2.py; improve when there is a bad filename
+
 2.1.0 2019-08-25
 ---------------
 

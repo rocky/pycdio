@@ -36,7 +36,7 @@ major changes before release, please
 Test all python versions:
 
 ```
-	./admin-tools/check-versions.h
+	./admin-tools/check-versions.sh
 ```
 
 #  Make distribution

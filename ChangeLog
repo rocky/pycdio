@@ -1,9 +1,167 @@
+2021-07-31  rocky <rb@dustyfeet.com>
+
+	* VERSION.py: Get ready for release 2.1.1
+
+2021-07-29  rocky <rb@dustyfeet.com>
+
+	* test/test-cdtext.py: Test tweak
+
+2021-07-29  rocky <rb@dustyfeet.com>
+
+	* example/iso1.py, example/iso2.py: Imprive iso2.py when there is an
+	error iso1.py: don't translate filenames in ISO9660
+
+2021-07-28  rocky <rb@dustyfeet.com>
+
+	* example/iso2.py: Wrong file name in iso2.py example Case matters.  Fixes #1
+
+2021-07-27  rocky <rb@dustyfeet.com>
+
+	* Makefile, cdio.py, example/Makefile, iso9660.py,
+	test/test-cdtext.py: Remove legacy 0.8{2,3} libcdio code libcdio before 2.0.0 really doesn't exist anymore
+
+2021-07-27  rocky <rb@dustyfeet.com>
+
+	* THANKS: Add Bas Zoetekouw
+
+2021-07-27  R. Bernstein <rocky@users.noreply.github.com>
+
+	* : Merge pull request #3 from baszoetekouw/master Expose cdtext_list_languages_v2() and new language constants
+
+2021-07-26  Bas Zoetekouw <bas.zoetekouw@surf.nl>
+
+	* swig/cdtext.swg: expose cdtext_list_langauages_v2()
+
+2021-07-26  rocky <rb@dustyfeet.com>
+
+	* VERSION.py: Bump version number to dev
+
+2021-07-26  rocky <rb@dustyfeet.com>
+
+	* cdio.py, swig/track.swg: Black and update copyright
+
+2021-07-25  R. Bernstein <rocky@users.noreply.github.com>
+
+	* : Merge pull request #2 from baszoetekouw/master Expose cdio_get_track_isrc()
+
+2021-05-02  rocky <rb@dustyfeet.com>
+
+	* admin-tools/unixccompiler.py, setup.py: In 2021, Python3 is the
+	rule not the exception
+
+2020-03-31  R. Bernstein <rocky@users.noreply.github.com>
+
+	* .github/FUNDING.yml: Create FUNDING.yml
+
+2020-03-29  rocky <rocky@gnu.org>
+
+	* README.rst: Tweak package status
+
+2020-03-29  rocky <rocky@gnu.org>
+
+	* README.rst: Add Tidelift subscription notice
+
+2020-03-27  rocky <rocky@gnu.org>
+
+	* README.rst, SECURITY.md: Security is provided by TideLift
+
+2019-09-22  rocky <rocky@gnu.org>
+
+	* README.rst: Add repology badge
+
+2019-08-25  rocky <rocky@gnu.org>
+
+	* NEWS.md, admin-tools/how-to-make-a-release.md: Small corrections.
+
+2019-08-25  rocky <rocky@gnu.org>
+
+	* README.rst, admin-tools/how-to-make-a-release.md: Get ready for
+	release 2.1.0
+
+2019-08-25  rocky <rocky@gnu.org>
+
+	* VERSION.py, __pkginfo__.py, admin-tools/make-dist.sh,
+	admin-tools/pyenv-versions: More Python versions
+
+2019-08-25  rocky <rocky@gnu.org>
+
+	* Makefile, README.rst, admin-tools/pyenv-versions, cdio.py,
+	requirements-dev.txt, setup.py: More Python compatibility
+
+2019-08-25  rocky <rocky@gnu.org>
+
+	* MANIFEST.in, NEWS => NEWS.md, admin-tools/check-versions.sh,
+	admin-tools/how-to-make-a-release.md, admin-tools/pyenv-versions,
+	admin-tools/unixccompiler.py, cdio.py: Administrivia
+
+2019-08-11  rocky <rocky@gnu.org>
+
+	* : commit 4c68c5a44f98a7cf3fa388ca66c7d312e44e78df Author: rocky
+	<rocky@gnu.org> Date:   Sun Aug 11 16:54:52 2019 -0400
+
+2018-02-05  rocky <rocky@gnu.org>
+
+	* MANIFEST.in, NEWS: Get ready for release 2.0.0
+
 2018-01-25  rocky <rocky@gnu.org>
 
-	* .gitignore, README.txt, __pkginfo__.py,
-	admin-tools/how-to-make-a-release.md, cdio.py, setup.py,
-	swig/device.swg, swig/device_const.swg, swig/pyiso9660.i,
-	test/test-cdio.py: Ready for Release 2.0.0 * Update API to 2.0.0. Assume version 2.0.0 or greater of libcdio.  * remove old compatibilty code.  * Update usual Python administrivia and package info.
+	* README.txt => README.rst, VERSION.py, __pkginfo__.py,
+	admin-tools/how-to-make-a-release.md, setup.py: More admnistrivia
+
+2018-01-25  rocky <rocky@gnu.org>
+
+	* NEWS, setup.py, swig/.gitignore, swig/cdtext_new.swg,
+	swig/cdtext_old.swg, test/test-cdio.py: Address merge conflicts
+
+2018-01-25  rocky <rocky@gnu.org>
+
+	* : commit b75c8dd871cd3970fd18054d037fb11bafa9db97 Author: rocky
+	<rocky@gnu.org> Date:   Thu Jan 25 05:44:07 2018 -0500
+
+2017-08-16  rocky <rocky@gnu.org>
+
+	* : commit ed6cbf806f66f4f6e99146e385fe1d68040daccd Author: rocky
+	<rocky@gnu.org> Date:   Mon Jul 31 19:14:27 2017 -0400
+
+2017-07-31  rocky <rocky@gnu.org>
+
+	* swig/device.swg: Fix build for Python 3 Savannah bug #51627 See http://savannah.gnu.org/bugs/?51627
+
+2015-07-20  Andreas Rottmann <a.rottmann@gmx.at>
+
+	* MANIFEST.in: Include files missing from distribution
+
+2015-07-19  rocky <rocky@gnu.org>
+
+	* setup.py, test/test-cdio.py, test/test-cdtext.py,
+	test/test-iso.py, test/test-isocopy.py: Appease Debian
+
+2015-07-19  rocky <rocky@gnu.org>
+
+	* .gitignore: More ignore
+
+2015-07-19  rocky <rocky@gnu.org>
+
+	* setup.py: Run source-modifying build steps only at 'build' command
+	[Andreas Rottmann]
+
+2015-07-19  rocky <rocky@gnu.org>
+
+	* setup.py: Don't double-include setup
+
+2015-07-19  rocky <rocky@gnu.org>
+
+	* MANIFEST.in: Exclude swig file created by build system (Andreas
+	Rottmann)
+
+2015-05-07  rocky <rocky@gnu.org>
+
+	* setup.py: Make pycdio build use ${PKG_CONFIG} if set. patch #8658
+
+2015-05-07  rocky <rocky@gnu.org>
+
+	* cdio.py, test/isofs-m1.cue, test/test-cdio.py, test/test-iso.py: 
+	Make tests work.
 
 2013-09-06  rocky <rocky@gnu.org>
 

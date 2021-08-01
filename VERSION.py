@@ -5,4 +5,4 @@
 # debugger version number.
 
 # fmt: off
-VERSION='2.1.1.dev0'  # noqa
+VERSION='2.1.1'  # noqa
