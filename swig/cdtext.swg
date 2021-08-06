@@ -179,13 +179,28 @@ const char *cdtext_lang2str (cdtext_lang_t i);
 const char *cdtext_genre2str (cdtext_genre_t i);
 cdtext_t *cdtext_init (void);
 void cdtext_destroy (cdtext_t *p_cdtext);
-char *cdtext_get (const cdtext_t *p_cdtext, cdtext_field_t key, track_t track);
 const char *cdtext_get_const (const cdtext_t *p_cdtext, cdtext_field_t key, track_t track);
 cdtext_lang_t cdtext_get_language (const cdtext_t *p_cdtext);
 bool cdtext_select_language(cdtext_t *p_cdtext, cdtext_lang_t lang);
 cdtext_lang_t *cdtext_list_languages (const cdtext_t *p_cdtext);
-cdtext_lang_t *cdtext_list_languages_v2 (const cdtext_t *p_cdtext);
 void cdtext_set (cdtext_t *p_cdtext, cdtext_field_t key, const uint8_t *value, track_t track, const char *charset);
+
+%typemap(out) char *cdtext_get %{
+  if ($1==NULL) {
+     Py_RETURN_NONE;
+  }
+  $result = PyBytes_FromString($1);
+%}
+char *cdtext_get (const cdtext_t *p_cdtext, cdtext_field_t key, track_t track);
+
+%typemap(out) cdtext_lang_t *cdtext_list_languages_v2 %{
+  $result = PyList_New(8); /* list is always 8 items long */
+  for (int i = 0; i < 8; ++i) {
+    PyList_SetItem($result, i, PyLong_FromLong($1[i]));
+  }
+%}
+cdtext_lang_t *cdtext_list_languages_v2 (const cdtext_t *p_cdtext);
+
 
 %rename cdio_get_cdtext get_cdtext;
 cdtext_t *cdio_get_cdtext (CdIo_t *p_cdio);
