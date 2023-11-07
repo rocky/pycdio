@@ -29,7 +29,7 @@ import cdio
 class CDTextTests(unittest.TestCase):
     def test_keyword(self):
         """Test keywords"""
-        self.assertEquals(
+        self.assertEqual(
             pycdio.cdtext_field2str(pycdio.CDTEXT_FIELD_PERFORMER), "PERFORMER"
         )
 
@@ -39,12 +39,12 @@ class CDTextTests(unittest.TestCase):
         device = cdio.Device(tocpath, pycdio.DRIVER_CDRDAO)
 
         text = device.get_cdtext()
-        self.assertEquals(text.get(pycdio.CDTEXT_FIELD_PERFORMER, 0), "Performer")
-        self.assertEquals(text.get(pycdio.CDTEXT_FIELD_TITLE, 0), "CD Title")
-        self.assertEquals(text.get(pycdio.CDTEXT_FIELD_DISCID, 0), "XY12345")
+        self.assertEqual(text.get(pycdio.CDTEXT_FIELD_PERFORMER, 0), b"Performer")
+        self.assertEqual(text.get(pycdio.CDTEXT_FIELD_TITLE, 0), b"CD Title")
+        self.assertEqual(text.get(pycdio.CDTEXT_FIELD_DISCID, 0), b"XY12345")
 
-        self.assertEquals(text.get(pycdio.CDTEXT_FIELD_PERFORMER, 1), "Performer")
-        self.assertEquals(text.get(pycdio.CDTEXT_FIELD_TITLE, 1), "Track Title")
+        self.assertEqual(text.get(pycdio.CDTEXT_FIELD_PERFORMER, 1), b"Performer")
+        self.assertEqual(text.get(pycdio.CDTEXT_FIELD_TITLE, 1), b"Track Title")
 
 
 if __name__ == "__main__":
