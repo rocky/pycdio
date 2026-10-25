@@ -109,7 +109,7 @@ typedef iso9660_stat_t IsoStat_t;
 	    iso9660_stat_t *p_statbuf =
 		(iso9660_stat_t *) _cdio_list_node_data (p_entnode);
 	    PyObject *o;
-	    o = PyString_FromString(p_statbuf->filename);
+	    o =  PyUnicode_FromString(p_statbuf->filename);
 	    PyList_SetItem(py_list, 0, o);
 	    o = SWIG_From_long((long)(p_statbuf->lsn));
 	    PyList_SetItem(py_list, 1, o);
@@ -132,7 +132,7 @@ typedef iso9660_stat_t IsoStat_t;
     if (result) {
       PyObject *o;
       resultobj = PyList_New(0);
-      o = PyString_FromString(p_statbuf->filename);
+      o = PyUnicode_FromString(p_statbuf->filename);
       PyList_Append(resultobj, o);
       o = SWIG_From_long((long)(p_statbuf->lsn));
       PyList_Append(resultobj, o);
